@@ -10,7 +10,7 @@ allsounds() {
 }
 
 getOrGenerateSoundCache() {
-	if [[  "$sharedUseCache" == "false" ]];
+	if [[ "$sharedUseCache" == "false" ]];
 	then
 		allsounds
 	else
@@ -58,12 +58,12 @@ highlight() {
 }
 
 nullAsNewline() {
-        tr '\n\0' '\0\n' | "$@" | tr '\0\n' '\n\0'
+	tr '\n\0' '\0\n' | "$@" | tr '\0\n' '\n\0'
 }
 
 limit() {
 	if (( sharedNumsounds > 0 )); then
-	        nullAsNewline head -n "$sharedNumsounds"
+		nullAsNewline head -n "$sharedNumsounds"
 	else
 		cat -
 	fi
@@ -81,6 +81,13 @@ progressQueue() {
 	mv "${sharedQueueFile}.tmp~" "$sharedQueueFile"
 }
 
+exitIfAlreadyRunning() {
+	[[ -e "$sharedPidFile" ]] && { echo "play: already running with pid $(cat "$sharedPidFile") according to '$sharedPidFile'." 1>&2; exit 1; }
+
+	trap 'rm -rf "$sharedPidFile"' EXIT
+	echo "$$" > "$sharedPidFile"
+}
+
 ensureFoldersAndFilesExist() {
 	[[ -e "$sharedConfigFolder" ]] || mkdir -p "$sharedConfigFolder"
 	[[ -e "$sharedConfigFile" ]] || touch "$sharedConfigFile"
@@ -94,6 +101,9 @@ readConfig() {
 
 sharedDefaultConfigFolder="$HOME/.play"
 sharedConfigFolder="$sharedDefaultConfigFolder"
+
+sharedDefaultPidFile="${sharedConfigFolder}/.pidfile~"
+sharedPidFile="$sharedDefaultPidFile"
 
 sharedDefaultConfigFile="${sharedConfigFolder}/config.sh"
 sharedConfigFile="$sharedDefaultConfigFile"
@@ -116,6 +126,8 @@ sharedOrder="$sharedDefaultOrder"
 sharedCacheFile=".play.cache~"
 
 sharedCwd=$(getCdw)
+
+exitIfAlreadyRunning
 
 ensureFoldersAndFilesExist
 
