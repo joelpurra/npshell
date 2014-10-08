@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -e
+
+"${BASH_SOURCE%/*}/play.sh" "$@"
