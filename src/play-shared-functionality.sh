@@ -6,7 +6,7 @@ getCdw() {
 }
 
 allsounds() {
-	find "$sharedCwd" -name '*.mp3' -print0
+	find . -name '*.mp3' -print0
 }
 
 getOrGenerateSoundCache() {
@@ -18,6 +18,20 @@ getOrGenerateSoundCache() {
 
 		cat "$sharedCacheFile"
 	fi
+}
+
+absoluteSoundPaths() {
+	# Using read seems to be about 7 times slower than sed - why?
+	# while IFS= read -r -d '' sound;
+	# do
+	# 	echo -n "${sharedCwd}/${sound/.\/}"
+	# 	echo -n -e "\0"
+	# done
+	nullAsNewline sed -e 's|^./||' -e "s|^|${sharedCwd}/|"
+}
+
+getSounds() {
+	getOrGenerateSoundCache | absoluteSoundPaths
 }
 
 shuffle() {
