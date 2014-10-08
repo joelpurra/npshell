@@ -10,9 +10,14 @@ allsounds() {
 }
 
 getOrGenerateSoundCache() {
-	[[ -e "$sharedCacheFile" ]] || { allsounds >"$sharedCacheFile"; }
+	if [[  "$sharedUseCache" == "false" ]];
+	then
+		allsounds
+	else
+		[[ -e "$sharedCacheFile" ]] || { allsounds >"$sharedCacheFile"; }
 
-	cat "$sharedCacheFile"
+		cat "$sharedCacheFile"
+	fi
 }
 
 shuffle() {
@@ -84,6 +89,9 @@ sharedQueueFile="$sharedDefaultQueueFile"
 
 sharedDefaultHistoryFile="${sharedConfigFolder}/history.pls"
 sharedHistoryFile="$sharedDefaultHistoryFile"
+
+sharedDefaultUseCache=true
+sharedUseCache="$sharedDefaultUseCache"
 
 sharedDefaultNumsounds=10
 sharedNumsounds="$sharedDefaultNumsounds"
