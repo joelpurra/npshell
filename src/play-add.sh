@@ -3,7 +3,7 @@ set -e
 
 source "${BASH_SOURCE%/*}/play-shared-functionality.sh"
 
-sharedNumsounds="${1:-$sharedDefaultNumsounds}"
-sharedOrder="${2:-$sharedDefaultOrder}"
+sharedNumsounds="${1:-$sharedNumsounds}"
+sharedOrder="${2:-$sharedOrder}"
 
 getOrGenerateSoundCache | playOrder | limit >> "$sharedQueueFile"

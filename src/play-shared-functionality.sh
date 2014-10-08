@@ -64,12 +64,20 @@ progressQueue() {
 
 ensureFoldersAndFilesExist() {
 	[[ -e "$sharedConfigFolder" ]] || mkdir -p "$sharedConfigFolder"
+	[[ -e "$sharedConfigFile" ]] || touch "$sharedConfigFile"
 	[[ -e "$sharedQueueFile" ]] || touch "$sharedQueueFile"
 	[[ -e "$sharedHistoryFile" ]] || touch "$sharedHistoryFile"
 }
 
+readConfig() {
+	source "$sharedConfigFile"
+}
+
 sharedDefaultConfigFolder="$HOME/.play"
 sharedConfigFolder="$sharedDefaultConfigFolder"
+
+sharedDefaultConfigFile="${sharedConfigFolder}/config.sh"
+sharedConfigFile="$sharedDefaultConfigFile"
 
 sharedDefaultQueueFile="${sharedConfigFolder}/queue.pls"
 sharedQueueFile="$sharedDefaultQueueFile"
@@ -78,11 +86,15 @@ sharedDefaultHistoryFile="${sharedConfigFolder}/history.pls"
 sharedHistoryFile="$sharedDefaultHistoryFile"
 
 sharedDefaultNumsounds=10
+sharedNumsounds="$sharedDefaultNumsounds"
 
 sharedDefaultOrder="random"
+sharedOrder="$sharedDefaultOrder"
 
 sharedCacheFile=".play.cache~"
 
 sharedCwd=$(getCdw)
 
 ensureFoldersAndFilesExist
+
+readConfig
