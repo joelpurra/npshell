@@ -1,64 +1,14 @@
 #!/usr/bin/env bash
 set -e
 
-defaultNumsongs=10
-numsongs="${1:-$defaultNumsongs}"
+action=""
 
-defaultOrder="random"
-order="${2:-$defaultOrder}"
+(( "$#" > 0 )) && { action="$1"; shift; }
 
-cacheFile=".play.cache~"
+[[ -z "$action" ]] && action="start"
 
-cwd="$(cd -- "$PWD"; echo "$PWD")"
+executable="play-${action}.sh"
 
-allsongs() {
-	find "$cwd" -name '*.mp3' -print0
-}
+[[ -z $(which "$executable") ]] && { echo "play: '$action' is not a action." 1>&2; exit 1; }
 
-getOrGenerateSongCache(){
-	[[ -e "$cacheFile" ]] || { allsongs >"$cacheFile"; }
-
-	cat "$cacheFile"
-}
-
-shuffle() {
-	gshuf -z
-}
-
-playOrder(){
-	if [[ "$order" == "random" ]]; then
-		shuffle
-	elif [[ "$order" == "in-order" ]]; then
-		cat -
-	else
-		echo "Unknown order: $order" >&2
-		exit 1;
-	fi
-}
-
-play() {
-	afplay "$@"
-}
-
-highlight(){
-	echo "$@" | sed "s|$cwd/||" | grep --extended-regexp --color "/?[^/]+$"
-}
-
-nullAsNewline(){
-        tr '\n\0' '\0\n' | "$@" | tr '\0\n' '\n\0'
-}
-
-limit(){
-	if (( numsongs > 0 )); then
-	        nullAsNewline head -n "$numsongs"
-	else
-		cat -
-	fi
-}
-
-while IFS= read -r -d '' song;
-do
-	highlight "$song"
-	(trap 'echo -n' SIGINT; { play "$song" || true; } )
-	echo -ne '\r'
-done < <(getOrGenerateSongCache | playOrder | limit)
+"$executable" "$@"
