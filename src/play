@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 set -e
 
-"${BASH_SOURCE%/*}/play.sh" "$@"
+exec "${BASH_SOURCE%/*}/play.sh" "$@"

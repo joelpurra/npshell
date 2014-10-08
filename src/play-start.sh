@@ -1,18 +1,37 @@
 #!/usr/bin/env bash
 set -e
 
+[[ "$1" == "--wait" ]] && { shift; shouldWait="true"; thisInstanceIsAChild="${thisInstanceIsAChild:-0}"; thisInstanceIsAChild="$(( thisInstanceIsAChild + 1 ))"; }
+
+source "${BASH_SOURCE%/*}/play-shared-functions.sh"
 source "${BASH_SOURCE%/*}/play-shared-functionality.sh"
 
+exitIfAlreadyRunning "$sharedAfplayerPidFile" "afplayer"
+
+source "${BASH_SOURCE%/*}/play-shared-functionality-mutexed.sh"
+
 sound=$(getNextSound)
-[[ -z "$sound" ]] && { echo "play: no sounds in queue." 1>&2; exit 1; }
+[[ "$shouldWait" != "true" && -z "$sound" ]] && die "no sounds in queue."
 
 while true;
 do
-	sound=$(getNextSound)
-	[[ -z "$sound" ]] && { exit 1; }
-	[[ -s "$sound" ]] || { echo "play: sound not found: '$sound'." 1>&2; exit 1; }
-	highlight "$sound"
-	(trap 'echo -n' SIGINT; { play "$sound" || true; } )
-	echo -ne '\r'
-	progressQueue
+	while true;
+	do
+		sound=$(getNextSound)
+		[[ -z "$sound" ]] && { break; }
+		[[ -s "$sound" ]] || { errorMessage "play: sound not found: '$sound'."; break; }
+		highlight "$sound"
+		( exitIfAlreadyRunning "$sharedAfplayerPidFile" "afplayer" && trap 'echo -n' SIGINT; { playSound "$sound" || true; }; savePidButDeleteOnExit "$sharedAfplayerPidFile" "$afplayerPid" )
+		echo -ne '\r'
+		progressQueue
+	done
+
+	if [[ "$shouldWait" == "true" ]];
+	then
+		debug "shouldWait: $shouldWait"
+		sleep 1
+		# suspend -f || die "could not suspend process $$"
+	else
+		exit 0
+	fi
 done

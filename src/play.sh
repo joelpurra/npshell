@@ -11,4 +11,4 @@ executable="play-${action}.sh"
 
 [[ -z $(which "$executable") ]] && { echo "play: '$action' is not a action." 1>&2; exit 1; }
 
-"$executable" "$@"
+exec "$executable" "$@"
