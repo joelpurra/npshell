@@ -23,9 +23,8 @@ savePidButDeleteOnExit "daemon" "$$" "$sharedDaemonPidFile"
 
 startPlayer() {
 	# Don't start the player unless there's a song to play.
-	# TODO: traverse parent chain to allow play script `play start` wrapper?
 	sound=$(getNextSound)
-	[[ -z "$sound" ]] || "${BASH_SOURCE%/*}/play-start.sh" --wait
+	[[ -z "$sound" ]] || play start
 }
 
 monitorQueueFile() {
