@@ -11,8 +11,8 @@ then
 	thisInstanceIsAChild="$(( thisInstanceIsAChild + 1 ))"
 fi
 
-exitIfAlreadyRunning "$sharedAfplayerPidFile" "afplayer"
-savePidButDeleteOnExit "afplayer" "$$" "$sharedAfplayerPidFile"
+exitIfAlreadyRunning "$sharedPlayerPidFile" "player"
+savePidButDeleteOnExit "player" "$$" "$sharedPlayerPidFile"
 
 source "${BASH_SOURCE%/*}/play-shared-functionality-mutexed.sh"
 

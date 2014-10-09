@@ -12,7 +12,7 @@ then
 fi
 
 exitIfAlreadyRunning "$sharedDaemonPidFile" "daemon"
-exitIfAlreadyRunning "$sharedAfplayerPidFile" "afplayer"
+exitIfAlreadyRunning "$sharedPlayerPidFile" "player"
 
 thisInstanceIsAChild="${thisInstanceIsAChild:-0}"
 thisInstanceIsAChild="$(( thisInstanceIsAChild + 1 ))"

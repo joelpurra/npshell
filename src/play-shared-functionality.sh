@@ -24,5 +24,5 @@ sharedPidFile="$sharedDefaultPidFile"
 readonly sharedDefaultDaemonPidFile="${sharedConfigFolder}/.daemonpidfile~"
 sharedDaemonPidFile="$sharedDefaultDaemonPidFile"
 
-readonly sharedDefaultAfplayerPidFile="${sharedConfigFolder}/.afplayerpidfile~"
-sharedAfplayerPidFile="$sharedDefaultAfplayerPidFile"
+readonly sharedDefaultPlayerPidFile="${sharedConfigFolder}/.playerpidfile~"
+sharedPlayerPidFile="$sharedDefaultPlayerPidFile"
