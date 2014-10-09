@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-exitIfAlreadyRunning "$sharedPidFile" "play"
+[[ -z "$thisInstanceIsAChild" ]] || (( thisInstanceIsAChild <= 0 )) && exitIfAlreadyRunning "$sharedPidFile" "play"
 [[ -z "$thisInstanceIsAChild" ]] || (( thisInstanceIsAChild <= 0 )) && savePidButDeleteOnExit "play" "$$" "$sharedPidFile"
 
 # Normal configuration

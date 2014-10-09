@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
 set -e
 
+isDebugEnabled() {
+	[[ "$sharedDebug" == "true" ]]
+}
+
 debug() {
-	[[ "$sharedDebug" == "true" ]] && { echo "DEBUG: $@" 1>&2; }
+	isDebugEnabled && { echo "DEBUG: $@" 1>&2; }
 	return 0
 }
 
@@ -21,7 +25,7 @@ onExit() {
 	(( "${#pidFilesCreatedByThisInstance[@]}" > 0 )) && { local pidFileContents=$(paste -d ' ' "${pidFilesCreatedByThisInstance[@]}"); }
 
 	# Kill own child processes
-	killPidChildren "$$"
+	#killPidChildren "$$"
 
 	debug "EXIT: trapped ${pidMessagesCreatedByThisInstance[@]}"
 	debug "EXIT: pid files contents: $pidFileContents"
@@ -155,8 +159,8 @@ killPid() {
 killPidChildren() {
 	# TODO: use an existing killtree kind of command to avoid orphans/zombies.
 	local pid="$1"
-	echo killing "${pid}"-s children
-	ps -fg "${pid}" >&2
+	# debug killing "${pid}"-s children
+	# ps -fg "${pid}" >&2
 	read -a children < <(ps -fg "${pid}" | sed -e '1 d' | awk '{ print $2 " " $3 }' | sed "/^${pid}/ d" | awk '{ print $1 }')
 
 	debug "about to kill '${pid}' children '${children[@]}'"

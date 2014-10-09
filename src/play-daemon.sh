@@ -21,57 +21,34 @@ source "${BASH_SOURCE%/*}/play-shared-functionality-mutexed.sh"
 
 savePidButDeleteOnExit "daemon" "$$" "$sharedDaemonPidFile"
 
-# startPlayer() {
-# 	# TODO: traverse parent chain to allow play script `play start` wrapper?
-# 	"${BASH_SOURCE%/*}/play-start.sh" --wait &
-# 	playerPid="$!"
+startPlayer() {
+	# Don't start the player unless there's a song to play.
+	# TODO: traverse parent chain to allow play script `play start` wrapper?
+	sound=$(getNextSound)
+	[[ -z "$sound" ]] || "${BASH_SOURCE%/*}/play-start.sh" --wait
+}
 
-# 	debug "playerPid pid is $playerPid"
-# }
+monitorQueueFile() {
+	while true;
+	do
+		# TODO: Use something like inotify...?
+		# tail -F "$sharedQueueFile" | ensurePlaying
+		# Use stat to get queue file last modified timestamp.
+		queueUpdate=$(stat -f '%m' "$sharedQueueFile")
+		if [[ "$prevQueueUpdate" != "$queueUpdate" ]];
+		then
+			debug "$prevQueueUpdate -> $queueUpdate"
+			startPlayer
+		else
+			isDebugEnabled && echo -n "."
+		fi
 
-# ensureStarted() {
-# 	while [[ -z "${playerPid}" ]];
-# 	do
-# 		playerPid=$(pidFromFile "$sharedAfplayerPidFile")
+		prevQueueUpdate="$queueUpdate"
 
-# 		startPlayer
-# 		sleep 1
-# 	done
-# }
+		sleep 1
+	done
+}
 
-# ensurePlaying() {
-# 	# Discard input
-# 	# cat - >/dev/null
+prevQueueUpdate=""
 
-# 	ensureStarted
-
-# 	debug "ensure playing $playerPid pid"
-# 	kill -s SIGCONT "$playerPid"
-# 	debug "ensured restarted $playerPid pid"
-# 	# debug "didn't really ensure restarting of $playerPid pid"
-# }
-
-# prevQueueChecksum=""
-
-# monitorQueueFile() {
-# 	while true;
-# 	do
-# 		# TODO: Use something like inotify...?
-# 		# tail -F "$sharedQueueFile" | ensurePlaying
-# 		queueChecksum=$(shasum -a 256 "$sharedQueueFile")
-# 		if [[ "$prevQueueChecksum" != "$queueChecksum" ]];
-# 		then
-# 			debug "$prevQueueChecksum -> $queueChecksum"
-# 			ensurePlaying
-# 		fi
-
-# 		prevQueueChecksum="$queueChecksum"
-
-# 		sleep 1
-# 	done
-# }
-
-# monitorQueueFile
-
-# Don't do anything fancy
-"${BASH_SOURCE%/*}/play-start.sh" --wait
+monitorQueueFile

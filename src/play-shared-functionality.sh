@@ -3,7 +3,7 @@ set -e
 
 # The config is read after some debug calls are made, so might have to manually override $sharedDebug.
 # Just uncomment the following line.
-sharedDebug=true
+#sharedDebug=true
 
 # Basic and execution configuration
 readonly sharedDefaultConfigFolder="$HOME/.play"
