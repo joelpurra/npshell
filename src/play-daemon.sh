@@ -4,10 +4,13 @@ set -e
 source "${BASH_SOURCE%/*}/play-shared-functions.sh"
 source "${BASH_SOURCE%/*}/play-shared-functionality.sh"
 
+# TODO: fix stopping the daemon.
 if [[ "$1" == "--stop" ]];
 then
 	# killChildrenFromFile "$sharedDaemonPidFile"
 	killPidFromFile "$sharedDaemonPidFile"
+	# killPlayerIfRunning maybe?
+	# killExternalPlayerIfRunning maybe?
 	exit 0
 fi
 
