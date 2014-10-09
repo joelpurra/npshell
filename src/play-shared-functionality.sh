@@ -26,3 +26,6 @@ sharedDaemonPidFile="$sharedDefaultDaemonPidFile"
 
 readonly sharedDefaultPlayerPidFile="${sharedConfigFolder}/.playerpidfile~"
 sharedPlayerPidFile="$sharedDefaultPlayerPidFile"
+
+readonly sharedDefaultExternalPlayerPidFile="${sharedConfigFolder}/.externalplayerpidfile~"
+sharedExternalPlayerPidFile="$sharedDefaultExternalPlayerPidFile"

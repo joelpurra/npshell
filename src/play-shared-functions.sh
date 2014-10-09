@@ -81,8 +81,36 @@ playOrder() {
 	fi
 }
 
+cleanupExternalPlayer() {
+	if [[ -e "$sharedExternalPlayerPidFile" ]];
+	then
+		rm "$sharedExternalPlayerPidFile"
+	fi
+}
+
+killExternalPlayer() {
+	if [[ -s "$sharedExternalPlayerPidFile" ]];
+	then
+		killPidFromFile "$sharedExternalPlayerPidFile"
+	fi
+}
+
+killExternalPlayerIfRunning() {
+	isValidPidFile "$sharedExternalPlayerPidFile" && isPidRunningFromFile "$sharedExternalPlayerPidFile" && killExternalPlayer
+	cleanupExternalPlayer
+}
+
 playSound() {
-	afplay "$@"
+	# TODO: use dynamic index?
+	local index=999
+	exitIfAlreadyRunning "$sharedExternalPlayerPidFile" "externalplayer"
+	afplay "$@" &
+	local externalplayerPid="$!"
+	savePidAtIndexButDeleteOnExit "$index" "externalplayer" "$externalplayerPid" "$sharedExternalPlayerPidFile"
+	wait "$externalplayerPid" &>/dev/null
+	killExternalPlayerIfRunning
+	cleanupExternalPlayer
+	clearPidAtIndex "$index"
 }
 
 highlight() {
@@ -127,25 +155,44 @@ exitIfAlreadyRunning() {
 # 	return 0
 # }
 
-savePidButDeleteOnExit() {
-	local name="$1"
-	local pid="$2"
-	local pidFile="$3"
+savePidAtIndexButDeleteOnExit() {
+	local index="$1"
+	local name="$2"
+	local pid="$3"
+	local pidFile="$4"
 	[[ -e "$pidFile" ]] && die "${pid} tried to save ${pidFile} but it already exists and contains $(cat "${pidFile}")"
 	debug "creating ${name} ${pid} ${pidFile}"
 	echo -n "$pid" >"$pidFile"
 	debug "created ${name} ${pid} ${pidFile} ($(cat "${pidFile}"))"
 
-	local index="${#pidFilesCreatedByThisInstance[@]}"
 	pidFilesCreatedByThisInstance[index]="$pidFile"
 	pidsCreatedByThisInstance[index]="$pid"
-	pidMessagesCreatedByThisInstance+=("(${name} $pid $pidFile)")
+	pidMessagesCreatedByThisInstance[index]="(${name} $pid $pidFile)"
 	debug "${#pidFilesCreatedByThisInstance[@]} pidFilesCreatedByThisInstance: ${pidFilesCreatedByThisInstance[@]}"
 	debug "${#pidsCreatedByThisInstance[@]} pidsCreatedByThisInstance: ${pidsCreatedByThisInstance[@]}"
 	debug "${#pidMessagesCreatedByThisInstance[@]} pidMessagesCreatedByThisInstance: ${pidMessagesCreatedByThisInstance[@]}"
 
 	# echo "$index"
 	return 0
+}
+
+clearPidAtIndex() {
+	local index="$1"
+
+	unset pidFilesCreatedByThisInstance[index]
+	unset pidsCreatedByThisInstance[index]
+	unset pidMessagesCreatedByThisInstance[index]
+	debug "${#pidFilesCreatedByThisInstance[@]} pidFilesCreatedByThisInstance: ${pidFilesCreatedByThisInstance[@]}"
+	debug "${#pidsCreatedByThisInstance[@]} pidsCreatedByThisInstance: ${pidsCreatedByThisInstance[@]}"
+	debug "${#pidMessagesCreatedByThisInstance[@]} pidMessagesCreatedByThisInstance: ${pidMessagesCreatedByThisInstance[@]}"
+
+	# echo "$index"
+	return 0
+}
+
+savePidButDeleteOnExit() {
+	local index="${#pidFilesCreatedByThisInstance[@]}"
+	savePidAtIndexButDeleteOnExit "$index" "$1" "$2" "$3"
 }
 
 killPid() {
@@ -171,6 +218,18 @@ killPidChildren() {
 	debug "killed '${pid}' children '${children[@]}'"
 }
 
+isPidRunning() {
+	local pid="$1"
+	local psInfo=$(ps -o pid= -p "${pid}" | awk '{ print $1 }')
+
+	if (( psInfo == pid ));
+	then
+		return 0
+	else
+		return 1
+	fi
+}
+
 pidFromFile() {
 	local pidFile="$1"
 
@@ -181,6 +240,33 @@ pidFromFile() {
 		# die "could not get pid from non-existant file '$pidFile'"
 		echo -n ""
 	fi
+}
+
+isValidPidFile() {
+	local pidFile="$1"
+
+	if [[ -s "$pidFile" ]];
+	then
+		local pid=$(pidFromFile "$pidFile")
+
+		if (( pid > 0 ));
+		then
+			return 0
+		else
+			return 1
+		fi
+	else
+		return 2
+	fi
+}
+
+isPidRunningFromFile() {
+	local pidFile="$1"
+	local pid=$(pidFromFile "$pidFile")
+
+	[[ -z "${pid}" ]] && die "could not get the pid to check if it's running."
+
+	isPidRunning "$pid"
 }
 
 killPidFromFile() {
