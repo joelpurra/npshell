@@ -1,15 +1,28 @@
 #!/usr/bin/env bash
 set -e
 
+# The config is read after some debug calls are made, so might have to manually override $sharedDebug.
+# Just uncomment the following line.
+sharedDebug=true
+
 # Basic and execution configuration
-sharedDefaultConfigFolder="$HOME/.play"
+readonly sharedDefaultConfigFolder="$HOME/.play"
 sharedConfigFolder="$sharedDefaultConfigFolder"
 
-sharedDefaultPidFile="${sharedConfigFolder}/.pidfile~"
+readonly sharedDefaultDebug=false
+sharedDebug="${sharedDebug:-sharedDefaultDebug}"
+
+declare -a pidFilesCreatedByThisInstance
+declare -a pidsCreatedByThisInstance
+declare -a pidMessagesCreatedByThisInstance
+
+{ trap 'onExit' EXIT; }
+
+readonly sharedDefaultPidFile="${sharedConfigFolder}/.pidfile~"
 sharedPidFile="$sharedDefaultPidFile"
 
-sharedDefaultDaemonPidFile="${sharedConfigFolder}/.daemonpidfile~"
+readonly sharedDefaultDaemonPidFile="${sharedConfigFolder}/.daemonpidfile~"
 sharedDaemonPidFile="$sharedDefaultDaemonPidFile"
 
-sharedDefaultAfplayerPidFile="${sharedConfigFolder}/.afplayerpidfile~"
+readonly sharedDefaultAfplayerPidFile="${sharedConfigFolder}/.afplayerpidfile~"
 sharedAfplayerPidFile="$sharedDefaultAfplayerPidFile"

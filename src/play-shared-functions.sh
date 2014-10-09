@@ -2,7 +2,8 @@
 set -e
 
 debug() {
-	echo "DEBUG: $@" 1>&2
+	[[ "$sharedDebug" == "true" ]] && { echo "DEBUG: $@" 1>&2; }
+	return 0
 }
 
 errorMessage() {
@@ -12,7 +13,21 @@ errorMessage() {
 die() {
 	errorMessage "$@"
 	exit 1
-	false
+	return 1
+}
+
+onExit() {
+	local pidFileContents="(they are all empty)"
+	(( "${#pidFilesCreatedByThisInstance[@]}" > 0 )) && { local pidFileContents=$(paste -d ' ' "${pidFilesCreatedByThisInstance[@]}"); }
+
+	# Kill own child processes
+	killPidChildren "$$"
+
+	debug "EXIT: trapped ${pidMessagesCreatedByThisInstance[@]}"
+	debug "EXIT: pid files contents: $pidFileContents"
+	(( "${#pidFilesCreatedByThisInstance[@]}" > 0 )) && rm "${pidFilesCreatedByThisInstance[@]}"
+	debug "EXIT: deleted ${pidFilesCreatedByThisInstance[@]}"
+	return 0
 }
 
 getCdw() {
@@ -98,29 +113,90 @@ exitIfAlreadyRunning() {
 	local pidFile="$1"
 	local pidDescriptor="$2"
 	[[ -e "$pidFile" ]] && die "'$pidDescriptor' is already running with pid $(cat "$pidFile") according to '$pidFile'."
-	true
+	return 0
 }
 
 # exitIfAlreadyRunningUnlessParent() {
 # 	local pidFile="$1"
 # 	local pidDescriptor="$2"
 # 	[[ -e "$pidFile" ]] && [[ -z "$PPID" || "$PPID" != $(cat "$pidFile") ]] && exitIfAlreadyRunning "$pidFile" "$pidDescriptor"
-# 	true
+# 	return 0
 # }
 
 savePidButDeleteOnExit() {
-	pidFileForSavePidButDeleteOnExit="$1"
-	pidForSavePidButDeleteOnExit="$2"
-	trap 'debug "trapped ${pidFileForSavePidButDeleteOnExit}!"; rm -f "${pidFileForSavePidButDeleteOnExit}"; debug "deleted ${pidFileForSavePidButDeleteOnExit}!";' EXIT
-	echo -n "$pidForSavePidButDeleteOnExit" >"$pidFileForSavePidButDeleteOnExit"
+	local name="$1"
+	local pid="$2"
+	local pidFile="$3"
+	[[ -e "$pidFile" ]] && die "${pid} tried to save ${pidFile} but it already exists and contains $(cat "${pidFile}")"
+	debug "creating ${name} ${pid} ${pidFile}"
+	echo -n "$pid" >"$pidFile"
+	debug "created ${name} ${pid} ${pidFile} ($(cat "${pidFile}"))"
+
+	local index="${#pidFilesCreatedByThisInstance[@]}"
+	pidFilesCreatedByThisInstance[index]="$pidFile"
+	pidsCreatedByThisInstance[index]="$pid"
+	pidMessagesCreatedByThisInstance+=("(${name} $pid $pidFile)")
+	debug "${#pidFilesCreatedByThisInstance[@]} pidFilesCreatedByThisInstance: ${pidFilesCreatedByThisInstance[@]}"
+	debug "${#pidsCreatedByThisInstance[@]} pidsCreatedByThisInstance: ${pidsCreatedByThisInstance[@]}"
+	debug "${#pidMessagesCreatedByThisInstance[@]} pidMessagesCreatedByThisInstance: ${pidMessagesCreatedByThisInstance[@]}"
+
+	# echo "$index"
+	return 0
+}
+
+killPid() {
+	local pid="$1"
+
+	debug "about to kill '${pid}'"
+	kill "${pid}"
+	debug "killed '${pid}'"
+}
+
+killPidChildren() {
+	# TODO: use an existing killtree kind of command to avoid orphans/zombies.
+	local pid="$1"
+	echo killing "${pid}"-s children
+	ps -fg "${pid}" >&2
+	read -a children < <(ps -fg "${pid}" | sed -e '1 d' | awk '{ print $2 " " $3 }' | sed "/^${pid}/ d" | awk '{ print $1 }')
+
+	debug "about to kill '${pid}' children '${children[@]}'"
+	for child in "${children[@]}";
+	do
+		killPid "${child}"
+	done
+	debug "killed '${pid}' children '${children[@]}'"
+}
+
+pidFromFile() {
+	local pidFile="$1"
+
+	if [[ -e "$pidFile" ]];
+	then
+		cat "$pidFile"
+	else
+		# die "could not get pid from non-existant file '$pidFile'"
+		echo -n ""
+	fi
 }
 
 killPidFromFile() {
 	local pidFile="$1"
-	[[ -e "$pidFile" ]] || die "could not kill pid from non-existant file '$pidFile'"
-	debug "about to kill '$(cat "$pidFile")' from '$pidFile'"
-	# TODO: use a killtree kind of command to avoid orphans/zombies.
-	kill "$(cat "$pidFile")"
+	local pid=$(pidFromFile "$pidFile")
+
+	[[ -z "${pid}" ]] && die "could not get the pid to kill."
+
+	debug "about to kill '$pid' from '$pidFile'"
+	killPid "$pid"
+	debug "killed '$pid' from '$pidFile'"
+}
+
+killChildrenFromFile() {
+	local pidFile="$1"
+	local pid=$(pidFromFile "$pidFile")
+
+	[[ -z "${pid}" ]] && die "could not get the pid to kill child process from."
+
+	killPidChildren "${pid}"
 }
 
 ensureFoldersAndFilesExist() {

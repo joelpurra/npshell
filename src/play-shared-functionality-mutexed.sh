@@ -2,7 +2,7 @@
 set -e
 
 exitIfAlreadyRunning "$sharedPidFile" "play"
-[[ -z "$thisInstanceIsAChild" ]] || (( thisInstanceIsAChild <= 0 )) && savePidButDeleteOnExit "$sharedPidFile" "$$"
+[[ -z "$thisInstanceIsAChild" ]] || (( thisInstanceIsAChild <= 0 )) && savePidButDeleteOnExit "play" "$$" "$sharedPidFile"
 
 # Normal configuration
 sharedDefaultConfigFile="${sharedConfigFolder}/config.sh"
