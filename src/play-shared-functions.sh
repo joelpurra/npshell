@@ -55,12 +55,15 @@ getOrGenerateSoundCache() {
 
 absoluteSoundPaths() {
 	# Using read seems to be about 7 times slower than sed - why?
-	# while IFS= read -r -d '' sound;
-	# do
-	# 	echo -n "${sharedCwd}/${sound/.\/}"
-	# 	echo -n -e "\0"
-	# done
-	nullAsNewline sed -e 's|^./||' -e "s|^|${sharedCwd}/|"
+	# NOTE: The sed version might be suceptible to improperly escaped characters.
+	# TODO: Can be written as a sed replace using \0 instead of nullAsNewline?
+	# nullAsNewline sed -e 's|^./||' -e "s|^|$(echo -n -e "${sharedCwd/&/\\&}")/|"
+
+	while IFS= read -r -d '' sound;
+	do
+		echo -n "${sharedCwd}/${sound/#.\/}"
+		echo -n -e "\0"
+	done
 }
 
 getSounds() {
