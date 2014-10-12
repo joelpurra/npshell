@@ -25,8 +25,6 @@ sharedOrder="$sharedDefaultOrder"
 
 sharedCacheFile=".play.cache~"
 
-sharedCwd=$(getCdw)
-
 ensureFoldersAndFilesExist
 
 readConfig

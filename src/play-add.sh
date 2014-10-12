@@ -21,4 +21,4 @@ then
 	shift
 fi
 
-getSounds | playOrder | limit | absoluteSoundPaths >> "$sharedQueueFile"
+getSounds "$@" | playOrder | limit >> "$sharedQueueFile"
