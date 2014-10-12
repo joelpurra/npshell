@@ -9,6 +9,10 @@ if isValidStrictlyPositiveNumber "$1";
 then
 	sharedNumsounds="${1:-$sharedNumsounds}"
 	shift
+elif isValidNumsoundsOverride "$1";
+then
+	sharedNumsounds=-1
+	shift
 fi
 
 if isValidPlayOrder "$1";

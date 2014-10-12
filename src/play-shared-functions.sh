@@ -96,6 +96,16 @@ isValidStrictlyPositiveNumber() {
 	fi
 }
 
+isValidNumsoundsOverride() {
+	local override="$1"
+
+	if [[ "$override" == "all" ]]; then
+		return 0
+	else
+		return 1
+	fi
+}
+
 isValidPlayOrder() {
 	local order="$1"
 
