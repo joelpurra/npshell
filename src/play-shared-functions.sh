@@ -67,7 +67,7 @@ absoluteSoundPaths() {
 }
 
 getSounds() {
-	getOrGenerateSoundCache | absoluteSoundPaths
+	getOrGenerateSoundCache
 }
 
 shuffle() {

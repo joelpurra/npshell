@@ -8,4 +8,4 @@ source "${BASH_SOURCE%/*}/play-shared-functionality-mutexed.sh"
 sharedNumsounds="${1:-$sharedNumsounds}"
 sharedOrder="${2:-$sharedOrder}"
 
-getSounds | playOrder | limit >> "$sharedQueueFile"
+getSounds | playOrder | limit | absoluteSoundPaths >> "$sharedQueueFile"
