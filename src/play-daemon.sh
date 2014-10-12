@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
-source "${BASH_SOURCE%/*}/play-shared-functions.sh"
-source "${BASH_SOURCE%/*}/play-shared-functionality.sh"
+source "${BASH_SOURCE%/*}/shared/functions.sh"
+source "${BASH_SOURCE%/*}/shared/functionality.sh"
 
 # TODO: fix stopping the daemon.
 if [[ "$1" == "--stop" ]];
@@ -20,7 +20,7 @@ exitIfAlreadyRunning "$sharedPlayerPidFile" "player"
 thisInstanceIsAChild="${thisInstanceIsAChild:-0}"
 thisInstanceIsAChild="$(( thisInstanceIsAChild + 1 ))"
 
-source "${BASH_SOURCE%/*}/play-shared-functionality-mutexed.sh"
+source "${BASH_SOURCE%/*}/shared/mutexed.sh"
 
 savePidButDeleteOnExit "daemon" "$$" "$sharedDaemonPidFile"
 

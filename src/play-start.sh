@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
-source "${BASH_SOURCE%/*}/play-shared-functions.sh"
-source "${BASH_SOURCE%/*}/play-shared-functionality.sh"
+source "${BASH_SOURCE%/*}/shared/functions.sh"
+source "${BASH_SOURCE%/*}/shared/functionality.sh"
 
 thisInstanceIsAChild="${thisInstanceIsAChild:-0}"
 thisInstanceIsAChild="$(( thisInstanceIsAChild + 1 ))"
@@ -10,7 +10,7 @@ thisInstanceIsAChild="$(( thisInstanceIsAChild + 1 ))"
 exitIfAlreadyRunning "$sharedPlayerPidFile" "player"
 savePidButDeleteOnExit "player" "$$" "$sharedPlayerPidFile"
 
-source "${BASH_SOURCE%/*}/play-shared-functionality-mutexed.sh"
+source "${BASH_SOURCE%/*}/shared/mutexed.sh"
 
 sound=$(getNextSound)
 [[ -z "$sound" ]] && die "no sounds in queue."
