@@ -4,13 +4,10 @@ set -e
 source "${BASH_SOURCE%/*}/shared/functions.sh"
 source "${BASH_SOURCE%/*}/shared/functionality.sh"
 
-# TODO: fix stopping the daemon.
 if [[ "$1" == "--stop" ]];
 then
-	# killChildrenFromFile "$sharedDaemonPidFile"
 	killPidFromFile "$sharedDaemonPidFile"
-	# killPlayerIfRunning maybe?
-	# killExternalPlayerIfRunning maybe?
+	killExternalPlayerIfRunning
 	exit 0
 fi
 
@@ -27,7 +24,7 @@ savePidButDeleteOnExit "daemon" "$$" "$sharedDaemonPidFile"
 startPlayer() {
 	# Don't start the player unless there's a song to play.
 	sound=$(getNextSound)
-	[[ -z "$sound" ]] || play start
+	[[ -z "$sound" ]] || play start 1
 }
 
 monitorQueueFile() {
@@ -42,12 +39,13 @@ monitorQueueFile() {
 			debug "$prevQueueUpdate -> $queueUpdate"
 			startPlayer
 		else
+			# Use a longer sleep, then send signal SIGVTALRM (26) or SIGALRM (14) on `play add`?
+			sleep 1
+
 			isDebugEnabled && echo -n "."
 		fi
 
 		prevQueueUpdate="$queueUpdate"
-
-		sleep 1
 	done
 }
 
