@@ -63,10 +63,9 @@ getSoundsFromFolderOrFile() {
 
 	if [[ -d "${soundPath}" ]];
 	then
-		# TODO: is pushd/popd better?
-		cd -- "${soundPath}"
+		pushd "${soundPath}"
 		getSoundsInFolder
-		cd - >/dev/null
+		popd
 	elif [[ -s "${soundPath}" ]];
 	then
 		resolvePath "${cwd}/${soundPath}"
