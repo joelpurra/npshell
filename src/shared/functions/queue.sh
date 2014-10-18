@@ -28,9 +28,17 @@ getNextSound() {
 	echo "$sound"
 }
 
-progressQueue() {
-	echo -n "$(getNextSound)" >> "$sharedHistoryFile"
+pushSoundToHistory() {
+	local sound=$(getNextSound)
+
+	[[ -z "$sound" ]] && return 0
+
+	echo -n "$sound" >> "$sharedHistoryFile"
 	echo -n -e "\0" >> "$sharedHistoryFile"
+}
+
+progressQueue() {
+	pushSoundToHistory
 	<"$sharedQueueFile" nullAsNewline sed '1 d' > "${sharedQueueFile}.tmp~"
 	mv "${sharedQueueFile}.tmp~" "$sharedQueueFile"
 }
