@@ -15,7 +15,15 @@ source "${BASH_SOURCE%/*}/shared/mutexed.sh"
 sound=$(getNextSound)
 [[ -z "$sound" ]] && die "no sounds in queue."
 
-while true;
+playLimit="-1"
+
+if isValidStrictlyPositiveNumber "$1";
+then
+	playLimit="$1"
+	shift
+fi
+
+for (( i=0 ; playLimit==-1 || i<playLimit; i++));
 do
 	sound=$(getNextSound)
 	[[ -z "$sound" ]] && break
