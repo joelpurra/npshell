@@ -8,8 +8,5 @@ highlight() {
 }
 
 highlightAll() {
-	while IFS= read -r -d '' sound || true;
-	do
-		highlight "$sound"
-	done
+		nullDelimitedForEachWithEOF highlight
 }
