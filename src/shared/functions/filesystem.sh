@@ -57,19 +57,23 @@ getSoundsInFolder() {
 	getOrGenerateSoundCache | absoluteSoundPaths
 }
 
-getSoundsFromFolderOrFile() {
+getSoundFromFile() {
 	local cwd=$(getCwd)
+
+	absoluteSoundPath "$cwd" "$soundPath"
+}
+
+getSoundsFromFolderOrFile() {
 	local soundPath="$1"
 
-	if [[ -d "${soundPath}" ]];
+	if [[ -d "$soundPath" ]];
 	then
-		pushd "${soundPath}"
+		pushd "$soundPath"
 		getSoundsInFolder
 		popd
-	elif [[ -s "${soundPath}" ]];
+	elif [[ -s "$soundPath" ]];
 	then
-		resolvePath "${cwd}/${soundPath}"
-		echo -n -e "\0"
+		getSoundFromFile "$soundPath"
 	else
 		errorMessage "could not add the path '${soundPath}' to playlist."
 	fi
