@@ -21,4 +21,4 @@ then
 	shift
 fi
 
-getSounds "$@" | playOrder | limit >> "$sharedQueueFile"
+getSounds "$@" | playOrder | limit | tee -a "$sharedQueueFile" | highlightAll
