@@ -2,7 +2,7 @@
 set -e
 
 resolveDirectory() {
-	echo -n "$(cd -- "$1"; echo "$PWD")"
+	(cd -- "$1"; echo -n "$PWD")
 }
 
 # Isn't there a better way to do this? String wise ./ and ../ squisher that doesn't re-parse directories/links?
@@ -11,7 +11,7 @@ resolvePath() {
 	then
 		resolveDirectory "$1"
 	else
-		echo -n "$(resolveDirectory "$(dirname "$1")")/$(basename -a "$1")"
+		resolveDirectory "$(dirname "$1")/$(basename -a "$1")"
 	fi
 }
 
@@ -34,6 +34,14 @@ getOrGenerateSoundCache() {
 	fi
 }
 
+absoluteSoundPath() {
+	local base="$1"
+	local sound="$2"
+
+	echo -n -E "${base}/${sound/#.\/}"
+	echo -n -e "\0"
+}
+
 absoluteSoundPaths() {
 	local cwd=$(getCwd)
 
@@ -42,15 +50,30 @@ absoluteSoundPaths() {
 	# TODO: Can be written as a sed replace using \0 instead of nullAsNewline?
 	# nullAsNewline sed -e 's|^./||' -e "s|^|$(echo -n -e "${cwd/&/\\&}")/|"
 
-	while IFS= read -r -d '' sound;
-	do
-		echo -n "${cwd}/${sound/#.\/}"
-		echo -n -e "\0"
-	done
+	nullDelimitedForEachWithEOF absoluteSoundPath "$cwd"
 }
 
 getSoundsInFolder() {
 	getOrGenerateSoundCache | absoluteSoundPaths
+}
+
+getSoundsFromFolderOrFile() {
+	local cwd=$(getCwd)
+	local soundPath="$1"
+
+	if [[ -d "${soundPath}" ]];
+	then
+		# TODO: is pushd/popd better?
+		cd -- "${soundPath}"
+		getSoundsInFolder
+		cd - >/dev/null
+	elif [[ -s "${soundPath}" ]];
+	then
+		resolvePath "${cwd}/${soundPath}"
+		echo -n -e "\0"
+	else
+		errorMessage "could not add the path '${soundPath}' to playlist."
+	fi
 }
 
 getSounds() {
@@ -58,23 +81,9 @@ getSounds() {
 	then
 		getSoundsInFolder
 	else
-		local cwd=$(getCwd)
-
 		for soundPath in "$@";
 		do
-			if [[ -d "${soundPath}" ]];
-			then
-				# TODO: is pushd/popd better?
-				cd -- "${soundPath}"
-				getSoundsInFolder
-				cd - >/dev/null
-			elif [[ -s "${soundPath}" ]];
-			then
-				echo -n $(resolvePath "${cwd}/${soundPath}")
-				echo -n -e "\0"
-			else
-				errorMessage "could not add the path '${soundPath}' to playlist."
-			fi
+			getSoundsFromFolderOrFile "$soundPath"
 		done
 	fi
 }
