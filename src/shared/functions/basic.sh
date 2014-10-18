@@ -6,12 +6,12 @@ isDebugEnabled() {
 }
 
 debug() {
-	isDebugEnabled && { echo "DEBUG: $@" 1>&2; }
+	isDebugEnabled && { echo -E "DEBUG: $@" 1>&2; }
 	return 0
 }
 
 errorMessage() {
-	echo "play:" "$@" 1>&2
+	echo -E "play:" "$@" 1>&2
 }
 
 die() {

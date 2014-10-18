@@ -9,6 +9,6 @@ action=""
 
 executable="play-${action}.sh"
 
-[[ -z $(which "$executable") ]] && { echo "play: '$action' is not a action." 1>&2; exit 1; }
+[[ -z $(which "$executable") ]] && { echo -E "play: '$action' is not a action." 1>&2; exit 1; }
 
 exec "$executable" "$@"

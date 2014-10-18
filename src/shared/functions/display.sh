@@ -4,7 +4,7 @@ set -e
 highlight() {
 	local cwd=$(getCwd)
 
-	echo "$@" | sed "s|^${cwd}/||" | grep --extended-regexp --color "/?[^/]+$"
+	echo -E "$@" | sed "s|^${cwd}/||" | grep --extended-regexp --color "/?[^/]+$"
 }
 
 highlightAll() {

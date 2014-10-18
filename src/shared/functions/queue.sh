@@ -25,7 +25,7 @@ limit() {
 
 getNextSound() {
 	{ IFS= read -r -d '' sound || true; } < <(head -c 2048 "$sharedQueueFile")
-	echo "$sound"
+	echo -nE "$sound"
 }
 
 pushSoundToHistory() {
@@ -33,8 +33,8 @@ pushSoundToHistory() {
 
 	[[ -z "$sound" ]] && return 0
 
-	echo -n "$sound" >> "$sharedHistoryFile"
-	echo -n -e "\0" >> "$sharedHistoryFile"
+	echo -nE "$sound" >> "$sharedHistoryFile"
+	echo -ne "\0" >> "$sharedHistoryFile"
 }
 
 progressQueue() {

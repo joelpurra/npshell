@@ -2,7 +2,7 @@
 set -e
 
 resolveDirectory() {
-	(cd -- "$1"; echo -n "$PWD")
+	(cd -- "$1"; echo -nE "$PWD")
 }
 
 # Isn't there a better way to do this? String wise ./ and ../ squisher that doesn't re-parse directories/links?
@@ -38,8 +38,8 @@ absoluteSoundPath() {
 	local base="$1"
 	local sound="$2"
 
-	echo -n -E "${base}/${sound/#.\/}"
-	echo -n -e "\0"
+	echo -nE "${base}/${sound/#.\/}"
+	echo -ne "\0"
 }
 
 absoluteSoundPaths() {
@@ -48,7 +48,7 @@ absoluteSoundPaths() {
 	# Using read seems to be about 7 times slower than sed - why?
 	# NOTE: The sed version might be suceptible to improperly escaped characters.
 	# TODO: Can be written as a sed replace using \0 instead of nullAsNewline?
-	# nullAsNewline sed -e 's|^./||' -e "s|^|$(echo -n -e "${cwd/&/\\&}")/|"
+	# nullAsNewline sed -e 's|^./||' -e "s|^|$(echo -ne "${cwd/&/\\&}")/|"
 
 	nullDelimitedForEachWithEOF absoluteSoundPath "$cwd"
 }

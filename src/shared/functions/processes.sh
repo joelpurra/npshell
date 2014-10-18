@@ -36,7 +36,7 @@ savePidAtIndexButDeleteOnExit() {
 	local pidFile="$4"
 	[[ -e "$pidFile" ]] && die "${pid} tried to save ${pidFile} but it already exists and contains $(cat "${pidFile}")"
 	debug "creating ${name} ${pid} ${pidFile}"
-	echo -n "$pid" >"$pidFile"
+	echo -nE "$pid" >"$pidFile"
 	debug "created ${name} ${pid} ${pidFile} ($(cat "${pidFile}"))"
 
 	pidFilesCreatedByThisInstance[index]="$pidFile"
@@ -46,7 +46,6 @@ savePidAtIndexButDeleteOnExit() {
 	debug "${#pidsCreatedByThisInstance[@]} pidsCreatedByThisInstance: ${pidsCreatedByThisInstance[@]}"
 	debug "${#pidMessagesCreatedByThisInstance[@]} pidMessagesCreatedByThisInstance: ${pidMessagesCreatedByThisInstance[@]}"
 
-	# echo "$index"
 	return 0
 }
 
@@ -60,7 +59,6 @@ clearPidAtIndex() {
 	debug "${#pidsCreatedByThisInstance[@]} pidsCreatedByThisInstance: ${pidsCreatedByThisInstance[@]}"
 	debug "${#pidMessagesCreatedByThisInstance[@]} pidMessagesCreatedByThisInstance: ${pidMessagesCreatedByThisInstance[@]}"
 
-	# echo "$index"
 	return 0
 }
 
