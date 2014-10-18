@@ -6,3 +6,10 @@ highlight() {
 
 	echo "$@" | sed "s|^${cwd}/||" | grep --extended-regexp --color "/?[^/]+$"
 }
+
+highlightAll() {
+	while IFS= read -r -d '' sound || true;
+	do
+		highlight "$sound"
+	done
+}
