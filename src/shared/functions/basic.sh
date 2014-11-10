@@ -38,3 +38,8 @@ nullDelimitedForEachWithEOF() {
 		"$@" "$item"
 	done
 }
+
+reverseLineOrder() {
+	# Use tac, gtac or another detected alternative?
+	gtac
+}
