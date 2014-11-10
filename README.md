@@ -2,12 +2,17 @@
 
 - Search the $PWD folder tree backwards for `.playconfig` local configuration files?
 - Queue:
-  - Add songs by piping paths into `play add`: `find songs | play add all in-order`.
-  - Add a limit to `play list`/`play history` (screen size?) or use `less`?
-  - `play clean` - remove non-existent files from the queue.
-  - Fix `play add all in-order` so it doesn't add folder paths to the queue.
+  - Add sounds by piping paths into `play add`: `find sounds | play add all in-order`.
+  - Add a limit to `play list` (screen size?) or use `less`?
+  - Improve `play history` limit.
+  - -`play clean` - remove non-existent files from the queue.-
+  - -Fix `play add all in-order` so it doesn't add folder paths to the queue.-
+  - -Print sound queue number.-
   - `play add --from-history -1` or similar to add most recent file?
   - `play remove #` to remove sound number # in the queue?
+  - `play skip #` to skip a number of songs in the queue.
+  - `play first ` - like `play add`, but add songs to top of queue.
+  - Number currently playing song 0 instead of 1?
 - External player:
   - Set up a music player interface to switch out `afplay`.
   - Don't `kill -9 afplay`, use another signal?
