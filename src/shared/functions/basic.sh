@@ -43,3 +43,7 @@ reverseLineOrder() {
 	# Use tac, gtac or another detected alternative?
 	gtac
 }
+
+keepDigitsOnly() {
+	sedExtRegexp -e 's/[^[:digit:]]//g' -e '/^$/d'
+}

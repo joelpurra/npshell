@@ -11,6 +11,16 @@ highlightAll() {
 		nullDelimitedForEachWithEOF highlight
 }
 
+highlightWithLineNumbers() {
+	local cwd=$(getCwd)
+
+	echo -E "$@" | sedExtRegexp "s|^([[:space:]]*-?[[:digit:]]+[[:space:]]+)${cwd}/|\1|" | grep --extended-regexp --color "/?[^/]+$"
+}
+
+highlightAllWithLineNumbers() {
+		nullDelimitedForEachWithEOF highlightWithLineNumbers
+}
+
 removeNumberingSpacesFromEachLine() {
 	sed -e 's/^   //g' -e 's/^\( *[[:digit:]][[:digit:]]*\)\	/\1 /g'
 }
