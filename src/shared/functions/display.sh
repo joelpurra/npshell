@@ -2,23 +2,45 @@
 set -e
 
 highlight() {
-	local cwd=$(getCwd)
+	if (("$#" == 2 ));
+	then
+		local cwd="$1"
+		local line="$2"
+	elif (("$#" == 1 ));
+	then
+		local cwd=$(getCwd)
+		local line="$1"
+	else
+		die "wrong number of highlight arguments"
+	fi
 
-	echo -E "$@" | sed "s|^${cwd}/||" | grep --extended-regexp --color "/?[^/]+$"
+	echo -E "$line" | sed "s|^${cwd}/||" | grep --extended-regexp --color "/?[^/]+$"
 }
 
 highlightAll() {
-		nullDelimitedForEachWithEOF highlight
+	nullDelimitedForEachWithEOF highlight "$cwd"
 }
 
 highlightWithLineNumbers() {
-	local cwd=$(getCwd)
+	if (("$#" == 2 ));
+	then
+		local cwd="$1"
+		local line="$2"
+	elif (("$#" == 1 ));
+	then
+		local cwd=$(getCwd)
+		local line="$1"
+	else
+		die "wrong number of highlight arguments"
+	fi
 
-	echo -E "$@" | sedExtRegexp "s|^([[:space:]]*-?[[:digit:]]+[[:space:]]+)${cwd}/|\1|" | grep --extended-regexp --color "/?[^/]+$"
+	echo -E "$line" | sedExtRegexp "s|^([[:space:]]*-?[[:digit:]]+[[:space:]]+)${cwd}/|\1|" | grep --extended-regexp --color "/?[^/]+$"
 }
 
 highlightAllWithLineNumbers() {
-		nullDelimitedForEachWithEOF highlightWithLineNumbers
+	local cwd=$(getCwd)
+
+	nullDelimitedForEachWithEOF highlightWithLineNumbers "$cwd"
 }
 
 removeNumberingSpacesFromEachLine() {
