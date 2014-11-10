@@ -68,9 +68,9 @@ getSoundsFromFolderOrFile() {
 
 	if [[ -d "$soundPath" ]];
 	then
-		pushd "$soundPath"
+		pushd "$soundPath" >/dev/null
 		getSoundsInFolder
-		popd
+		popd >/dev/null
 	elif [[ -s "$soundPath" ]];
 	then
 		getSoundFromFile "$soundPath"
