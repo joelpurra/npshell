@@ -31,3 +31,5 @@ saveLineCount() {
 
 declare -i lineCount=$(getSounds "$@" | playOrder | limit | tee -a "$sharedQueueFile" | nullAsNewline getLineCount)
 cat "$sharedQueueFile" | nullAsNewline numberLines | nullAsNewline tail -n "$lineCount" | highlightAllWithLineNumbers
+
+echo "Added $lineCount sounds."
