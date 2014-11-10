@@ -16,7 +16,7 @@ killExternalPlayer() {
 }
 
 killExternalPlayerIfRunning() {
-	isValidPidFile "$sharedExternalPlayerPidFile" && isPidRunningFromFile "$sharedExternalPlayerPidFile" && killExternalPlayer
+	isValidPidFile "$sharedExternalPlayerPidFile" && isPidRunningFromFile "$sharedExternalPlayerPidFile" && killExternalPlayer &>/dev/null
 	cleanupExternalPlayer
 }
 

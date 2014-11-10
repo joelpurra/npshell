@@ -38,6 +38,12 @@ monitorQueueFile() {
 		then
 			debug "$prevQueueUpdate -> $queueUpdate"
 			startPlayer
+
+			# This sleep is not to introduce a gap between sounds, but to wait for he queue file to be updated.
+			# I think. Should be checked. Suspect there's a problem with the async `wait`ing for the external player's
+			# process to die, which makes parts of the code react faster than others leading to race conditions.
+			# Sleep generally doesn't accept float values accoring to the man page, but on this system it does.
+			sleep 0.1
 		else
 			# Use a longer sleep, then send signal SIGVTALRM (26) or SIGALRM (14) on `play add`?
 			sleep 1
