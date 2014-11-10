@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
+source "${BASH_SOURCE%/*}/functions/cross-platform.sh"
 source "${BASH_SOURCE%/*}/functions/basic.sh"
 source "${BASH_SOURCE%/*}/functions/processes.sh"
 source "${BASH_SOURCE%/*}/functions/config.sh"
