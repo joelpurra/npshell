@@ -1,0 +1,26 @@
+# TODO
+
+- Search the $PWD folder tree backwards for `.playconfig` local configuration files?
+- Queue:
+  - Add songs by piping paths into `play add`: `find songs | play add all in-order`.
+  - Add a limit to `play list`/`play history` (screen size?) or use `less`?
+  - `play clean` - remove non-existent files from the queue.
+  - Fix `play add all in-order` so it doesn't add folder paths to the queue.
+  - `play add --from-history -1` or similar to add most recent file?
+  - `play remove #` to remove sound number # in the queue?
+- External player:
+  - Set up a music player interface to switch out `afplay`.
+  - Don't `kill -9 afplay`, use another signal?
+  - Find a signal to pause playback?
+- `play daemon`:
+  - `play daemon --pause` to try to pause/sleep the audio player, make daemon idle?
+  - `play daemon --resume` to resume an idle daemon?
+  - Save sound playback position upon pause?
+  - Maintain play/pause status between `play daemon` executions, so it will resume playing (or not) upon reboot?
+- Index/cache files:
+  - If not using an index and an action takes too long, display a warning message "Using indexes could speed up `play add`"?
+  - Use `.play.cache~` indexes hierachically when building parent indexes?
+  - `play index` to index the current folder.
+  - `play index --force` to reindex the current folder.
+  - `play index --clean` to remove `.play.cache~`.
+  - `play index [--force|--clean] --recursive` to perfom action recursively.
