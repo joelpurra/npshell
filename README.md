@@ -1,3 +1,140 @@
+# `play` -- command line music player and queue manager
+
+Keep a daemon running in the background. Add sounds to a queue. Let the daemon play them for you. All from the comfort of your own shell.
+
+
+# Usage
+
+## Basic commands
+
+```bash
+play daemon &
+cd Music/
+play add 10
+play next
+play list
+play add all in-order "Jazz/My Favorite Album/"
+```
+
+### `play daemon`
+
+Play sounds in queue as soon as there are any.
+
+#### `--stop`
+
+- Stop daemon playback.
+
+
+#### Examples
+
+```bash
+# Start the daemon, let it run in the background.
+# Could be done at system startup.
+play daemon &
+```
+
+
+### `play list`
+
+See sounds currently in the queue.
+
+
+### `play next`
+
+Advance to the next sound in the queue.
+
+
+### `play add`
+
+Add some sounds to the queue.
+
+`play add [limit] [order] [path ...]`
+
+
+#### Limit
+
+- Defaults to 3.
+- You can also use "all".
+
+
+#### Order
+
+- Defaults to "random".
+- You can also use "in-order".
+
+
+#### Path
+
+- Defaults to "$PWD".
+- You can use paths
+  - to sounds
+  - to folders
+  - or "-" to read null-delimited paths from stdin.
+
+
+#### Examples
+
+```bash
+# Add the default number of random sounds from the current folder.
+play add
+
+# Add a single sound to the queue.
+play add path/to/sound.mp3
+
+# Add 25 random sounds from the current folder.
+play add 25
+
+# Add the first 2 sounds from the current folder.
+play add 2 in-order
+
+# Add random sounds from a folder, hierarchically.
+play add path/to/folder/with/sounds/
+
+# Add an album.
+play add all in-order "Jazz/My Favorite Album/"
+
+# Add sounds by null-delimited paths from stdin.
+find . -iname '*best of*.mp3' -print0 | play add -
+
+# Add 10 random sounds from the combined list of a single sound, stdin and a folder.
+find . -iname '*best of*.mp3' -print0 | play add 10 path/to/sound.mp3 - path/to/folder/with/sounds/
+```
+
+
+## More commands
+
+
+### `play`
+
+Alias for `play start`.
+
+
+### `play start`
+
+Start consuming queue by playing back in the current terminal.
+
+
+### `play clear`
+
+Empty the queue.
+
+
+### `play clean`
+
+Remove non-existant files from queue.
+
+
+### `play history`
+
+Show the 999 most recently played sounds.
+
+
+### `play now`
+
+Shows the sound currently playing, or first in queue if the player isn't started.
+
+
+
 # TODO
 
 - Search the $PWD folder tree backwards for `.playconfig` local configuration files?
@@ -8,11 +145,11 @@
   - -`play clean` - remove non-existent files from the queue.-
   - -Fix `play add all in-order` so it doesn't add folder paths to the queue.-
   - -Print sound queue number.-
-  - `play add --from-history -1` or similar to add most recent file?
+  - `play prev` (`play add --from-history -1`) or similar to add most recently played sound?
   - `play remove #` to remove sound number # in the queue?
-  - `play skip #` to skip a number of songs in the queue.
-  - `play first ` - like `play add`, but add songs to top of queue.
-  - Number currently playing song 0 instead of 1?
+  - `play next #` (`play skip #`) to skip a number of sounds in the queue.
+  - `play first` - like `play add`, but add sounds to top of queue.
+  - Number currently playing sound 0 instead of 1?
 - External player:
   - Set up a music player interface to switch out `afplay`.
   - Don't `kill -9 afplay`, use another signal?
