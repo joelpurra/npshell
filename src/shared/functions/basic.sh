@@ -31,7 +31,6 @@ nullDelimitedForEachWithoutEOF() {
 	done
 }
 
-
 nullDelimitedForEachWithEOF() {
 	while IFS= read -r -d '' item;
 	do

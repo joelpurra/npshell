@@ -86,7 +86,12 @@ getSounds() {
 	else
 		for soundPath in "$@";
 		do
-			getSoundsFromFolderOrFile "$soundPath"
+			if [[ "$soundPath" == "-" ]];
+			then
+				nullDelimitedForEachWithEOF getSoundsFromFolderOrFile
+			else
+				getSoundsFromFolderOrFile "$soundPath"
+			fi
 		done
 	fi
 }
