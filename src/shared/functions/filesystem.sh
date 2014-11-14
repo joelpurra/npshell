@@ -38,7 +38,13 @@ absoluteSoundPath() {
 	local base="$1"
 	local sound="$2"
 
-	echo -nE "${base}/${sound/#.\/}"
+	if [[ "${sound:0:1}" == "/" ]];
+	then
+		echo -nE "${sound/#.\/}"
+	else
+		echo -nE "${base}/${sound/#.\/}"
+	fi
+
 	echo -ne "\0"
 }
 
