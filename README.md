@@ -53,19 +53,19 @@ Add some sounds to the queue.
 
 #### Limit
 
-- Defaults to 3.
+- Default is 3.
 - You can also use "all".
 
 
 #### Order
 
-- Defaults to "random".
+- Default is "random".
 - You can also use "in-order".
 
 
 #### Path
 
-- Defaults to "$PWD".
+- Default is "$PWD".
 - You can use paths
   - to sounds
   - to folders
@@ -141,6 +141,32 @@ Create a file with a cached list of all sounds in the current folder, including 
 #### `--force`
 
 Recreate the index file even if it already exists.
+
+
+# Configuration
+
+Settings are read from `~/.play/config.sh`. The format is `setting=value`; one per line.
+
+## `sharedNumsounds`
+
+- Default is 3.
+- Set the number of sounds `play add` adds unless overridden.
+
+## `sharedOrder`
+
+- Default is "random".
+- The order `play add` adds files in.
+- Can also be "in-order".
+
+## sharedDebug
+
+- Default is "false".
+- Enable debug output.
+
+## sharedUseCache
+
+- Default is "true".
+- Automatically generate index files per folder sounds are loaded from. See `play index`.
 
 
 # TODO
