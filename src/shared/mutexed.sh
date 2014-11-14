@@ -23,7 +23,7 @@ sharedNumsounds="$sharedDefaultNumsounds"
 sharedDefaultOrder="random"
 sharedOrder="$sharedDefaultOrder"
 
-sharedCacheFile=".play.cache~"
+sharedCacheFileName=".play.cache~"
 
 ensureFoldersAndFilesExist
 

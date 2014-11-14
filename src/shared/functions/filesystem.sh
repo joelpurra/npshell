@@ -23,15 +23,36 @@ allsounds() {
 	find . -name '*.mp3' -print0
 }
 
+generateSoundCache() {
+	allsounds >"$sharedCacheFileName"
+}
+
+soundCacheExists() {
+	if [[ -e "$sharedCacheFileName" ]];
+	then
+		return 0
+	else
+		return 1
+	fi
+}
+
 getOrGenerateSoundCache() {
 	if [[ "$sharedUseCache" == "false" ]];
 	then
 		allsounds
 	else
-		[[ -e "$sharedCacheFile" ]] || { allsounds >"$sharedCacheFile"; }
+		soundCacheExists || generateSoundCache
 
-		cat "$sharedCacheFile"
+		cat "$sharedCacheFileName"
 	fi
+}
+
+deleteSoundCache() {
+	rm "$sharedCacheFileName"
+}
+
+deleteSoundCacheRecursively() {
+	find . -name "$sharedCacheFileName" -delete
 }
 
 absoluteSoundPath() {

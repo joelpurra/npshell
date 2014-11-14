@@ -134,6 +134,14 @@ Show the 999 most recently played sounds.
 Shows the sound currently playing, or first in queue if the player isn't started.
 
 
+### `play index`
+
+Create a file with a cached list of all sounds in the current folder, including subfolders.
+
+#### `--force`
+
+Recreate the index file even if it already exists.
+
 
 # TODO
 
@@ -162,7 +170,7 @@ Shows the sound currently playing, or first in queue if the player isn't started
 - Index/cache files:
   - If not using an index and an action takes too long, display a warning message "Using indexes could speed up `play add`"?
   - Use `.play.cache~` indexes hierachically when building parent indexes?
-  - `play index` to index the current folder.
-  - `play index --force` to reindex the current folder.
-  - `play index --clean` to remove `.play.cache~`.
-  - `play index [--force|--clean] --recursive` to perfom action recursively.
+  - -`play index` to index the current folder.-
+  - -`play index --force` to reindex the current folder.-
+  - -`play index --clean` to remove `.play.cache~`.-
+  - -`play index [--force|--clean] --recursive` to perfom action recursively.-
