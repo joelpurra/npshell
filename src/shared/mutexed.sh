@@ -1,29 +1,29 @@
 #!/usr/bin/env bash
 set -e
 
-[[ -z "$thisInstanceIsAChild" ]] || (( thisInstanceIsAChild <= 0 )) && exitIfAlreadyRunning "$sharedPidFile" "play"
-[[ -z "$thisInstanceIsAChild" ]] || (( thisInstanceIsAChild <= 0 )) && savePidButDeleteOnExit "play" "$$" "$sharedPidFile"
+[[ -z "$thisInstanceIsAChild" ]] || (( thisInstanceIsAChild <= 0 )) && exitIfAlreadyRunning "$configPidFile" "play"
+[[ -z "$thisInstanceIsAChild" ]] || (( thisInstanceIsAChild <= 0 )) && savePidButDeleteOnExit "play" "$$" "$configPidFile"
 
 # Normal configuration
-sharedDefaultConfigFile="${sharedConfigFolder}/config.sh"
-sharedConfigFile="$sharedDefaultConfigFile"
+configDefaultConfigFile="${configConfigFolder}/config.sh"
+configConfigFile="$configDefaultConfigFile"
 
-sharedDefaultQueueFile="${sharedConfigFolder}/queue.pls"
-sharedQueueFile="$sharedDefaultQueueFile"
+configDefaultQueueFile="${configConfigFolder}/queue.pls"
+configQueueFile="$configDefaultQueueFile"
 
-sharedDefaultHistoryFile="${sharedConfigFolder}/history.pls"
-sharedHistoryFile="$sharedDefaultHistoryFile"
+configDefaultHistoryFile="${configConfigFolder}/history.pls"
+configHistoryFile="$configDefaultHistoryFile"
 
-sharedDefaultUseCache=true
-sharedUseCache="$sharedDefaultUseCache"
+configDefaultUseCache=true
+configUseCache="$configDefaultUseCache"
 
-sharedDefaultNumsounds=10
-sharedNumsounds="$sharedDefaultNumsounds"
+configDefaultNumsounds=10
+configNumsounds="$configDefaultNumsounds"
 
-sharedDefaultOrder="random"
-sharedOrder="$sharedDefaultOrder"
+configDefaultOrder="random"
+configOrder="$configDefaultOrder"
 
-sharedCacheFileName=".play.cache~"
+configCacheFileName=".play.cache~"
 
 ensureFoldersAndFilesExist
 

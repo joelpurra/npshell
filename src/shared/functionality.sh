@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 set -e
 
-# The config is read after some debug calls are made, so might have to manually override $sharedDebug.
+# The config is read after some debug calls are made, so might have to manually override $configDebug.
 # Just uncomment the following line.
-#sharedDebug=true
+#configDebug=true
 
 # Basic and execution configuration
-readonly sharedDefaultConfigFolder="$HOME/.play"
-sharedConfigFolder="$sharedDefaultConfigFolder"
+readonly configDefaultConfigFolder="$HOME/.play"
+configConfigFolder="$configDefaultConfigFolder"
 
-readonly sharedDefaultDebug=false
-sharedDebug="${sharedDebug:-sharedDefaultDebug}"
+readonly configDefaultDebug=false
+configDebug="${configDebug:-configDefaultDebug}"
 
 declare -a pidFilesCreatedByThisInstance
 declare -a pidsCreatedByThisInstance
@@ -18,14 +18,14 @@ declare -a pidMessagesCreatedByThisInstance
 
 { trap 'onExit' EXIT; }
 
-readonly sharedDefaultPidFile="${sharedConfigFolder}/.pidfile~"
-sharedPidFile="$sharedDefaultPidFile"
+readonly configDefaultPidFile="${configConfigFolder}/.pidfile~"
+configPidFile="$configDefaultPidFile"
 
-readonly sharedDefaultDaemonPidFile="${sharedConfigFolder}/.daemonpidfile~"
-sharedDaemonPidFile="$sharedDefaultDaemonPidFile"
+readonly configDefaultDaemonPidFile="${configConfigFolder}/.daemonpidfile~"
+configDaemonPidFile="$configDefaultDaemonPidFile"
 
-readonly sharedDefaultPlayerPidFile="${sharedConfigFolder}/.playerpidfile~"
-sharedPlayerPidFile="$sharedDefaultPlayerPidFile"
+readonly configDefaultPlayerPidFile="${configConfigFolder}/.playerpidfile~"
+configPlayerPidFile="$configDefaultPlayerPidFile"
 
-readonly sharedDefaultExternalPlayerPidFile="${sharedConfigFolder}/.externalplayerpidfile~"
-sharedExternalPlayerPidFile="$sharedDefaultExternalPlayerPidFile"
+readonly configDefaultExternalPlayerPidFile="${configConfigFolder}/.externalplayerpidfile~"
+configExternalPlayerPidFile="$configDefaultExternalPlayerPidFile"

@@ -147,23 +147,23 @@ Recreate the index file even if it already exists.
 
 Settings are read from `~/.play/config.sh`. The format is `setting=value`; one per line.
 
-## `sharedNumsounds`
+## `configNumsounds`
 
 - Default is 3.
 - Set the number of sounds `play add` adds unless overridden.
 
-## `sharedOrder`
+## `configOrder`
 
 - Default is "random".
 - The order `play add` adds files in.
 - Can also be "in-order".
 
-## sharedDebug
+## configDebug
 
 - Default is "false".
 - Enable debug output.
 
-## sharedUseCache
+## configUseCache
 
 - Default is "true".
 - Automatically generate index files per folder sounds are loaded from. See `play index`.

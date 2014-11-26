@@ -2,31 +2,31 @@
 set -e
 
 cleanupExternalPlayer() {
-	if [[ -e "$sharedExternalPlayerPidFile" ]];
+	if [[ -e "$configExternalPlayerPidFile" ]];
 	then
-		rm "$sharedExternalPlayerPidFile"
+		rm "$configExternalPlayerPidFile"
 	fi
 }
 
 killExternalPlayer() {
-	if [[ -s "$sharedExternalPlayerPidFile" ]];
+	if [[ -s "$configExternalPlayerPidFile" ]];
 	then
-		killPidFromFile "$sharedExternalPlayerPidFile"
+		killPidFromFile "$configExternalPlayerPidFile"
 	fi
 }
 
 killExternalPlayerIfRunning() {
-	isValidPidFile "$sharedExternalPlayerPidFile" && isPidRunningFromFile "$sharedExternalPlayerPidFile" && killExternalPlayer &>/dev/null
+	isValidPidFile "$configExternalPlayerPidFile" && isPidRunningFromFile "$configExternalPlayerPidFile" && killExternalPlayer &>/dev/null
 	cleanupExternalPlayer
 }
 
 playSound() {
 	# TODO: use dynamic index?
 	local index=999
-	exitIfAlreadyRunning "$sharedExternalPlayerPidFile" "externalplayer"
+	exitIfAlreadyRunning "$configExternalPlayerPidFile" "externalplayer"
 	afplay "$@" &
 	local externalplayerPid="$!"
-	savePidAtIndexButDeleteOnExit "$index" "externalplayer" "$externalplayerPid" "$sharedExternalPlayerPidFile"
+	savePidAtIndexButDeleteOnExit "$index" "externalplayer" "$externalplayerPid" "$configExternalPlayerPidFile"
 	wait "$externalplayerPid" &>/dev/null
 	killExternalPlayerIfRunning
 	cleanupExternalPlayer

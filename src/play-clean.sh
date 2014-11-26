@@ -5,7 +5,7 @@ source "${BASH_SOURCE%/*}/shared/functions.sh"
 source "${BASH_SOURCE%/*}/shared/functionality.sh"
 source "${BASH_SOURCE%/*}/shared/mutexed.sh"
 
-tmpQueueFile="$sharedQueueFile.tmp~"
+tmpQueueFile="$configQueueFile.tmp~"
 
 skipNonexistantFiles() {
 	sound="$1"
@@ -23,5 +23,5 @@ skipNonexistantFiles() {
 	fi
 }
 
-cat "$sharedQueueFile" | nullDelimitedForEachWithEOF skipNonexistantFiles > "$tmpQueueFile"
-mv -f "$tmpQueueFile" "$sharedQueueFile"
+cat "$configQueueFile" | nullDelimitedForEachWithEOF skipNonexistantFiles > "$tmpQueueFile"
+mv -f "$tmpQueueFile" "$configQueueFile"

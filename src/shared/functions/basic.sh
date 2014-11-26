@@ -2,7 +2,7 @@
 set -e
 
 isDebugEnabled() {
-	[[ "$sharedDebug" == "true" ]]
+	[[ "$configDebug" == "true" ]]
 }
 
 debug() {

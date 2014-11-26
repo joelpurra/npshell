@@ -7,17 +7,17 @@ source "${BASH_SOURCE%/*}/shared/mutexed.sh"
 
 if isValidStrictlyPositiveNumber "$1";
 then
-	sharedNumsounds="${1:-$sharedNumsounds}"
+	configNumsounds="${1:-$configNumsounds}"
 	shift
 elif isValidNumsoundsOverride "$1";
 then
-	sharedNumsounds=-1
+	configNumsounds=-1
 	shift
 fi
 
 if isValidPlayOrder "$1";
 then
-	sharedOrder="${1:-$sharedOrder}"
+	configOrder="${1:-$configOrder}"
 	shift
 fi
 
@@ -29,7 +29,7 @@ saveLineCount() {
 	IFS= read -r -d '' lineCount;
 }
 
-declare -i lineCount=$(getSounds "$@" | playOrder | limit | tee -a "$sharedQueueFile" | nullAsNewline getLineCount)
-cat "$sharedQueueFile" | nullAsNewline numberLines | nullAsNewline tail -n "$lineCount" | highlightAllWithLineNumbers
+declare -i lineCount=$(getSounds "$@" | playOrder | limit | tee -a "$configQueueFile" | nullAsNewline getLineCount)
+cat "$configQueueFile" | nullAsNewline numberLines | nullAsNewline tail -n "$lineCount" | highlightAllWithLineNumbers
 
 echo "Added $lineCount sounds."

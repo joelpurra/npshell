@@ -2,12 +2,12 @@
 set -e
 
 ensureFoldersAndFilesExist() {
-	[[ -e "$sharedConfigFolder" ]] || mkdir -p "$sharedConfigFolder"
-	[[ -e "$sharedConfigFile" ]] || touch "$sharedConfigFile"
-	[[ -e "$sharedQueueFile" ]] || touch "$sharedQueueFile"
-	[[ -e "$sharedHistoryFile" ]] || touch "$sharedHistoryFile"
+	[[ -e "$configConfigFolder" ]] || mkdir -p "$configConfigFolder"
+	[[ -e "$configConfigFile" ]] || touch "$configConfigFile"
+	[[ -e "$configQueueFile" ]] || touch "$configQueueFile"
+	[[ -e "$configHistoryFile" ]] || touch "$configHistoryFile"
 }
 
 readConfig() {
-	source "$sharedConfigFile"
+	source "$configConfigFile"
 }

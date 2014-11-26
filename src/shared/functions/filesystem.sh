@@ -24,11 +24,11 @@ allsounds() {
 }
 
 generateSoundCache() {
-	allsounds >"$sharedCacheFileName"
+	allsounds >"$configCacheFileName"
 }
 
 soundCacheExists() {
-	if [[ -e "$sharedCacheFileName" ]];
+	if [[ -e "$configCacheFileName" ]];
 	then
 		return 0
 	else
@@ -37,22 +37,22 @@ soundCacheExists() {
 }
 
 getOrGenerateSoundCache() {
-	if [[ "$sharedUseCache" == "false" ]];
+	if [[ "$configUseCache" == "false" ]];
 	then
 		allsounds
 	else
 		soundCacheExists || generateSoundCache
 
-		cat "$sharedCacheFileName"
+		cat "$configCacheFileName"
 	fi
 }
 
 deleteSoundCache() {
-	rm "$sharedCacheFileName"
+	rm "$configCacheFileName"
 }
 
 deleteSoundCacheRecursively() {
-	find . -name "$sharedCacheFileName" -delete
+	find . -name "$configCacheFileName" -delete
 }
 
 absoluteSoundPath() {

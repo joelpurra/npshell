@@ -7,8 +7,8 @@ source "${BASH_SOURCE%/*}/shared/functionality.sh"
 thisInstanceIsAChild="${thisInstanceIsAChild:-0}"
 thisInstanceIsAChild="$(( thisInstanceIsAChild + 1 ))"
 
-exitIfAlreadyRunning "$sharedPlayerPidFile" "player"
-savePidButDeleteOnExit "player" "$$" "$sharedPlayerPidFile"
+exitIfAlreadyRunning "$configPlayerPidFile" "player"
+savePidButDeleteOnExit "player" "$$" "$configPlayerPidFile"
 
 source "${BASH_SOURCE%/*}/shared/mutexed.sh"
 

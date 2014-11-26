@@ -6,25 +6,25 @@ shuffle() {
 }
 
 playOrder() {
-	if [[ "$sharedOrder" == "random" ]]; then
+	if [[ "$configOrder" == "random" ]]; then
 		shuffle
-	elif [[ "$sharedOrder" == "in-order" ]]; then
+	elif [[ "$configOrder" == "in-order" ]]; then
 		cat -
 	else
-		die "Unknown order: $sharedOrder"
+		die "Unknown order: $configOrder"
 	fi
 }
 
 limit() {
-	if (( sharedNumsounds > 0 )); then
-		nullAsNewline head -n "$sharedNumsounds"
+	if (( configNumsounds > 0 )); then
+		nullAsNewline head -n "$configNumsounds"
 	else
 		cat -
 	fi
 }
 
 getNextSound() {
-	{ IFS= read -r -d '' sound || true; } < <(head -c 2048 "$sharedQueueFile")
+	{ IFS= read -r -d '' sound || true; } < <(head -c 2048 "$configQueueFile")
 	echo -nE "$sound"
 }
 
@@ -33,12 +33,12 @@ pushSoundToHistory() {
 
 	[[ -z "$sound" ]] && return 0
 
-	echo -nE "$sound" >> "$sharedHistoryFile"
-	echo -ne "\0" >> "$sharedHistoryFile"
+	echo -nE "$sound" >> "$configHistoryFile"
+	echo -ne "\0" >> "$configHistoryFile"
 }
 
 progressQueue() {
 	pushSoundToHistory
-	<"$sharedQueueFile" nullAsNewline sed '1 d' > "${sharedQueueFile}.tmp~"
-	mv "${sharedQueueFile}.tmp~" "$sharedQueueFile"
+	<"$configQueueFile" nullAsNewline sed '1 d' > "${configQueueFile}.tmp~"
+	mv "${configQueueFile}.tmp~" "$configQueueFile"
 }
