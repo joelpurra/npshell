@@ -106,7 +106,7 @@ find . -iname '*best of*.mp3' -print0 | play add 10 path/to/sound.mp3 - path/to/
 
 ### `play`
 
-Alias for `play start`.
+Alias for `play now`.
 
 
 ### `play start`

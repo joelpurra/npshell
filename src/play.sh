@@ -5,7 +5,7 @@ action=""
 
 (( "$#" > 0 )) && { action="$1"; shift; }
 
-[[ -z "$action" ]] && action="start"
+[[ -z "$action" ]] && action="now"
 
 executable="play-${action}.sh"
 
