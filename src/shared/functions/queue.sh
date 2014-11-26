@@ -2,7 +2,8 @@
 set -e
 
 shuffle() {
-	gshuf -z
+	# Kind of assuming GNU `shuf`; haven't tested the -z flag on anything else.
+	"$externalShuffleExec" -z
 }
 
 playOrder() {

@@ -24,6 +24,10 @@ getFirstExecutable() {
 # TODO: confirm and expand list.
 externalPlayerExec="$(getFirstExecutable "afplay" "mplayer" "mpg123" "mpg321" "play")"
 
+# External player detection.
+# TODO: confirm and expand list.
+externalShuffleExec="$(getFirstExecutable "shuf" "gshuf")"
+
 # From https://github.com/EtiennePerot/parcimonie.sh/blob/master/parcimonie.sh
 # Test for GNU `sed`, or use a `sed` fallback in sedExtRegexp
 sedExec=(sed)
