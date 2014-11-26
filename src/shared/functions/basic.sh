@@ -11,7 +11,7 @@ debug() {
 }
 
 errorMessage() {
-	echo -E "play:" "$@" 1>&2
+	echo -E "np:" "$@" 1>&2
 }
 
 die() {

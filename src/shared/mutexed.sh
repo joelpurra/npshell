@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
-[[ -z "$thisInstanceIsAChild" ]] || (( thisInstanceIsAChild <= 0 )) && exitIfAlreadyRunning "$configPidFile" "play"
-[[ -z "$thisInstanceIsAChild" ]] || (( thisInstanceIsAChild <= 0 )) && savePidButDeleteOnExit "play" "$$" "$configPidFile"
+[[ -z "$thisInstanceIsAChild" ]] || (( thisInstanceIsAChild <= 0 )) && exitIfAlreadyRunning "$configPidFile" "np"
+[[ -z "$thisInstanceIsAChild" ]] || (( thisInstanceIsAChild <= 0 )) && savePidButDeleteOnExit "np" "$$" "$configPidFile"
 
 # Normal configuration
 configDefaultConfigFile="${configConfigFolder}/config.sh"
@@ -23,7 +23,7 @@ configNumsounds="$configDefaultNumsounds"
 configDefaultOrder="random"
 configOrder="$configDefaultOrder"
 
-configCacheFileName=".play.cache~"
+configCacheFileName=".np.cache~"
 
 ensureFoldersAndFilesExist
 

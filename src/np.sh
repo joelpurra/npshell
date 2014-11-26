@@ -7,8 +7,8 @@ action=""
 
 [[ -z "$action" ]] && action="now"
 
-executable="play-${action}.sh"
+executable="np-${action}.sh"
 
-[[ -z $(which "$executable") ]] && { echo -E "play: '$action' is not a action." 1>&2; exit 1; }
+[[ -z $(which "$executable") ]] && { echo -E "np: '$action' is not a action." 1>&2; exit 1; }
 
 exec "$executable" "$@"

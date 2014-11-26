@@ -24,7 +24,7 @@ savePidButDeleteOnExit "daemon" "$$" "$configDaemonPidFile"
 startPlayer() {
 	# Don't start the player unless there's a song to play.
 	sound=$(getNextSound)
-	[[ -z "$sound" ]] || play start 1
+	[[ -z "$sound" ]] || np start 1
 }
 
 monitorQueueFile() {
@@ -45,7 +45,7 @@ monitorQueueFile() {
 			# Sleep generally doesn't accept float values accoring to the man page, but on this system it does.
 			sleep 0.1
 		else
-			# Use a longer sleep, then send signal SIGVTALRM (26) or SIGALRM (14) on `play add`?
+			# Use a longer sleep, then send signal SIGVTALRM (26) or SIGALRM (14) on `np add`?
 			sleep 1
 
 			isDebugEnabled && echo -n "."

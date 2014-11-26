@@ -6,7 +6,7 @@ set -e
 #configDebug=true
 
 # Basic and execution configuration
-readonly configDefaultConfigFolder="$HOME/.play"
+readonly configDefaultConfigFolder="$HOME/.np"
 configConfigFolder="$configDefaultConfigFolder"
 
 readonly configDefaultDebug=false

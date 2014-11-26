@@ -1,4 +1,4 @@
-# `play` -- command line music player and queue manager
+# npshell `np` -- command line music player and queue manager
 
 Keep a daemon running in the background. Add sounds to a queue. Let the daemon play them for you. All from the comfort of your own shell.
 
@@ -8,15 +8,16 @@ Keep a daemon running in the background. Add sounds to a queue. Let the daemon p
 ## Basic commands
 
 ```bash
-play daemon &
+np daemon &
 cd Music/
-play add 10
-play next
-play list
-play add all in-order "Jazz/My Favorite Album/"
+np add 10
+np
+np next
+np list
+np add all in-order "Jazz/My Favorite Album/"
 ```
 
-### `play daemon`
+### `np daemon`
 
 Play sounds in queue as soon as there are any.
 
@@ -30,25 +31,25 @@ Play sounds in queue as soon as there are any.
 ```bash
 # Start the daemon, let it run in the background.
 # Could be done at system startup.
-play daemon &
+np daemon &
 ```
 
 
-### `play list`
+### `np list`
 
 See sounds currently in the queue.
 
 
-### `play next`
+### `np next`
 
 Advance to the next sound in the queue.
 
 
-### `play add`
+### `np add`
 
 Add some sounds to the queue.
 
-`play add [limit] [order] [path ...]`
+`np add [limit] [order] [path ...]`
 
 
 #### Limit
@@ -76,65 +77,65 @@ Add some sounds to the queue.
 
 ```bash
 # Add the default number of random sounds from the current folder.
-play add
+np add
 
 # Add a single sound to the queue.
-play add path/to/sound.mp3
+np add path/to/sound.mp3
 
 # Add 25 random sounds from the current folder.
-play add 25
+np add 25
 
 # Add the first 2 sounds from the current folder.
-play add 2 in-order
+np add 2 in-order
 
 # Add random sounds from a folder, hierarchically.
-play add path/to/folder/with/sounds/
+np add path/to/folder/with/sounds/
 
 # Add an album.
-play add all in-order "Jazz/My Favorite Album/"
+np add all in-order "Jazz/My Favorite Album/"
 
 # Add sounds by null-delimited paths from stdin.
-find . -iname '*best of*.mp3' -print0 | play add -
+find . -iname '*best of*.mp3' -print0 | np add -
 
 # Add 10 random sounds from the combined list of a single sound, stdin and a folder.
-find . -iname '*best of*.mp3' -print0 | play add 10 path/to/sound.mp3 - path/to/folder/with/sounds/
+find . -iname '*best of*.mp3' -print0 | np add 10 path/to/sound.mp3 - path/to/folder/with/sounds/
 ```
 
 
 ## More commands
 
 
-### `play`
+### `np`
 
-Alias for `play now`.
+Alias for `np now`.
 
 
-### `play start`
+### `np start`
 
 Start consuming queue by playing back in the current terminal.
 
 
-### `play clear`
+### `np clear`
 
 Empty the queue.
 
 
-### `play clean`
+### `np clean`
 
 Remove non-existant files from queue.
 
 
-### `play history`
+### `np history`
 
 Show the 999 most recently played sounds.
 
 
-### `play now`
+### `np now`
 
 Shows the sound currently playing, or first in queue if the player isn't started.
 
 
-### `play index`
+### `np index`
 
 Create a file with a cached list of all sounds in the current folder, including subfolders.
 
@@ -145,17 +146,17 @@ Recreate the index file even if it already exists.
 
 # Configuration
 
-Settings are read from `~/.play/config.sh`. The format is `setting=value`; one per line.
+Settings are read from `~/.np/config.sh`. The format is `setting=value`; one per line.
 
 ## `configNumsounds`
 
 - Default is 3.
-- Set the number of sounds `play add` adds unless overridden.
+- Set the number of sounds `np add` adds unless overridden.
 
 ## `configOrder`
 
 - Default is "random".
-- The order `play add` adds files in.
+- The order `np add` adds files in.
 - Can also be "in-order".
 
 ## configDebug
@@ -166,37 +167,37 @@ Settings are read from `~/.play/config.sh`. The format is `setting=value`; one p
 ## configUseCache
 
 - Default is "true".
-- Automatically generate index files per folder sounds are loaded from. See `play index`.
+- Automatically generate index files per folder sounds are loaded from. See `np index`.
 
 
 # TODO
 
-- Search the $PWD folder tree backwards for `.playconfig` local configuration files?
+- Search the $PWD folder tree backwards for `.npconfig` local configuration files?
 - Queue:
-  - Add sounds by piping paths into `play add`: `find sounds | play add all in-order`.
-  - Add a limit to `play list` (screen size?) or use `less`?
-  - Improve `play history` limit.
-  - -`play clean` - remove non-existent files from the queue.-
-  - -Fix `play add all in-order` so it doesn't add folder paths to the queue.-
+  - Add sounds by piping paths into `np add`: `find sounds | np add all in-order`.
+  - Add a limit to `np list` (screen size?) or use `less`?
+  - Improve `np history` limit.
+  - -`np clean` - remove non-existent files from the queue.-
+  - -Fix `np add all in-order` so it doesn't add folder paths to the queue.-
   - -Print sound queue number.-
-  - `play prev` (`play add --from-history -1`) or similar to add most recently played sound?
-  - `play remove #` to remove sound number # in the queue?
-  - `play next #` (`play skip #`) to skip a number of sounds in the queue.
-  - `play first` - like `play add`, but add sounds to top of queue.
+  - `np prev` (`np add --from-history -1`) or similar to add most recently played sound?
+  - `np remove #` to remove sound number # in the queue?
+  - `np next #` (`np skip #`) to skip a number of sounds in the queue.
+  - `np first` - like `np add`, but add sounds to top of queue.
   - Number currently playing sound 0 instead of 1?
 - External player:
   - Set up a music player interface to switch out `afplay`.
   - Don't `kill -9 afplay`, use another signal?
   - Find a signal to pause playback?
-- `play daemon`:
-  - `play daemon --pause` to try to pause/sleep the audio player, make daemon idle?
-  - `play daemon --resume` to resume an idle daemon?
+- `np daemon`:
+  - `np daemon --pause` to try to pause/sleep the audio player, make daemon idle?
+  - `np daemon --resume` to resume an idle daemon?
   - Save sound playback position upon pause?
-  - Maintain play/pause status between `play daemon` executions, so it will resume playing (or not) upon reboot?
+  - Maintain np/pause status between `np daemon` executions, so it will resume playing (or not) upon reboot?
 - Index/cache files:
-  - If not using an index and an action takes too long, display a warning message "Using indexes could speed up `play add`"?
-  - Use `.play.cache~` indexes hierachically when building parent indexes?
-  - -`play index` to index the current folder.-
-  - -`play index --force` to reindex the current folder.-
-  - -`play index --clean` to remove `.play.cache~`.-
-  - -`play index [--force|--clean] --recursive` to perfom action recursively.-
+  - If not using an index and an action takes too long, display a warning message "Using indexes could speed up `np add`"?
+  - Use `.np.cache~` indexes hierachically when building parent indexes?
+  - -`np index` to index the current folder.-
+  - -`np index --force` to reindex the current folder.-
+  - -`np index --clean` to remove `.np.cache~`.-
+  - -`np index [--force|--clean] --recursive` to perfom action recursively.-
