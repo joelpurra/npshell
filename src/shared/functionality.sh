@@ -60,7 +60,7 @@ configUseCache="$configDefaultUseCache"
 configDefaultNumsounds=10
 configNumsounds="$configDefaultNumsounds"
 
-configDefaultOrder="random"
+configDefaultOrder="shuffle"
 configOrder="$configDefaultOrder"
 
 

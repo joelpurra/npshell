@@ -36,7 +36,7 @@ isValidNumsoundsOverride() {
 isValidPlayOrder() {
 	local order="$1"
 
-	if [[ "$order" == "random" || "$order" == "in-order" ]]; then
+	if [[ "$order" == "shuffle" || "$order" == "in-order" ]]; then
 		return 0
 	else
 		return 1

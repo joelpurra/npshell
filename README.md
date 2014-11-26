@@ -20,7 +20,7 @@ Clone the code then add `npshell/src/` or a symlink to `npshell/src/np` to your 
 ```bash
 np daemon &   # Start the daemon in the background.
 cd Music/     # Go to a folder with some sounds.
-np add 10     # Add 10 random sounds from current folder hierarchy.
+np add 10     # Add 10 shuffled sounds from current folder hierarchy.
 np next       # Play next sound.
 np            # Display the currently playing sound.
 np list       # List sounds in queue.
@@ -73,7 +73,7 @@ Add some sounds to the queue.
 
 
 - Order
-  - Default is "random".
+  - Default is "shuffle".
  - You can also use "in-order".
 - Path
   - Default is `$PWD`.
@@ -86,19 +86,19 @@ Add some sounds to the queue.
 #### Examples
 
 ```bash
-# Add the default number of random sounds from the current folder.
+# Add the default number of shuffled sounds from the current folder.
 np add
 
 # Add a single sound to the queue.
 np add path/to/sound.mp3
 
-# Add 25 random sounds from the current folder.
+# Add 25 shuffled sounds from the current folder.
 np add 25
 
 # Add the first 2 sounds from the current folder.
 np add 2 in-order
 
-# Add random sounds from a folder, hierarchically.
+# Add shuffled sounds from a folder, hierarchically.
 np add path/to/folder/with/sounds/
 
 # Add an album.
@@ -107,7 +107,7 @@ np add all in-order "Jazz/My Favorite Album/"
 # Add sounds by null-delimited paths from stdin.
 find . -iname '*best of*.mp3' -print0 | np add -
 
-# Add 10 random sounds from the combined list of a single sound, stdin and a folder.
+# Add 10 shuffled sounds from the combined list of a single sound, stdin and a folder.
 find . -iname '*best of*.mp3' -print0 | np add 10 path/to/sound.mp3 - path/to/folder/with/sounds/
 ```
 
@@ -161,7 +161,7 @@ Settings are read from `~/.np/config.sh`. The format is one `setting=value` per 
 
 ### `configOrder`
 
-- Default is "random".
+- Default is "shuffle".
 - The order `np add` adds files in.
 - Can also be "in-order".
 

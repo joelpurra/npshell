@@ -6,7 +6,7 @@ shuffle() {
 }
 
 playOrder() {
-	if [[ "$configOrder" == "random" ]]; then
+	if [[ "$configOrder" == "shuffle" ]]; then
 		shuffle
 	elif [[ "$configOrder" == "in-order" ]]; then
 		cat -
