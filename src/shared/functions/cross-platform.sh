@@ -1,6 +1,29 @@
 #!/usr/bin/env bash
 set -e
 
+getFirstExecutable() {
+	debug "Finding first executable in \$PATH out of '$@'"
+
+	local path=""
+
+	for executable in "$@";
+	do
+		if [[ -n $(which "$executable") ]];
+		then
+			path="$executable"
+			break
+		fi
+	done
+
+	debug "First executable is '$path'"
+
+	echo -nE "$path"
+}
+
+# External player detection.
+# TODO: confirm and expand list.
+externalPlayerExec="$(getFirstExecutable "afplay" "mplayer" "mpg123" "mpg321" "play")"
+
 # From https://github.com/EtiennePerot/parcimonie.sh/blob/master/parcimonie.sh
 # Test for GNU `sed`, or use a `sed` fallback in sedExtRegexp
 sedExec=(sed)

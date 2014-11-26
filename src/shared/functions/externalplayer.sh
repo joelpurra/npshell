@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -e
 
+externalPlayer() {
+	"$externalPlayerExec" "$@"
+}
+
 cleanupExternalPlayer() {
 	if [[ -e "$configExternalPlayerPidFile" ]];
 	then
@@ -24,7 +28,7 @@ playSound() {
 	# TODO: use dynamic index?
 	local index=999
 	exitIfAlreadyRunning "$configExternalPlayerPidFile" "externalplayer"
-	afplay "$@" &
+	externalPlayer "$@" &
 	local externalplayerPid="$!"
 	savePidAtIndexButDeleteOnExit "$index" "externalplayer" "$externalplayerPid" "$configExternalPlayerPidFile"
 	wait "$externalplayerPid" &>/dev/null
