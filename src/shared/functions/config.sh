@@ -1,13 +1,17 @@
 #!/usr/bin/env bash
 set -e
 
-ensureFoldersAndFilesExist() {
-	[[ -e "$configConfigFolder" ]] || mkdir -p "$configConfigFolder"
+ensureConfigFoldersAndFilesExist() {
+	[[ -d "$configConfigFolder" ]] || mkdir -p "$configConfigFolder"
 	[[ -e "$configConfigFile" ]] || touch "$configConfigFile"
+}
+
+ensureOtherFoldersAndFilesExist() {
 	[[ -e "$configQueueFile" ]] || touch "$configQueueFile"
 	[[ -e "$configHistoryFile" ]] || touch "$configHistoryFile"
 }
 
 readConfig() {
-	source "$configConfigFile"
+	debug "Reading configuration file '$configConfigFile'"
+	[[ -e "$configConfigFile" ]] && source "$configConfigFile"
 }

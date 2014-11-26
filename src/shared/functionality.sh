@@ -1,23 +1,30 @@
 #!/usr/bin/env bash
 set -e
 
-# The config is read after some debug calls are made, so might have to manually override $configDebug.
-# Just uncomment the following line.
-#configDebug=true
+# Debugging configuration defaults.
+readonly configDefaultDebug=false
+configDebug="$configDefaultDebug"
 
-# Basic and execution configuration
+
+# Fundamental configuration defaults.
 readonly configDefaultConfigFolder="$HOME/.np"
 configConfigFolder="$configDefaultConfigFolder"
 
-readonly configDefaultDebug=false
-configDebug="${configDebug:-configDefaultDebug}"
+configDefaultConfigFile="${configConfigFolder}/config.sh"
+configConfigFile="$configDefaultConfigFile"
 
+ensureConfigFoldersAndFilesExist
+
+
+# Keep track of lock/pid files.
 declare -a pidFilesCreatedByThisInstance
 declare -a pidsCreatedByThisInstance
 declare -a pidMessagesCreatedByThisInstance
 
 { trap 'onExit' EXIT; }
 
+
+# Lock/pid files defaults.
 readonly configDefaultPidFile="${configConfigFolder}/.pidfile~"
 configPidFile="$configDefaultPidFile"
 
@@ -29,3 +36,33 @@ configPlayerPidFile="$configDefaultPlayerPidFile"
 
 readonly configDefaultExternalPlayerPidFile="${configConfigFolder}/.externalplayerpidfile~"
 configExternalPlayerPidFile="$configDefaultExternalPlayerPidFile"
+
+
+# File configuration defaults.
+configDefaultQueueFile="${configConfigFolder}/queue.pls"
+configQueueFile="$configDefaultQueueFile"
+
+configDefaultHistoryFile="${configConfigFolder}/history.pls"
+configHistoryFile="$configDefaultHistoryFile"
+
+ensureOtherFoldersAndFilesExist
+
+
+# Advanced configuration defaults.
+readonly configDefaultCacheFileName=".np.cache~"
+configCacheFileName="$configDefaultCacheFileName"
+
+
+# Normal configuration defaults.
+configDefaultUseCache=true
+configUseCache="$configDefaultUseCache"
+
+configDefaultNumsounds=10
+configNumsounds="$configDefaultNumsounds"
+
+configDefaultOrder="random"
+configOrder="$configDefaultOrder"
+
+
+# Allow $configConfigFile to override above configuration.
+readConfig

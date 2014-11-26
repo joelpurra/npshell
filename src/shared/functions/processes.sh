@@ -105,6 +105,8 @@ isPidRunning() {
 pidFromFile() {
 	local pidFile="$1"
 
+	debug "Getting PID from file '$pidFile'"
+
 	if [[ -e "$pidFile" ]];
 	then
 		cat "$pidFile"

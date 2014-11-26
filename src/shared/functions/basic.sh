@@ -6,7 +6,12 @@ isDebugEnabled() {
 }
 
 debug() {
-	isDebugEnabled && { echo -E "DEBUG: $@" 1>&2; }
+	if isDebugEnabled;
+	then
+		echo -ne "($$)\t" 1>&2
+		echo -E "DEBUG: $@" 1>&2
+	fi
+
 	return 0
 }
 

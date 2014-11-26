@@ -16,7 +16,7 @@ killExternalPlayer() {
 }
 
 killExternalPlayerIfRunning() {
-	isValidPidFile "$configExternalPlayerPidFile" && isPidRunningFromFile "$configExternalPlayerPidFile" && killExternalPlayer &>/dev/null
+	{ isValidPidFile "$configExternalPlayerPidFile" && isPidRunningFromFile "$configExternalPlayerPidFile" && killExternalPlayer; } &>/dev/null
 	cleanupExternalPlayer
 }
 
@@ -29,6 +29,5 @@ playSound() {
 	savePidAtIndexButDeleteOnExit "$index" "externalplayer" "$externalplayerPid" "$configExternalPlayerPidFile"
 	wait "$externalplayerPid" &>/dev/null
 	killExternalPlayerIfRunning
-	cleanupExternalPlayer
 	clearPidAtIndex "$index"
 }
