@@ -2,7 +2,15 @@
 set -e
 
 externalPlayer() {
-	"$externalPlayerExec" "$@"
+	# TODO: use dynamic index?
+	local index=999
+	exitIfAlreadyRunning "$configExternalPlayerPidFile" "externalplayer"
+	"$externalPlayerExec" "$@" &
+	local externalplayerPid="$!"
+	savePidAtIndexButDeleteOnExit "$index" "externalplayer" "$externalplayerPid" "$configExternalPlayerPidFile"
+	wait "$externalplayerPid" &>/dev/null
+	killExternalPlayerIfRunning
+	clearPidAtIndex "$index"
 }
 
 cleanupExternalPlayer() {
@@ -25,13 +33,5 @@ killExternalPlayerIfRunning() {
 }
 
 playSound() {
-	# TODO: use dynamic index?
-	local index=999
-	exitIfAlreadyRunning "$configExternalPlayerPidFile" "externalplayer"
-	externalPlayer "$@" &
-	local externalplayerPid="$!"
-	savePidAtIndexButDeleteOnExit "$index" "externalplayer" "$externalplayerPid" "$configExternalPlayerPidFile"
-	wait "$externalplayerPid" &>/dev/null
-	killExternalPlayerIfRunning
-	clearPidAtIndex "$index"
+	externalPlayer "$@"
 }
