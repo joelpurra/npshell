@@ -25,10 +25,6 @@ getLineCount() {
 	wc -l | keepDigitsOnly
 }
 
-saveLineCount() {
-	IFS= read -r -d '' lineCount;
-}
-
 declare -i lineCount=$(getSounds "$@" | playOrder | limit | tee -a "$configQueueFile" | nullAsNewline getLineCount)
 cat "$configQueueFile" | nullAsNewline numberLines | nullAsNewline tail -n "$lineCount" | highlightAllWithLineNumbers
 
