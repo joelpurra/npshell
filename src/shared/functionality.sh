@@ -7,7 +7,7 @@ configDebug="$configDefaultDebug"
 
 
 # Fundamental configuration defaults.
-readonly configDefaultConfigFolder="$HOME/.np"
+readonly configDefaultConfigFolder="${HOME}/.np"
 configConfigFolder="$configDefaultConfigFolder"
 
 configDefaultConfigFile="${configConfigFolder}/config.sh"

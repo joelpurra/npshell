@@ -12,6 +12,6 @@ ensureOtherFoldersAndFilesExist() {
 }
 
 readConfig() {
-	debug "Reading configuration file '$configConfigFile'"
+	debug "Reading configuration file '${configConfigFile}'"
 	[[ -e "$configConfigFile" ]] && source "$configConfigFile"
 }

@@ -12,7 +12,7 @@ playOrder() {
 	elif [[ "$configOrder" == "in-order" ]]; then
 		cat -
 	else
-		die "Unknown order: $configOrder"
+		die "Unknown order: ${configOrder}"
 	fi
 }
 

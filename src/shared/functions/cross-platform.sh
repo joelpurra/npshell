@@ -15,7 +15,7 @@ getFirstExecutable() {
 		fi
 	done
 
-	debug "First executable is '$path'"
+	debug "First executable is '${path}'"
 
 	echo -nE "$path"
 }

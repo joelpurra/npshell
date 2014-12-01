@@ -5,7 +5,7 @@ source "${BASH_SOURCE%/*}/shared/functions.sh"
 source "${BASH_SOURCE%/*}/shared/functionality.sh"
 source "${BASH_SOURCE%/*}/shared/mutexed.sh"
 
-tmpQueueFile="$configQueueFile.tmp~"
+tmpQueueFile="${configQueueFile}.tmp~"
 
 skipNonexistantFiles() {
 	sound="$1"

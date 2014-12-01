@@ -27,7 +27,7 @@ for (( i=0 ; playLimit==-1 || i<playLimit; i++));
 do
 	sound=$(getNextSound)
 	[[ -z "$sound" ]] && break
-	[[ -s "$sound" ]] || errorMessage "play: sound not found: '$sound'."
+	[[ -s "$sound" ]] || errorMessage "play: sound not found: '${sound}'."
 	highlight "$sound"
 	( trap 'echo -n' SIGINT; { playSound "$sound" || true; } )
 	echo -ne '\r'

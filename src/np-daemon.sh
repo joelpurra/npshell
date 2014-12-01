@@ -36,7 +36,7 @@ monitorQueueFile() {
 		queueUpdate=$(stat -f '%m' "$configQueueFile")
 		if [[ "$prevQueueUpdate" != "$queueUpdate" ]];
 		then
-			debug "$prevQueueUpdate -> $queueUpdate"
+			debug "${prevQueueUpdate} -> ${queueUpdate}"
 			startPlayer
 
 			# This sleep is not to introduce a gap between sounds, but to wait for he queue file to be updated.

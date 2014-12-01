@@ -9,7 +9,7 @@ onExit() {
 	#killPidChildren "$$"
 
 	debug "EXIT: trapped ${pidMessagesCreatedByThisInstance[@]}"
-	debug "EXIT: pid files contents: $pidFileContents"
+	debug "EXIT: pid files contents: ${pidFileContents}"
 	(( "${#pidFilesCreatedByThisInstance[@]}" > 0 )) && rm "${pidFilesCreatedByThisInstance[@]}"
 	debug "EXIT: deleted ${pidFilesCreatedByThisInstance[@]}"
 	return 0
@@ -18,7 +18,7 @@ onExit() {
 exitIfAlreadyRunning() {
 	local pidFile="$1"
 	local pidDescriptor="$2"
-	[[ -e "$pidFile" ]] && die "'$pidDescriptor' is already running with pid $(cat "$pidFile") according to '$pidFile'."
+	[[ -e "$pidFile" ]] && die "'${pidDescriptor}' is already running with pid $(cat "$pidFile") according to '${pidFile}'."
 	return 0
 }
 
@@ -41,7 +41,7 @@ savePidAtIndexButDeleteOnExit() {
 
 	pidFilesCreatedByThisInstance[index]="$pidFile"
 	pidsCreatedByThisInstance[index]="$pid"
-	pidMessagesCreatedByThisInstance[index]="(${name} $pid $pidFile)"
+	pidMessagesCreatedByThisInstance[index]="(${name} ${pid} ${pidFile})"
 	debug "${#pidFilesCreatedByThisInstance[@]} pidFilesCreatedByThisInstance: ${pidFilesCreatedByThisInstance[@]}"
 	debug "${#pidsCreatedByThisInstance[@]} pidsCreatedByThisInstance: ${pidsCreatedByThisInstance[@]}"
 	debug "${#pidMessagesCreatedByThisInstance[@]} pidMessagesCreatedByThisInstance: ${pidMessagesCreatedByThisInstance[@]}"
@@ -105,13 +105,13 @@ isPidRunning() {
 pidFromFile() {
 	local pidFile="$1"
 
-	debug "Getting PID from file '$pidFile'"
+	debug "Getting PID from file '${pidFile}'"
 
 	if [[ -e "$pidFile" ]];
 	then
 		cat "$pidFile"
 	else
-		# die "could not get pid from non-existant file '$pidFile'"
+		# die "could not get pid from non-existant file '${pidFile}'"
 		echo -n ""
 	fi
 }
@@ -149,9 +149,9 @@ killPidFromFile() {
 
 	[[ -z "${pid}" ]] && die "could not get the pid to kill."
 
-	debug "about to kill '$pid' from '$pidFile'"
+	debug "about to kill '${pid}' from '${pidFile}'"
 	killPid "$pid"
-	debug "killed '$pid' from '$pidFile'"
+	debug "killed '${pid}' from '${pidFile}'"
 }
 
 killChildrenFromFile() {
