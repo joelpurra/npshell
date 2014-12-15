@@ -29,6 +29,17 @@ np add all in-order "Jazz/My Favorite Album/"
 ```
 
 
+### Convenient aliases
+
+Save a keystroke or two, at least until tab completion is... completed. Add to your `.bash_profile` or similar autoexecuted file of your choice.
+
+```bash
+alias npa='np add'
+alias npn='np next'
+alias npl='np list'
+```
+
+
 ## Usage
 
 ### `np daemon [--stop]`
@@ -196,7 +207,7 @@ Settings are read from `~/.np/config.sh`. The format is one `setting=value` per 
   - Number currently playing sound 0 instead of 1?
   - `np default <path ...>` mode which reads sounds from <path ...> when the queue is empty.
 - External player:
-  - Fix unstable/race condition `wait`/`sleep` usage.
+  - ~~Fix unstable/race condition `wait`/`sleep` usage.~~
   - Set up a music player interface to switch out `afplay`.
   - Don't `kill -9 afplay`, use another signal?
   - Find a signal to pause playback?
