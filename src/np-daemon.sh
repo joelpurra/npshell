@@ -27,26 +27,23 @@ startPlayer() {
 	[[ -z "$sound" ]] || np start 1
 }
 
+whenQueueIsChanged() {
+	waitForFileChange "$configQueueFile"
+}
+
 monitorQueueFile() {
 	while true;
 	do
-		# TODO: Use something like inotify...?
-		# tail -F "$configQueueFile" | ensurePlaying
 		# Use stat to get queue file last modified timestamp.
 		queueUpdate=$(stat -f '%m' "$configQueueFile")
+
 		if [[ "$prevQueueUpdate" != "$queueUpdate" ]];
 		then
-			debug "${prevQueueUpdate} -> ${queueUpdate}"
-			startPlayer
+			debug "Queue file '${configQueueFile}' was updated: '${prevQueueUpdate}' -> '${queueUpdate}'"
 
-			# This sleep is not to introduce a gap between sounds, but to wait for he queue file to be updated.
-			# I think. Should be checked. Suspect there's a problem with the async `wait`ing for the external player's
-			# process to die, which makes parts of the code react faster than others leading to race conditions.
-			# Sleep generally doesn't accept float values accoring to the man page, but on this system it does.
-			sleep 0.1
+			startPlayer
 		else
-			# Use a longer sleep, then send signal SIGVTALRM (26) or SIGALRM (14) on `np add`?
-			sleep 1
+			whenQueueIsChanged
 
 			isDebugEnabled && echo -n "."
 		fi

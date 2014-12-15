@@ -42,3 +42,13 @@ fi
 sedExtRegexp() {
 	"${sedExec[@]}" "$@"
 }
+
+waitForFileChange() {
+	# https://github.com/emcrisostomo/fswatch
+	# Should cover all systems
+	[[ -z $(which "fswatch") ]] && die "could not find 'fswatch'"
+	
+	local watched=$(fswatch --one-event "$@")
+
+	debug "Detected change in '$@': '$watched'"
+}
