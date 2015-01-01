@@ -34,8 +34,7 @@ whenQueueIsChanged() {
 monitorQueueFile() {
 	while true;
 	do
-		# Use stat to get queue file last modified timestamp.
-		queueUpdate=$(stat -f '%m' "$configQueueFile")
+		queueUpdate=$(getLastFileModifiedTime "$configQueueFile")
 
 		if [[ "$prevQueueUpdate" != "$queueUpdate" ]];
 		then

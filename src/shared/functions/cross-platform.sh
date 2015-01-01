@@ -52,3 +52,20 @@ waitForFileChange() {
 
 	debug "Detected change in '$@': '$watched'"
 }
+
+# http://stackoverflow.com/questions/17878684/best-way-to-get-file-modified-time-in-seconds
+# http://stackoverflow.com/a/17907126/
+if stat -c %Y . >/dev/null 2>&1; then
+    get_modified_time() { stat -c %Y "$1" 2>/dev/null; }
+elif stat -f %m . >/dev/null 2>&1; then
+    get_modified_time() { stat -f %m "$1" 2>/dev/null; }
+elif date -r . +%s >/dev/null 2>&1; then
+    get_modified_time() { stat -r "$1" +%s 2>/dev/null; }
+else
+    echo 'get_modified_time() is unsupported' >&2
+    get_modified_time() { printf '%s' 0; }
+fi
+
+getLastFileModifiedTime() {
+	echo $(get_modified_time "$1")
+}
