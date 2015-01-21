@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/joelpurra/npshell/"><img src="https://cloud.githubusercontent.com/assets/1398544/5829161/4583769e-a10e-11e4-9b01-f2eba3e92265.gif" alt="npshell in action" border="0" /></a>
+  <a href="https://github.com/joelpurra/npshell/"><img src="https://cloud.githubusercontent.com/assets/1398544/5836151/b8d8e31e-a171-11e4-8412-d23765b54a25.gif" alt="npshell in action" border="0" /></a>
 </p>
 
 
