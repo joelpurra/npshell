@@ -1,3 +1,8 @@
+<p align="center">
+  <a href="https://github.com/joelpurra/npshell/"><img src="https://cloud.githubusercontent.com/assets/1398544/5829161/4583769e-a10e-11e4-9b01-f2eba3e92265.gif" alt="npshell in action" border="0" /></a>
+</p>
+
+
 # [npshell `np` -- command line music queue manager](https://github.com/joelpurra/npshell/)
 
 Keep a daemon running in the background. Add sounds to a queue. Let the daemon play the sweet music for you. All from the comfort of your own shell.
