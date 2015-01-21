@@ -230,6 +230,8 @@ Settings are read from `~/.np/config.sh`. The format is one `setting=value` per 
   - ~~`np index [--force|--clean] --recursive` to perfom action recursively.~~
 - Consider using another language for the entire project -- or at least the process control parts.
 
+
+
 ---
 
-Copyright (c) 2014 [Joel Purra](http://joelpurra.com/). Released under [GNU General Public License version 3.0 (GPL-3.0)](https://www.gnu.org/licenses/gpl.html).
+Copyright (c) 2014, 2015 [Joel Purra](http://joelpurra.com/). Released under [GNU General Public License version 3.0 (GPL-3.0)](https://www.gnu.org/licenses/gpl.html).
