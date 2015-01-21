@@ -9,6 +9,14 @@ action=""
 
 executable="np-${action}.sh"
 
-[[ -z $(which "$executable") ]] && { echo -E "np: '${action}' is not a action." 1>&2; exit 1; }
+if [[ -z $(which "$executable") ]];
+then
+	executable="${BASH_SOURCE%/*}/${executable}"
+
+	if [[ -z $(which "$executable") ]];
+	then
+		echo -E "np: '${action}' is not a action." 1>&2; exit 1;
+	fi
+fi
 
 exec "$executable" "$@"
