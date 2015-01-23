@@ -20,8 +20,7 @@ nullDelimitedForEachWithEOF() {
 }
 
 reverseLineOrder() {
-	# Use tac, gtac or another detected alternative?
-	gtac
+	"$(getFirstExecutable "tac" "gtac" "/usr/local/bin/gtac")"
 }
 
 keepDigitsOnly() {

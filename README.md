@@ -31,7 +31,7 @@ On other systems:
 - Run `np daemon &` on system startup to keep the daemon in the background.
 - Requirements:
   - One of the music players `afplay`, `mplayer`, `mpg123`, `mpg321`, `play` in your `$PATH`.
-  - [`fswatch`](https://github.com/emcrisostomo/fswatch), [`bash`](https://www.gnu.org/software/bash/) 4+.
+  - [`fswatch`](https://github.com/emcrisostomo/fswatch), [`bash`](https://www.gnu.org/software/bash/) 4+, `tac` (or `brew` prefixed `gtac`) from [`coreutils`](https://www.gnu.org/software/coreutils/).
 
 
 
