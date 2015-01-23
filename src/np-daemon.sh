@@ -24,7 +24,7 @@ savePidButDeleteOnExit "daemon" "$$" "$configDaemonPidFile"
 startPlayer() {
 	# Don't start the player unless there's a song to play.
 	sound=$(getNextSound)
-	[[ -z "$sound" ]] || np start 1
+	[[ -z "$sound" ]] || "${BASH_SOURCE%/*}/np" start 1
 }
 
 whenQueueIsChanged() {
