@@ -23,7 +23,7 @@ else
 fi
 
 echo -n "External player: "
-if isValidPidFile "$configExternalPlayerPidFile" && isPidRunningFromFile "$configExternalPlayerPidFile";
+if isExternalPlayerRunning;
 then
 	echo "running (pid $(cat "$configExternalPlayerPidFile" ))"
 
