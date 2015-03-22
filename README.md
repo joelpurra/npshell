@@ -29,14 +29,14 @@ brew install npshell
 On other systems:
 
 - Clone the code then add a symlink to `npshell/src/np` to your path.
-- Add `np daemon --is-running || { np daemon & }` to your `~/.bash_profile` or similar.
+- Add `np daemon --is-running || ( np daemon & )` to your `~/.bash_profile` or similar.
 - Requirements:
   - One of the music players `afplay`, `mplayer`, `mpg123`, `mpg321`, `play` in your `$PATH`.
   - [`fswatch`](https://github.com/emcrisostomo/fswatch), [`bash`](https://www.gnu.org/software/bash/) 4+, `shuf` (or `brew` prefixed `gshuf`), `tac` (or `brew` prefixed `gtac`) from [`coreutils`](https://www.gnu.org/software/coreutils/).
 
 For notifications:
 
-- Add `np notify --is-running || { np notify & }` to your `~/.bash_profile` or similar.
+- Add `np notify --is-running || ( np notify & )` to your `~/.bash_profile` or similar.
 - Requirements
   - [`terminal-notifier`](https://github.com/alloy/terminal-notifier) or [`growlnotify`](http://growl.info/downloads).
 

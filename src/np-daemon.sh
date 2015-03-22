@@ -24,6 +24,13 @@ fi
 exitIfAlreadyRunning "$configDaemonPidFile" "daemon"
 savePidButDeleteOnExit "daemon" "$$" "$configDaemonPidFile"
 
+verboseOutput="false"
+if [[ "$1" == "--verbose" ]];
+then
+	shift || true
+	verboseOutput="true"
+fi
+
 whenQueueOrModeIsChanged() {
 	waitForFileChange "$configQueueFile" "$configModeFile"
 }

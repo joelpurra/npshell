@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -e
 
+displayMessage() {
+	echo "$@"
+}
+
 highlight() {
 	if (("$#" == 2 ));
 	then
@@ -14,7 +18,7 @@ highlight() {
 		die "wrong number of highlight arguments"
 	fi
 
-	echo -E "$line" | sed "s|^${cwd}/||" | grep --extended-regexp --color "/?[^/]+$"
+	displayMessage -E "$line" | sed "s|^${cwd}/||" | grep --extended-regexp --color "/?[^/]+$"
 }
 
 highlightAll() {
@@ -34,7 +38,7 @@ highlightWithLineNumbers() {
 		die "wrong number of highlight arguments"
 	fi
 
-	echo -E "$line" | sedExtRegexp "s|^([[:space:]]*-?[[:digit:]]+[[:space:]]+)${cwd}/|\1|" | grep --extended-regexp --color "/?[^/]+$"
+	displayMessage -E "$line" | sedExtRegexp "s|^([[:space:]]*-?[[:digit:]]+[[:space:]]+)${cwd}/|\1|" | grep --extended-regexp --color "/?[^/]+$"
 }
 
 highlightAllWithLineNumbers() {

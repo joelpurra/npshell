@@ -5,44 +5,44 @@ source "${BASH_SOURCE%/*}/shared/functions.sh"
 source "${BASH_SOURCE%/*}/shared/functionality.sh"
 source "${BASH_SOURCE%/*}/shared/mutexed.sh"
 
-echo "Configuration: $configConfigFolder"
+displayMessage "Configuration: $configConfigFolder"
 
 
-echo "External player: '$externalPlayerExec'"
-echo "fswatch: '$fswatchExec'"
-echo "Shuffler: '$externalShuffleExec'"
-echo "Line reverser: '$reverseLineOrderExec'"
-echo "Notifications: '$notifyExec'"
+displayMessage "External player: '$externalPlayerExec'"
+displayMessage "fswatch: '$fswatchExec'"
+displayMessage "Shuffler: '$externalShuffleExec'"
+displayMessage "Line reverser: '$reverseLineOrderExec'"
+displayMessage "Notifications: '$notifyExec'"
 
 
-echo "Mode: $(cat "$configModeFile")"
+displayMessage "Mode: $(cat "$configModeFile")"
 
 
-echo -n "Daemon: "
+displayMessage -n "Daemon: "
 if isValidPidFile "$configDaemonPidFile" && isPidRunningFromFile "$configDaemonPidFile";
 then
-	echo "running (pid $(cat "$configDaemonPidFile" ))"
+	displayMessage "running (pid $(cat "$configDaemonPidFile" ))"
 else
-	echo "stopped"
+	displayMessage "stopped"
 fi
 
 
-echo -n "Notifications: "
+displayMessage -n "Notifications: "
 if isValidPidFile "$configNotifyPidFile" && isPidRunningFromFile "$configNotifyPidFile";
 then
-	echo "running (pid $(cat "$configNotifyPidFile" ))"
+	displayMessage "running (pid $(cat "$configNotifyPidFile" ))"
 else
-	echo "stopped"
+	displayMessage "stopped"
 fi
 
 
-echo -n "External player: "
+displayMessage -n "External player: "
 if isExternalPlayerRunning;
 then
-	echo "running (pid $(cat "$configExternalPlayerPidFile" ))"
+	displayMessage "running (pid $(cat "$configExternalPlayerPidFile" ))"
 
-	echo -n "Sound: "
-	highlight "$(cat "$configPlayingFile")" || echo
+	displayMessage -n "Sound: "
+	highlight "$(cat "$configPlayingFile")" || displayMessage
 else
-	echo "stopped"
+	displayMessage "stopped"
 fi

@@ -48,11 +48,11 @@ notify() {
 
 	case "$notifyExec" in
 		'terminal-notifier')
-			terminal-notifier -title "np" -group "np" -open "https://github.com/joelpurra/npshell" -subtitle "$subtitle" -message "$message"
+			terminal-notifier -title "np" -group "np" -open "https://github.com/joelpurra/npshell" -subtitle "$subtitle" -message "$message" >/dev/null
 			;;
 		'growlnotify')
 			# Untested.
-			growlnotify --noteName "np: $subtitle" --identifier "np" --url "https://github.com/joelpurra/npshell" --message "$message"
+			growlnotify --noteName "np: $subtitle" --identifier "np" --url "https://github.com/joelpurra/npshell" --message "$message" >/dev/null
 			;;
 		# TODO: add more notifiers.
 	esac

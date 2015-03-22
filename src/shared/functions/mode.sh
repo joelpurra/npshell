@@ -9,7 +9,12 @@ playSoundInPlayer() {
 	if [[ -s "$sound" ]];
 	then
 		echo "$sound" > "$configPlayingFile"
-		highlight "$sound"
+
+		if [[ "$verboseOutput" == "true" ]];
+		then
+			highlight "$(getCurrentSound)"
+		fi
+
 		( trap 'echo -n > "$configPlayingFile"' SIGINT EXIT; { playSound "$sound" || true; } )
 	else
 		errorMessage "play: sound not found: '${sound}'."
