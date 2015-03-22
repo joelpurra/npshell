@@ -19,8 +19,10 @@ nullDelimitedForEachWithEOF() {
 	done
 }
 
+reverseLineOrderExec="$(getFirstExecutable "tac" "gtac" "/usr/local/bin/gtac")"
+
 reverseLineOrder() {
-	"$(getFirstExecutable "tac" "gtac" "/usr/local/bin/gtac")"
+	"$reverseLineOrderExec"
 }
 
 keepDigitsOnly() {

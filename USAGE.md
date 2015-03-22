@@ -125,6 +125,11 @@ Create a file with a cached list of all sounds in the current folder, including 
   - Perform the action in subfolders.
 
 
+### `np doctor`
+
+Display configuration, runtime and status values.
+
+
 ## Configuration
 
 Settings are read from `~/.np/config.sh`. The format is one `setting=value` per line.
