@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<root>
+  <vkopenurldef>
+    <name>KeyCode::VK_OPEN_URL_NP_PREV</name>
+    <url type="shell">
+      <![CDATA[ /usr/local/bin/np prev ]]>
+    </url>
+  </vkopenurldef>
+
+  <vkopenurldef>
+    <name>KeyCode::VK_OPEN_URL_NP_PLAY_PAUSE</name>
+    <url type="shell">
+      <![CDATA[ /usr/local/bin/np startstop ]]>
+    </url>
+  </vkopenurldef>
+
+  <vkopenurldef>
+    <name>KeyCode::VK_OPEN_URL_NP_NEXT</name>
+    <url type="shell">
+      <![CDATA[ /usr/local/bin/np next ]]>
+    </url>
+  </vkopenurldef>
+
+  <item>
+    <name>np prev</name>
+    <identifier>private.np.prev</identifier>
+    <autogen>
+      __KeyToKey__
+      ConsumerKeyCode::MUSIC_PREV, ModifierFlag::NONE,
+      KeyCode::VK_OPEN_URL_NP_PREV,
+    </autogen>
+  </item>
+
+  <item>
+    <name>np playpause</name>
+    <identifier>private.np.playpause</identifier>
+    <autogen>
+      __KeyToKey__
+      ConsumerKeyCode::MUSIC_PLAY, ModifierFlag::NONE,
+      KeyCode::VK_OPEN_URL_NP_PLAY_PAUSE,
+    </autogen>
+  </item>
+
+  <item>
+    <name>np next</name>
+    <identifier>private.np.next</identifier>
+    <autogen>
+      __KeyToKey__
+      ConsumerKeyCode::MUSIC_NEXT, ModifierFlag::NONE,
+      KeyCode::VK_OPEN_URL_NP_NEXT,
+    </autogen>
+  </item>
+</root>
