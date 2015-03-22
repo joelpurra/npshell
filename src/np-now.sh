@@ -5,4 +5,4 @@ source "${BASH_SOURCE%/*}/shared/functions.sh"
 source "${BASH_SOURCE%/*}/shared/functionality.sh"
 source "${BASH_SOURCE%/*}/shared/mutexed.sh"
 
-highlight "$(cat "$configPlayingFile")"
+highlight "$(getCurrentSound)"

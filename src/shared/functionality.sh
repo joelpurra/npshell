@@ -34,6 +34,9 @@ configDaemonPidFile="$configDefaultDaemonPidFile"
 readonly configDefaultExternalPlayerPidFile="${configConfigFolder}/.externalplayerpidfile~"
 configExternalPlayerPidFile="$configDefaultExternalPlayerPidFile"
 
+readonly configDefaultNotifyPidFile="${configConfigFolder}/.notifypidfile~"
+configNotifyPidFile="$configDefaultNotifyPidFile"
+
 
 # File configuration defaults.
 configDefaultQueueFile="${configConfigFolder}/queue.pls"

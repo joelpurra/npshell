@@ -7,12 +7,16 @@ source "${BASH_SOURCE%/*}/shared/mutexed.sh"
 
 echo "Configuration: $configConfigFolder"
 
+
 echo "External player: '$externalPlayerExec'"
 echo "fswatch: '$fswatchExec'"
 echo "Shuffler: '$externalShuffleExec'"
 echo "Line reverser: '$reverseLineOrderExec'"
+echo "Notifications: '$notifyExec'"
+
 
 echo "Mode: $(cat "$configModeFile")"
+
 
 echo -n "Daemon: "
 if isValidPidFile "$configDaemonPidFile" && isPidRunningFromFile "$configDaemonPidFile";
@@ -21,6 +25,16 @@ then
 else
 	echo "stopped"
 fi
+
+
+echo -n "Notifications: "
+if isValidPidFile "$configNotifyPidFile" && isPidRunningFromFile "$configNotifyPidFile";
+then
+	echo "running (pid $(cat "$configNotifyPidFile" ))"
+else
+	echo "stopped"
+fi
+
 
 echo -n "External player: "
 if isExternalPlayerRunning;
