@@ -9,8 +9,10 @@ ensureConfigFoldersAndFilesExist() {
 ensureOtherFoldersAndFilesExist() {
 	[[ -e "$configQueueFile" ]] || touch "$configQueueFile"
 	[[ -e "$configHistoryFile" ]] || touch "$configHistoryFile"
-	[[ -e "$configModeFile" ]] || touch "$configModeFile"
 	[[ -e "$configPlayingFile" ]] || touch "$configPlayingFile"
+
+	# This makes the daemon start playing immidiately on first run, or if the mode file was deleted.
+	[[ -e "$configModeFile" ]] || echo "playing" > "$configModeFile"
 }
 
 readConfig() {
