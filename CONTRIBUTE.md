@@ -24,7 +24,7 @@ This is experimental software, so feedback is most appreciated!
   - `np remove #` to remove sound number # in the queue?
   - `np next #` (`np skip #`) to skip a number of sounds in the queue.
   - `np first` - like `np add`, but add sounds to top of queue.
-  - Number currently playing sound 0 instead of 1?
+  - ~~Number currently playing sound 0 instead of 1?~~
   - `np default <path ...>` mode which reads sounds from <path ...> when the queue is empty.
 - External player:
   - ~~Fix unstable/race condition `wait`/`sleep` usage.~~
@@ -32,11 +32,11 @@ This is experimental software, so feedback is most appreciated!
   - Don't `kill -9 afplay`, use another signal?
   - Find a signal to pause playback?
 - `np daemon`:
-  - Create a system service wrapper.
-  - `np daemon --pause` to try to pause/sleep the audio player, make daemon idle?
-  - `np daemon --resume` to resume an idle daemon?
+  - ~~Create a system service wrapper.~~
+  - ~~`np daemon --pause` to try to pause/sleep the audio player, make daemon idle?~~
+  - ~~`np daemon --resume` to resume an idle daemon?~~
   - Save sound playback position upon pause?
-  - Maintain np/pause status between `np daemon` executions, so it will resume playing (or not) upon reboot?
+  - ~~Maintain np/pause status between `np daemon` executions, so it will resume playing (or not) upon reboot?~~
 - Index/cache files:
   - If not using an index and an action takes too long, display a warning message "Using indexes could speed up `np add`"?
   - Use `.np.cache~` indexes hierachically when building parent indexes?
