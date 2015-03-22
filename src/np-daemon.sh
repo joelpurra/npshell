@@ -12,45 +12,79 @@ then
 fi
 
 exitIfAlreadyRunning "$configDaemonPidFile" "daemon"
-exitIfAlreadyRunning "$configPlayerPidFile" "player"
-
-thisInstanceIsAChild="${thisInstanceIsAChild:-0}"
-thisInstanceIsAChild="$(( thisInstanceIsAChild + 1 ))"
-
-source "${BASH_SOURCE%/*}/shared/mutexed.sh"
-
 savePidButDeleteOnExit "daemon" "$$" "$configDaemonPidFile"
 
-startPlayer() {
+playSoundInPlayer() {
+	local sound=$(getNextSound)
+	progressQueue
+
+	if [[ -s "$sound" ]];
+	then
+		echo "$sound" > "$configPlayingFile"
+		highlight "$sound"
+		( trap 'echo -n > "$configPlayingFile"' SIGINT EXIT; { playSound "$sound" || true; } )
+	else
+		errorMessage "play: sound not found: '${sound}'."
+	fi
+
+	echo -n > "$configPlayingFile"
+	echo -ne '\r'
+}
+
+modePlaying() {
 	# Don't start the player unless there's a song to play.
 	sound=$(getNextSound)
-	[[ -z "$sound" ]] || "${BASH_SOURCE%/*}/np" start 1
+
+	if [[ -z "$sound" ]];
+	then
+		return 1
+	else
+		playSoundInPlayer
+	fi
 }
 
-whenQueueIsChanged() {
-	waitForFileChange "$configQueueFile"
+modeStopped() {
+	return 1
 }
 
-monitorQueueFile() {
+modeUnknown() {
+	die "unknown mode in file '$configModeFile'."
+}
+
+getMode() {
+	cat "$configModeFile"
+}
+
+checkMode() {
+	local mode=$(getMode)
+
+	debug "checkMode: '$mode'"
+
+	case "$mode" in
+		'playing')
+			modePlaying
+			;;
+		'stopped')
+			modeStopped
+			;;
+		'')
+			modeStopped
+			;;
+		*)
+			modeUnknown
+			;;
+	esac
+}
+
+whenQueueOrModeIsChanged() {
+	waitForFileChange "$configQueueFile" "$configModeFile"
+}
+
+daemonLoop() {
 	while true;
 	do
-		queueUpdate=$(getLastFileModifiedTime "$configQueueFile")
-
-		if [[ "$prevQueueUpdate" != "$queueUpdate" ]];
-		then
-			debug "Queue file '${configQueueFile}' was updated: '${prevQueueUpdate}' -> '${queueUpdate}'"
-
-			startPlayer
-		else
-			whenQueueIsChanged
-
-			isDebugEnabled && echo -n "."
-		fi
-
-		prevQueueUpdate="$queueUpdate"
+		checkMode || whenQueueOrModeIsChanged
 	done
 }
 
-prevQueueUpdate=""
-
-monitorQueueFile
+daemonLoop

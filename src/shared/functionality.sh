@@ -31,9 +31,6 @@ configPidFile="$configDefaultPidFile"
 readonly configDefaultDaemonPidFile="${configConfigFolder}/.daemonpidfile~"
 configDaemonPidFile="$configDefaultDaemonPidFile"
 
-readonly configDefaultPlayerPidFile="${configConfigFolder}/.playerpidfile~"
-configPlayerPidFile="$configDefaultPlayerPidFile"
-
 readonly configDefaultExternalPlayerPidFile="${configConfigFolder}/.externalplayerpidfile~"
 configExternalPlayerPidFile="$configDefaultExternalPlayerPidFile"
 
@@ -44,6 +41,12 @@ configQueueFile="$configDefaultQueueFile"
 
 configDefaultHistoryFile="${configConfigFolder}/history.pls"
 configHistoryFile="$configDefaultHistoryFile"
+
+configDefaultModeFile="${configConfigFolder}/.mode"
+configModeFile="$configDefaultModeFile"
+
+configDefaultPlayingFile="${configConfigFolder}/.playing"
+configPlayingFile="$configDefaultPlayingFile"
 
 ensureOtherFoldersAndFilesExist
 

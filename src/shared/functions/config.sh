@@ -9,6 +9,8 @@ ensureConfigFoldersAndFilesExist() {
 ensureOtherFoldersAndFilesExist() {
 	[[ -e "$configQueueFile" ]] || touch "$configQueueFile"
 	[[ -e "$configHistoryFile" ]] || touch "$configHistoryFile"
+	[[ -e "$configModeFile" ]] || touch "$configModeFile"
+	[[ -e "$configPlayingFile" ]] || touch "$configPlayingFile"
 }
 
 readConfig() {
