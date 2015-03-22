@@ -7,6 +7,15 @@ set -e
 # https://github.com/mikaelbr/node-notifier/issues/40
 notifyExec="$(getFirstExecutable "terminal-notifier" "growlnotify")"
 
+isNotificationsRunning() {
+	if isValidPidFile "$configNotifyPidFile" && isPidRunningFromFile "$configNotifyPidFile";
+	then
+		return 0
+	else
+		return 1
+	fi
+}
+
 notify() {
 	[[ -z "$notifyExec" ]] && die "no notifier executable found."
 
