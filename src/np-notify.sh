@@ -16,7 +16,7 @@ fi
 
 if [[ "$1" == "--stop" ]];
 then
-	killPidFromFile "$configNotifyPidFile"
+	killNotificationsIfRunning
 	exit 0
 fi
 
