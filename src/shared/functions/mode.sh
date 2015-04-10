@@ -13,6 +13,7 @@ playSoundInPlayer() {
 		if [[ "$verboseOutput" == "true" ]];
 		then
 			highlight "$(getCurrentSound)"
+			echo -ne '\r'
 		fi
 
 		( trap 'echo -n > "$configPlayingFile"' SIGINT EXIT; { playSound "$sound" || true; } )
@@ -21,7 +22,6 @@ playSoundInPlayer() {
 	fi
 
 	echo -n > "$configPlayingFile"
-	echo -ne '\r'
 }
 
 setModeStart() {

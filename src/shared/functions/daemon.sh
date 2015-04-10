@@ -5,7 +5,7 @@ cleanupDaemon() {
 	if [[ -e "$configDaemonPidFile" ]];
 	then
 		rm "$configDaemonPidFile"
-		fi
+	fi
 
 	return 0
 }
@@ -30,4 +30,6 @@ isDaemonRunning() {
 
 killDaemonIfRunning() {
 	{ isDaemonRunning && killDaemon; } || true &>/dev/null
+
+	return 0
 }

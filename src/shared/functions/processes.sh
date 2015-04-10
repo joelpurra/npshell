@@ -12,7 +12,8 @@ onExit() {
 	debug "EXIT: pid files contents: ${pidFileContents}"
 	(( "${#pidFilesCreatedByThisInstance[@]}" > 0 )) && rm "${pidFilesCreatedByThisInstance[@]}"
 	debug "EXIT: deleted ${pidFilesCreatedByThisInstance[@]}"
-	return 0
+
+	exit 0
 }
 
 exitIfAlreadyRunning() {
@@ -120,7 +121,7 @@ pidFromFile() {
 		cat "$pidFile"
 	else
 		# die "could not get pid from non-existant file '${pidFile}'"
-		echo -n ""
+		:
 	fi
 }
 

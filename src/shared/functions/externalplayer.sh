@@ -42,6 +42,8 @@ isExternalPlayerRunning() {
 
 killExternalPlayerIfRunning() {
 	{ isExternalPlayerRunning && killExternalPlayer; } || true &>/dev/null
+
+	return 0
 }
 
 killExternalPlayerIfRunningAndCleanup() {

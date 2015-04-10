@@ -36,11 +36,11 @@ isNotificationsRunning() {
 
 killNotificationsIfRunning() {
 	{ isNotificationsRunning && killNotifications; } || true &>/dev/null
+
+	return 0
 }
 
 notify() {
-	[[ -z "$notifyExec" ]] && die "no notifier executable found."
-
 	local subtitle="$1"
 	shift
 	local message="$1"
@@ -53,6 +53,9 @@ notify() {
 		'growlnotify')
 			# Untested.
 			growlnotify --noteName "np: $subtitle" --identifier "np" --url "https://github.com/joelpurra/npshell" --message "$message" >/dev/null
+			;;
+		*)
+			die "no notifier executable found."
 			;;
 		# TODO: add more notifiers.
 	esac
