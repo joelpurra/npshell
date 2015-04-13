@@ -12,6 +12,8 @@ echo "fswatch: '$fswatchExec'"
 echo "Shuffler: '$externalShuffleExec'"
 echo "Line reverser: '$reverseLineOrderExec'"
 
+echo "Mode: $(cat "$configModeFile")"
+
 echo -n "Daemon: "
 if isValidPidFile "$configDaemonPidFile" && isPidRunningFromFile "$configDaemonPidFile";
 then
@@ -20,21 +22,13 @@ else
 	echo "stopped"
 fi
 
-echo -n "Player: "
-if isValidPidFile "$configPlayerPidFile" && isPidRunningFromFile "$configPlayerPidFile";
-then
-	echo "playing (pid $(cat "$configPlayerPidFile" ))"
-else
-	echo "stopped"
-fi
-
 echo -n "External player: "
-if isValidPidFile "$configExternalPlayerPidFile" && isPidRunningFromFile "$configExternalPlayerPidFile";
+if isExternalPlayerRunning;
 then
-	echo "playing (pid $(cat "$configExternalPlayerPidFile" ))"
+	echo "running (pid $(cat "$configExternalPlayerPidFile" ))"
 
 	echo -n "Sound: "
-	highlight "$(getNextSound)"
+	highlight "$(cat "$configPlayingFile")" || echo
 else
 	echo "stopped"
 fi

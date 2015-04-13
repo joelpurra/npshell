@@ -1,31 +1,33 @@
-# Contribute to [npshell](https://github.com/joelpurra/npshell)
+# Usage of [npshell](https://github.com/joelpurra/npshell)
 
 List of commands, configuration and other usage of `np`.
 
 
+## Commands
 
-## Usage
 
 ### `np daemon [--stop]`
 
-Play sounds in queue as soon as there are any.
+Play sounds in queue as soon as there are any. Can be controlled with `np start` and `np stop`, as well as the rest of the queue commands.
 
 - `--stop`
-  - Stop daemon playback.
+  - Stop daemon execution. Can be used during system shutdown, but isn't part of everyday usage.
 
 
-#### Examples
+**Examples**
 
 ```bash
 # Start the daemon, let it run in the background.
-# Could be done at system startup.
+# Should be done at user login.
 np daemon &
 ```
 
 
+
 ### `np`, `np now`.
 
-Shows the sound currently playing, or first in queue if the player isn't started.
+Shows the sound currently playing.
+
 
 
 ### `np list`
@@ -33,9 +35,11 @@ Shows the sound currently playing, or first in queue if the player isn't started
 See sounds currently in the queue.
 
 
+
 ### `np next`
 
 Advance to the next sound in the queue.
+
 
 
 ### `np add [limit] [order] [path ...]`
@@ -58,7 +62,7 @@ Add some sounds to the queue.
     - or "-" to read null-delimited paths from stdin.
 
 
-#### Examples
+**Examples**
 
 ```bash
 # Add the default number of shuffled sounds from the current folder.
@@ -87,15 +91,27 @@ find . -iname '*best of*.mp3' -print0 | np add 10 path/to/sound.mp3 - path/to/fo
 ```
 
 
+
 ## More commands
 
 
-### `np start [limit]`
 
-Start consuming queue by playing back in the current terminal.
+### `np start`
 
-- Limit
-  - Default is -1, meaning no limit.
+Let `np daemon` consume the sound queue.
+
+
+
+### `np stop`
+
+Don't let `np daemon` consume the sound queue.
+
+
+
+### `np startstop`
+
+Toggle playback by alternating between `np start` and `np stop`.
+
 
 
 ### `np clear`
@@ -103,14 +119,17 @@ Start consuming queue by playing back in the current terminal.
 Empty the queue.
 
 
+
 ### `np clean`
 
 Remove non-existant files from queue.
 
 
+
 ### `np history`
 
 Show the 999 most recently played sounds.
+
 
 
 ### `np index [--force|--clean[ --recursive]]`
@@ -125,19 +144,23 @@ Create a file with a cached list of all sounds in the current folder, including 
   - Perform the action in subfolders.
 
 
+
 ### `np doctor`
 
 Display configuration, runtime and status values.
+
 
 
 ## Configuration
 
 Settings are read from `~/.np/config.sh`. The format is one `setting=value` per line.
 
+
 ### `configNumsounds`
 
 - Default is 3.
 - Set the number of sounds `np add` adds unless overridden.
+
 
 ### `configOrder`
 
@@ -145,10 +168,12 @@ Settings are read from `~/.np/config.sh`. The format is one `setting=value` per 
 - The order `np add` adds files in.
 - Can also be "in-order".
 
+
 ### `configDebug`
 
 - Default is "false".
 - Enable debug output.
+
 
 ### `configUseCache`
 

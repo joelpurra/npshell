@@ -12,45 +12,17 @@ then
 fi
 
 exitIfAlreadyRunning "$configDaemonPidFile" "daemon"
-exitIfAlreadyRunning "$configPlayerPidFile" "player"
-
-thisInstanceIsAChild="${thisInstanceIsAChild:-0}"
-thisInstanceIsAChild="$(( thisInstanceIsAChild + 1 ))"
-
-source "${BASH_SOURCE%/*}/shared/mutexed.sh"
-
 savePidButDeleteOnExit "daemon" "$$" "$configDaemonPidFile"
 
-startPlayer() {
-	# Don't start the player unless there's a song to play.
-	sound=$(getNextSound)
-	[[ -z "$sound" ]] || "${BASH_SOURCE%/*}/np" start 1
+whenQueueOrModeIsChanged() {
+	waitForFileChange "$configQueueFile" "$configModeFile"
 }
 
-whenQueueIsChanged() {
-	waitForFileChange "$configQueueFile"
-}
-
-monitorQueueFile() {
+daemonLoop() {
 	while true;
 	do
-		queueUpdate=$(getLastFileModifiedTime "$configQueueFile")
-
-		if [[ "$prevQueueUpdate" != "$queueUpdate" ]];
-		then
-			debug "Queue file '${configQueueFile}' was updated: '${prevQueueUpdate}' -> '${queueUpdate}'"
-
-			startPlayer
-		else
-			whenQueueIsChanged
-
-			isDebugEnabled && echo -n "."
-		fi
-
-		prevQueueUpdate="$queueUpdate"
+		checkMode || whenQueueOrModeIsChanged
 	done
 }
 
-prevQueueUpdate=""
-
-monitorQueueFile
+daemonLoop
