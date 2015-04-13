@@ -9,7 +9,7 @@ externalPlayer() {
 	local externalplayerPid="$!"
 	savePidAtIndexButDeleteOnExit "$index" "externalplayer" "$externalplayerPid" "$configExternalPlayerPidFile"
 	wait "$externalplayerPid" &>/dev/null
-	killExternalPlayerIfRunning
+	killExternalPlayerIfRunningAndCleanup
 	clearPidAtIndex "$index"
 }
 
@@ -18,13 +18,17 @@ cleanupExternalPlayer() {
 	then
 		rm "$configExternalPlayerPidFile"
 	fi
+
+	return 0
 }
 
 killExternalPlayer() {
 	if [[ -s "$configExternalPlayerPidFile" ]];
 	then
-		killPidFromFile "$configExternalPlayerPidFile"
+		killPidFromFileAndWaitUntilDead "$configExternalPlayerPidFile"
 	fi
+
+	return 0
 }
 
 isExternalPlayerRunning() {
@@ -37,7 +41,13 @@ isExternalPlayerRunning() {
 }
 
 killExternalPlayerIfRunning() {
-	{ isExternalPlayerRunning && killExternalPlayer; } &>/dev/null
+	{ isExternalPlayerRunning && killExternalPlayer; } || true &>/dev/null
+
+	return 0
+}
+
+killExternalPlayerIfRunningAndCleanup() {
+	killExternalPlayerIfRunning
 	cleanupExternalPlayer
 }
 

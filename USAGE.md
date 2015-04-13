@@ -6,12 +6,16 @@ List of commands, configuration and other usage of `np`.
 ## Commands
 
 
-### `np daemon [--stop]`
+### `np daemon [--is-running|--stop|--verbose]`
 
 Play sounds in queue as soon as there are any. Can be controlled with `np start` and `np stop`, as well as the rest of the queue commands.
 
+- `--is-running`
+  - Check if the daemon process has already started. Exits with `0` if it has, `1` otherwise.
 - `--stop`
   - Stop daemon execution. Can be used during system shutdown, but isn't part of everyday usage.
+- `--verbose`
+  - Output paths to the sounds as they play.
 
 
 **Examples**
@@ -19,7 +23,27 @@ Play sounds in queue as soon as there are any. Can be controlled with `np start`
 ```bash
 # Start the daemon, let it run in the background.
 # Should be done at user login.
-np daemon &
+np daemon --is-running || ( np daemon & )
+```
+
+
+
+### `np notify [--is-running|--stop]`
+
+Show notifications when the track changes, playback is started/stopped or the queue is empty.
+
+- `--is-running`
+  - Check if the daemon process has already started. Exits with `0` if it has, `1` otherwise.
+- `--stop`
+  - Stop notification daemon execution. Can be used during system shutdown, but isn't part of everyday usage.
+
+
+**Examples**
+
+```bash
+# Start the notification daemon, let it run in the background.
+# Should be done at user login.
+np notify --is-running || ( np notify & )
 ```
 
 

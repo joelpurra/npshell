@@ -12,7 +12,8 @@ onExit() {
 	debug "EXIT: pid files contents: ${pidFileContents}"
 	(( "${#pidFilesCreatedByThisInstance[@]}" > 0 )) && rm "${pidFilesCreatedByThisInstance[@]}"
 	debug "EXIT: deleted ${pidFilesCreatedByThisInstance[@]}"
-	return 0
+
+	exit 0
 }
 
 exitIfAlreadyRunning() {
@@ -75,6 +76,14 @@ killPid() {
 	debug "killed '${pid}'"
 }
 
+killPidAndWaitUntilDead() {
+	local pid="$1"
+
+	killPid "${pid}"
+	debug "waiting for '${pid}' to die"
+	wait "$pid" &>/dev/null
+}
+
 killPidChildren() {
 	# TODO: use an existing killtree kind of command to avoid orphans/zombies.
 	local pid="$1"
@@ -112,7 +121,7 @@ pidFromFile() {
 		cat "$pidFile"
 	else
 		# die "could not get pid from non-existant file '${pidFile}'"
-		echo -n ""
+		:
 	fi
 }
 
@@ -152,6 +161,17 @@ killPidFromFile() {
 	debug "about to kill '${pid}' from '${pidFile}'"
 	killPid "$pid"
 	debug "killed '${pid}' from '${pidFile}'"
+}
+
+killPidFromFileAndWaitUntilDead() {
+	local pidFile="$1"
+	local pid=$(pidFromFile "$pidFile")
+
+	[[ -z "${pid}" ]] && die "could not get the pid to kill and wait until dead."
+
+	debug "about to kill '${pid}' from '${pidFile}' and wait until dead"
+	killPidAndWaitUntilDead "$pid"
+	debug "killed '${pid}' from '${pidFile}' and waited until dead"
 }
 
 killChildrenFromFile() {

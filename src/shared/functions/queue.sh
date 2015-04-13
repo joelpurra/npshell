@@ -29,6 +29,10 @@ getNextSound() {
 	echo -nE "$sound"
 }
 
+getCurrentSound() {
+	cat "$configPlayingFile"
+}
+
 pushSoundToHistory() {
 	local sound=$(getNextSound)
 
