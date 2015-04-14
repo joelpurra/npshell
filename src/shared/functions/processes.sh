@@ -69,10 +69,21 @@ isPidRunningFromFile() {
 	isPidRunning "$pid"
 }
 
-isValidPidFileAndRunningOrCleanup() {
+isValidPidFileAndRunning() {
 	local pidFile="$1"
 
 	if isValidPidFile "$pidFile" && isPidRunningFromFile "$pidFile";
+	then
+		return 0
+	else
+		return 1
+	fi
+}
+
+isValidPidFileAndRunningOrCleanup() {
+	local pidFile="$1"
+
+	if isValidPidFileAndRunning "$pidFile";
 	then
 		return 0
 	else
@@ -91,7 +102,7 @@ exitIfAlreadyRunning() {
 	local pidFile="$1"
 	local pidDescriptor="$2"
 
-	isValidPidFileAndRunning && die "'${pidDescriptor}' is already running with pid $(cat "$pidFile") according to '${pidFile}'."
+	isValidPidFileAndRunning && die "'${pidDescriptor}' is already running with pid '$(cat "$pidFile")' according to '${pidFile}'."
 
 	return 0
 }
@@ -107,7 +118,7 @@ exitIfAlreadyRunningOrCleanup() {
 	local pidFile="$1"
 	local pidDescriptor="$2"
 
-	isValidPidFileAndRunningOrCleanup && die "'${pidDescriptor}' is already running with pid $(cat "$pidFile") according to '${pidFile}'."
+	isValidPidFileAndRunningOrCleanup && die "'${pidDescriptor}' is already running with pid '$(cat "$pidFile")' according to '${pidFile}'."
 
 	return 0
 }

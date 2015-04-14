@@ -18,7 +18,7 @@ playSoundInPlayer() {
 
 		( trap 'echo -n > "$configPlayingFile"' SIGINT EXIT; { playSound "$sound" || true; } )
 	else
-		errorMessage "play: sound not found: '${sound}'."
+		errorMessage "sound not found: '${sound}'."
 	fi
 
 	echo -n > "$configPlayingFile"
