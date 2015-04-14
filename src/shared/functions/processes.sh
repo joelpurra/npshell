@@ -13,7 +13,7 @@ onExit() {
 	(( "${#pidFilesCreatedByThisInstance[@]}" > 0 )) && rm "${pidFilesCreatedByThisInstance[@]}"
 	debug "EXIT: deleted ${pidFilesCreatedByThisInstance[@]}"
 
-	exit 0
+	exit
 }
 
 exitIfAlreadyRunning() {
