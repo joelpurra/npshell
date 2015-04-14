@@ -20,7 +20,7 @@ then
 	exit 0
 fi
 
-exitIfAlreadyRunning "$configNotifyPidFile" "notify"
+exitIfAlreadyRunningOrCleanup "$configNotifyPidFile" "notify"
 savePidButDeleteOnExit "notify" "$$" "$configNotifyPidFile"
 
 checkNotify() {

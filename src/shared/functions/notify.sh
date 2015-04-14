@@ -26,7 +26,7 @@ killNotifications() {
 }
 
 isNotificationsRunning() {
-	if isValidPidFileAndRunningOrRemove "$configNotifyPidFile";
+	if isValidPidFileAndRunningOrCleanup "$configNotifyPidFile";
 	then
 		return 0
 	else

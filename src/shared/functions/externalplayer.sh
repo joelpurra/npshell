@@ -4,7 +4,7 @@ set -e
 externalPlayer() {
 	# TODO: use dynamic index?
 	local index=999
-	exitIfAlreadyRunning "$configExternalPlayerPidFile" "externalplayer"
+	exitIfAlreadyRunningOrCleanup "$configExternalPlayerPidFile" "externalplayer"
 	"$externalPlayerExec" "$@" &
 	local externalplayerPid="$!"
 	savePidAtIndexButDeleteOnExit "$index" "externalplayer" "$externalplayerPid" "$configExternalPlayerPidFile"
@@ -32,7 +32,7 @@ killExternalPlayer() {
 }
 
 isExternalPlayerRunning() {
-	if isValidPidFileAndRunningOrRemove "$configExternalPlayerPidFile";
+	if isValidPidFileAndRunningOrCleanup "$configExternalPlayerPidFile";
 	then
 		return 0
 	else

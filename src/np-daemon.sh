@@ -21,7 +21,7 @@ then
 	exit 0
 fi
 
-exitIfAlreadyRunning "$configDaemonPidFile" "daemon"
+exitIfAlreadyRunningOrCleanup "$configDaemonPidFile" "daemon"
 savePidButDeleteOnExit "daemon" "$$" "$configDaemonPidFile"
 
 verboseOutput="false"

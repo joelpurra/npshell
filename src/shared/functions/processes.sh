@@ -16,10 +16,83 @@ onExit() {
 	exit
 }
 
+isPidRunning() {
+	local pid="$1"
+	local psInfo=$(ps -o pid= -p "${pid}" | awk '{ print $1 }')
+
+	if (( psInfo == pid ));
+	then
+		return 0
+	else
+		return 1
+	fi
+}
+
+pidFromFile() {
+	local pidFile="$1"
+
+	debug "Getting PID from file '${pidFile}'"
+
+	if [[ -e "$pidFile" ]];
+	then
+		cat "$pidFile"
+	else
+		# die "could not get pid from non-existant file '${pidFile}'"
+		:
+	fi
+}
+
+isValidPidFile() {
+	local pidFile="$1"
+
+	if [[ -s "$pidFile" ]];
+	then
+		local pid=$(pidFromFile "$pidFile")
+
+		if (( pid > 0 ));
+		then
+			return 0
+		else
+			return 1
+		fi
+	else
+		return 2
+	fi
+}
+
+isPidRunningFromFile() {
+	local pidFile="$1"
+	local pid=$(pidFromFile "$pidFile")
+
+	[[ -z "${pid}" ]] && die "could not get the pid to check if it's running."
+
+	isPidRunning "$pid"
+}
+
+isValidPidFileAndRunningOrCleanup() {
+	local pidFile="$1"
+
+	if isValidPidFile "$pidFile" && isPidRunningFromFile "$pidFile";
+	then
+		return 0
+	else
+		if [[ -e "$pidFile" ]];
+		then
+			debug "removing dead pid file '$pidFile'"
+
+			rm "$pidFile"
+		fi
+
+		return 1
+	fi
+}
+
 exitIfAlreadyRunning() {
 	local pidFile="$1"
 	local pidDescriptor="$2"
-	[[ -e "$pidFile" ]] && die "'${pidDescriptor}' is already running with pid $(cat "$pidFile") according to '${pidFile}'."
+
+	isValidPidFileAndRunning && die "'${pidDescriptor}' is already running with pid $(cat "$pidFile") according to '${pidFile}'."
+
 	return 0
 }
 
@@ -29,6 +102,15 @@ exitIfAlreadyRunning() {
 # 	[[ -e "$pidFile" ]] && [[ -z "$PPID" || "$PPID" != $(cat "$pidFile") ]] && exitIfAlreadyRunning "$pidFile" "$pidDescriptor"
 # 	return 0
 # }
+
+exitIfAlreadyRunningOrCleanup() {
+	local pidFile="$1"
+	local pidDescriptor="$2"
+
+	isValidPidFileAndRunningOrCleanup && die "'${pidDescriptor}' is already running with pid $(cat "$pidFile") according to '${pidFile}'."
+
+	return 0
+}
 
 savePidAtIndexButDeleteOnExit() {
 	local index="$1"
@@ -97,77 +179,6 @@ killPidChildren() {
 		killPid "${child}"
 	done
 	debug "killed '${pid}' children '${children[@]}'"
-}
-
-isPidRunning() {
-	local pid="$1"
-	local psInfo=$(ps -o pid= -p "${pid}" | awk '{ print $1 }')
-
-	if (( psInfo == pid ));
-	then
-		return 0
-	else
-		return 1
-	fi
-}
-
-pidFromFile() {
-	local pidFile="$1"
-
-	debug "Getting PID from file '${pidFile}'"
-
-	if [[ -e "$pidFile" ]];
-	then
-		cat "$pidFile"
-	else
-		# die "could not get pid from non-existant file '${pidFile}'"
-		:
-	fi
-}
-
-isValidPidFile() {
-	local pidFile="$1"
-
-	if [[ -s "$pidFile" ]];
-	then
-		local pid=$(pidFromFile "$pidFile")
-
-		if (( pid > 0 ));
-		then
-			return 0
-		else
-			return 1
-		fi
-	else
-		return 2
-	fi
-}
-
-isPidRunningFromFile() {
-	local pidFile="$1"
-	local pid=$(pidFromFile "$pidFile")
-
-	[[ -z "${pid}" ]] && die "could not get the pid to check if it's running."
-
-	isPidRunning "$pid"
-}
-
-isValidPidFileAndRunningOrRemove() {
-	local pidFile="$1"
-
-	if isValidPidFile "$pidFile" && isPidRunningFromFile "$pidFile";
-	then
-		return 0
-	else
-		if [[ -e "$pidFile" ]];
-		then
-			debug "removing dead pid file '$pidFile'"
-
-			rm "$pidFile"
-		fi
-
-		return 1
-	fi
 }
 
 killPidFromFile() {
