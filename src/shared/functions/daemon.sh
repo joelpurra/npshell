@@ -20,7 +20,7 @@ killDaemon() {
 }
 
 isDaemonRunning() {
-	if isValidPidFile "$configDaemonPidFile" && isPidRunningFromFile "$configDaemonPidFile";
+	if isValidPidFileAndRunningOrRemove "$configDaemonPidFile";
 	then
 		return 0
 	else

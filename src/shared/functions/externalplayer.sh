@@ -32,7 +32,7 @@ killExternalPlayer() {
 }
 
 isExternalPlayerRunning() {
-	if isValidPidFile "$configExternalPlayerPidFile" && isPidRunningFromFile "$configExternalPlayerPidFile";
+	if isValidPidFileAndRunningOrRemove "$configExternalPlayerPidFile";
 	then
 		return 0
 	else

@@ -19,7 +19,7 @@ displayMessage "Mode: $(cat "$configModeFile")"
 
 
 displayMessage -n "Daemon: "
-if isValidPidFile "$configDaemonPidFile" && isPidRunningFromFile "$configDaemonPidFile";
+if isValidPidFileAndRunningOrRemove "$configDaemonPidFile";
 then
 	displayMessage "running (pid $(cat "$configDaemonPidFile" ))"
 else
@@ -28,7 +28,7 @@ fi
 
 
 displayMessage -n "Notifications: "
-if isValidPidFile "$configNotifyPidFile" && isPidRunningFromFile "$configNotifyPidFile";
+if isValidPidFileAndRunningOrRemove "$configNotifyPidFile";
 then
 	displayMessage "running (pid $(cat "$configNotifyPidFile" ))"
 else

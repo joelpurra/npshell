@@ -152,6 +152,24 @@ isPidRunningFromFile() {
 	isPidRunning "$pid"
 }
 
+isValidPidFileAndRunningOrRemove() {
+	local pidFile="$1"
+
+	if isValidPidFile "$pidFile" && isPidRunningFromFile "$pidFile";
+	then
+		return 0
+	else
+		if [[ -e "$pidFile" ]];
+		then
+			debug "removing dead pid file '$pidFile'"
+
+			rm "$pidFile"
+		fi
+
+		return 1
+	fi
+}
+
 killPidFromFile() {
 	local pidFile="$1"
 	local pid=$(pidFromFile "$pidFile")
