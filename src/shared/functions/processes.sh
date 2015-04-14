@@ -38,7 +38,7 @@ pidFromFile() {
 		cat "$pidFile"
 	else
 		# die "could not get pid from non-existant file '${pidFile}'"
-		:
+		echo -n ""
 	fi
 }
 
@@ -64,7 +64,7 @@ isPidRunningFromFile() {
 	local pidFile="$1"
 	local pid=$(pidFromFile "$pidFile")
 
-	[[ -z "${pid}" ]] && die "could not get the pid to check if it's running."
+	[[ -z "$pid" ]] && die "could not get the pid to check if it's running."
 
 	isPidRunning "$pid"
 }
@@ -80,6 +80,19 @@ isValidPidFileAndRunning() {
 	fi
 }
 
+cleanupPidFile() {
+	local pidFile="$1"
+
+	rm -f -- "$pidFile"
+
+	if [[ -e "$pidFile" ]];
+	then
+		die "could not remove pid file '$pidFile'"
+	fi
+
+	return 0
+}
+
 isValidPidFileAndRunningOrCleanup() {
 	local pidFile="$1"
 
@@ -91,7 +104,7 @@ isValidPidFileAndRunningOrCleanup() {
 		then
 			debug "removing dead pid file '$pidFile'"
 
-			rm "$pidFile"
+			cleanupPidFile "$pidFile"
 		fi
 
 		return 1
@@ -102,7 +115,7 @@ exitIfAlreadyRunning() {
 	local pidFile="$1"
 	local pidDescriptor="$2"
 
-	isValidPidFileAndRunning && die "'${pidDescriptor}' is already running with pid '$(cat "$pidFile")' according to '${pidFile}'."
+	isValidPidFileAndRunning "$pidFile" && die "'${pidDescriptor}' is already running with pid '$(cat "$pidFile")' according to '${pidFile}'."
 
 	return 0
 }
@@ -118,7 +131,7 @@ exitIfAlreadyRunningOrCleanup() {
 	local pidFile="$1"
 	local pidDescriptor="$2"
 
-	isValidPidFileAndRunningOrCleanup && die "'${pidDescriptor}' is already running with pid '$(cat "$pidFile")' according to '${pidFile}'."
+	isValidPidFileAndRunningOrCleanup "$pidFile" && die "'${pidDescriptor}' is already running with pid '$(cat "$pidFile")' according to '${pidFile}'."
 
 	return 0
 }

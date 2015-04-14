@@ -7,15 +7,6 @@ set -e
 # https://github.com/mikaelbr/node-notifier/issues/40
 notifyExec="$(getFirstExecutable "terminal-notifier" "growlnotify")"
 
-cleanupNotifications() {
-	if [[ -e "$configNotifyPidFile" ]];
-	then
-		rm "$configNotifyPidFile"
-	fi
-
-	return 0
-}
-
 killNotifications() {
 	if [[ -s "$configNotifyPidFile" ]];
 	then

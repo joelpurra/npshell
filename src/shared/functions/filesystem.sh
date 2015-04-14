@@ -48,7 +48,7 @@ getOrGenerateSoundCache() {
 }
 
 deleteSoundCache() {
-	rm "$configCacheFileName"
+	rm -- "$configCacheFileName"
 }
 
 deleteSoundCacheRecursively() {

@@ -1,15 +1,6 @@
 #!/usr/bin/env bash
 set -e
 
-cleanupDaemon() {
-	if [[ -e "$configDaemonPidFile" ]];
-	then
-		rm "$configDaemonPidFile"
-	fi
-
-	return 0
-}
-
 killDaemon() {
 	if [[ -s "$configDaemonPidFile" ]];
 	then

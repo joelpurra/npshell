@@ -13,15 +13,6 @@ externalPlayer() {
 	clearPidAtIndex "$index"
 }
 
-cleanupExternalPlayer() {
-	if [[ -e "$configExternalPlayerPidFile" ]];
-	then
-		rm "$configExternalPlayerPidFile"
-	fi
-
-	return 0
-}
-
 killExternalPlayer() {
 	if [[ -s "$configExternalPlayerPidFile" ]];
 	then
@@ -48,7 +39,9 @@ killExternalPlayerIfRunning() {
 
 killExternalPlayerIfRunningAndCleanup() {
 	killExternalPlayerIfRunning
-	cleanupExternalPlayer
+	cleanupPidFile "$configExternalPlayerPidFile"
+
+	return 0
 }
 
 playSound() {
