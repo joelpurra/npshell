@@ -1,0 +1,3 @@
+Usage: np stop
+
+Don't let 'np daemon' consume the sound queue.

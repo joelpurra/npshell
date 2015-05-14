@@ -1,0 +1,12 @@
+Usage: np index [options...]
+
+Create a file with a cached list of
+all sounds in the current folder.
+
+Options:
+  --force           Recreate the index file even
+                    if it already exists.
+
+  --clean           Remove index files.
+
+  --recursive       Perform the action in subfolders.

@@ -1,0 +1,3 @@
+Usage: np start
+
+Let 'np daemon' consume the sound queue.

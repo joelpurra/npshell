@@ -1,0 +1,60 @@
+npshell np -- command line music queue manager
+
+Usage: np <command> [arguments...]
+       np help <command>
+
+Commands:
+
+  Queue Commands:
+    now         Shows the sound currently playing
+    list        See sounds currently in the queue
+    add         Add some sounds to the queue
+    clear       Empty the queue
+    clean       Remove non-existant files from queue
+
+  Playback Commands:
+    next        Play next sound in the queue
+    start       Start playback
+    stop        Stop playback
+    startstop   Toggle playback
+
+  Other Commands:
+    daemon      Control the playback daemon
+    notify      Control the notification daemon
+    history     Show the 999 most recently played sounds
+    index       Save the list of sounds in the current folder (recursive)
+    doctor      Display configuration, runtime and status values
+    help        Display usage help
+
+Configuration:
+
+  Settings are read from '~/.np/config.sh'.
+  The format is one 'setting=value' per line.
+
+  Settings:
+    configNumsounds
+      Number of sounds 'np add' adds
+
+      Values:  number ("all" not allowed)
+      Default: 3
+
+    configOrder
+      Order of files 'np add' adds
+
+      Values:  "in-order" or "shuffle"
+      Default: "shuffle"
+
+    configDebug
+      Enable debug output
+
+      Values:  "true" or "false"
+      Default: "false"
+
+    configUseCache
+      Automatically generate index files
+      for each loaded folder. See also 'np index'
+
+      Values:  "true" or "false"
+      Default: "true"
+
+See 'np help <command>' for more information on a specific command.

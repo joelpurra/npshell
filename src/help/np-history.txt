@@ -1,0 +1,3 @@
+Usage: np history
+
+Show the 999 most recently played sounds.
