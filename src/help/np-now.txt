@@ -1,0 +1,4 @@
+Usage: np now
+
+  Shows the sound currently playing.
+

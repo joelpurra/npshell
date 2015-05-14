@@ -1,0 +1,41 @@
+Usage: np add [LIMIT] [ORDER] [PATH...]
+
+Add some sounds to the queue.
+
+Arguments:
+  LIMIT
+    Values:  number or "all"
+    Default: 3
+
+  ORDER
+    Values:  "in-order" or "shuffle"
+    Default: "shuffle"
+
+  PATH
+    Values:  Path to sound file, folders or "-" for piped values
+    Default: "$PWD"
+
+Examples:
+  # Add the default number of shuffled sounds from the current folder.
+  np add
+
+  # Add a single sound to the queue.
+  np add path/to/sound.mp3
+
+  # Add 25 shuffled sounds from the current folder.
+  np add 25
+
+  # Add the first 2 sounds from the current folder.
+  np add 2 in-order
+
+  # Add shuffled sounds from a folder, hierarchically.
+  np add path/to/folder/with/sounds/
+
+  # Add an album.
+  np add all in-order "Jazz/My Favorite Album/"
+
+  # Add sounds by null-delimited paths from stdin.
+  find . -iname '*best of*.mp3' -print0 | np add -
+
+  # Add 10 shuffled sounds from the combined list of a single sound, stdin and a folder.
+  find . -iname '*best of*.mp3' -print0 | np add 10 path/to/sound.mp3 - path/to/folder/with/sounds/

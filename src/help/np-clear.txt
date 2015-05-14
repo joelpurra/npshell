@@ -1,0 +1,3 @@
+Usage: np clean
+
+Remove non-existant files from queue.

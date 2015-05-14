@@ -1,0 +1,3 @@
+Usage: np list
+
+See sounds currently in the queue.

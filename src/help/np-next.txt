@@ -1,0 +1,3 @@
+Usage: np list
+
+Advance to the next sound in the queue.

@@ -1,0 +1,3 @@
+Usage: np startstop
+
+Toggle playback between 'np start' and 'np stop'.

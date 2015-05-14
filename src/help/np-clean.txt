@@ -1,0 +1,3 @@
+Usage: np clear
+
+Empty the queue.

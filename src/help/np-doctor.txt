@@ -1,0 +1,3 @@
+Usage: np doctor
+
+Display configuration, runtime and status values.
