@@ -1,7 +1,6 @@
 Usage: np notify [options...]
 
-Show notifications when the track changes,
-playback is started/stopped or the queue is empty.
+Show notifications when the track changes, playback is started/stopped or the queue is empty.
 
 Options:
   --is-running      Check if the daemon process has already started.

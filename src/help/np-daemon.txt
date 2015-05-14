@@ -1,8 +1,6 @@
 Usage: np daemon [options...]
 
-Play sounds in queue as soon as there are any.
-Can be controlled with 'np start' and 'np stop',
-as well as the rest of the queue commands.
+Play sounds in queue as soon as there are any. Can be controlled with 'np start' and 'np stop', as well as the rest of the queue commands.
 
 Options:
   --is-running      Check if the daemon process has already started.

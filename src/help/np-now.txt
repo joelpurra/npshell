@@ -1,4 +1,3 @@
 Usage: np now
 
-  Shows the sound currently playing.
-
+Shows the sound currently playing.

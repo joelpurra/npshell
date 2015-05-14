@@ -120,6 +120,16 @@ find . -iname '*best of*.mp3' -print0 | np add 10 path/to/sound.mp3 - path/to/fo
 
 
 
+### `np help [command]`
+
+Show general help for `np` usage.
+
+- Command
+  - Show help about a specific command.
+
+
+
+
 ### `np start`
 
 Let `np daemon` consume the sound queue.
