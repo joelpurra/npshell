@@ -1,6 +1,19 @@
-# Usage of [npshell](https://github.com/joelpurra/npshell)
+# np 1 2015-05-12 1.2.0 npshell Usage
 
-List of commands, configuration and other usage of `np`.
+
+
+## Name
+
+`np` - Command line music queue manager
+
+
+
+## Description
+
+Keep a daemon running in the background. Add sounds to a queue. Let the daemon play the sweet music for you. All from the comfort of your own shell.
+
+[npshell repository](https://github.com/joelpurra/npshell/)
+
 
 
 ## Commands

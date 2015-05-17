@@ -1,0 +1,227 @@
+.TH np 1 2015\-05\-12 1.2.0 npshell Usage
+.SH Name
+.PP
+\fB\fCnp\fR \- Command line music queue manager
+.SH Description
+.PP
+Keep a daemon running in the background. Add sounds to a queue. Let the daemon play the sweet music for you. All from the comfort of your own shell.
+.PP
+npshell repository
+\[la]https://github.com/joelpurra/npshell/\[ra]
+.SH Commands
+.SS \fB\fCnp daemon [\-\-is\-running|\-\-stop|\-\-verbose]\fR
+.PP
+Play sounds in queue as soon as there are any. Can be controlled with \fB\fCnp start\fR and \fB\fCnp stop\fR, as well as the rest of the queue commands.
+.RS
+.IP \(bu 2
+\fB\fC\-\-is\-running\fR
+.RS
+.IP \(bu 2
+Check if the daemon process has already started. Exits with \fB\fC0\fR if it has, \fB\fC1\fR otherwise.
+.RE
+.IP \(bu 2
+\fB\fC\-\-stop\fR
+.RS
+.IP \(bu 2
+Stop daemon execution. Can be used during system shutdown, but isn't part of everyday usage.
+.RE
+.IP \(bu 2
+\fB\fC\-\-verbose\fR
+.RS
+.IP \(bu 2
+Output paths to the sounds as they play.
+.RE
+.RE
+.PP
+\fBExamples\fP
+.PP
+.RS
+.nf
+# Start the daemon, let it run in the background.
+# Should be done at user login.
+np daemon \-\-is\-running || ( np daemon & )
+.fi
+.RE
+.SS \fB\fCnp notify [\-\-is\-running|\-\-stop]\fR
+.PP
+Show notifications when the track changes, playback is started/stopped or the queue is empty.
+.RS
+.IP \(bu 2
+\fB\fC\-\-is\-running\fR
+.RS
+.IP \(bu 2
+Check if the daemon process has already started. Exits with \fB\fC0\fR if it has, \fB\fC1\fR otherwise.
+.RE
+.IP \(bu 2
+\fB\fC\-\-stop\fR
+.RS
+.IP \(bu 2
+Stop notification daemon execution. Can be used during system shutdown, but isn't part of everyday usage.
+.RE
+.RE
+.PP
+\fBExamples\fP
+.PP
+.RS
+.nf
+# Start the notification daemon, let it run in the background.
+# Should be done at user login.
+np notify \-\-is\-running || ( np notify & )
+.fi
+.RE
+.SS \fB\fCnp\fR, \fB\fCnp now\fR\&.
+.PP
+Shows the sound currently playing.
+.SS \fB\fCnp list\fR
+.PP
+See sounds currently in the queue.
+.SS \fB\fCnp next\fR
+.PP
+Advance to the next sound in the queue.
+.SS \fB\fCnp add [limit] [order] [path ...]\fR
+.PP
+Add some sounds to the queue.
+.RS
+.IP \(bu 2
+Limit
+.RS
+.IP \(bu 2
+Default is 3.
+.IP \(bu 2
+You can also use "all".
+.RE
+.IP \(bu 2
+Order
+.RS
+.IP \(bu 2
+Default is "shuffle".
+.IP \(bu 2
+You can also use "in\-order".
+.RE
+.IP \(bu 2
+Path
+.RS
+.IP \(bu 2
+Default is \fB\fC$PWD\fR\&.
+.IP \(bu 2
+You can use paths
+.IP \(bu 2
+to sounds
+.IP \(bu 2
+to folders
+.IP \(bu 2
+or "\-" to read null\-delimited paths from stdin.
+.RE
+.RE
+.PP
+\fBExamples\fP
+.PP
+.RS
+.nf
+# Add the default number of shuffled sounds from the current folder.
+np add
+# Add a single sound to the queue.
+np add path/to/sound.mp3
+# Add 25 shuffled sounds from the current folder.
+np add 25
+# Add the first 2 sounds from the current folder.
+np add 2 in\-order
+# Add shuffled sounds from a folder, hierarchically.
+np add path/to/folder/with/sounds/
+# Add an album.
+np add all in\-order "Jazz/My Favorite Album/"
+# Add sounds by null\-delimited paths from stdin.
+find . \-iname '*best of*.mp3' \-print0 | np add \-
+# Add 10 shuffled sounds from the combined list of a single sound, stdin and a folder.
+find . \-iname '*best of*.mp3' \-print0 | np add 10 path/to/sound.mp3 \- path/to/folder/with/sounds/
+.fi
+.RE
+.SH More commands
+.SS \fB\fCnp help [command]\fR
+.PP
+Show general help for \fB\fCnp\fR usage.
+.RS
+.IP \(bu 2
+Command
+.RS
+.IP \(bu 2
+Show help about a specific command.
+.RE
+.RE
+.SS \fB\fCnp start\fR
+.PP
+Let \fB\fCnp daemon\fR consume the sound queue.
+.SS \fB\fCnp stop\fR
+.PP
+Don't let \fB\fCnp daemon\fR consume the sound queue.
+.SS \fB\fCnp startstop\fR
+.PP
+Toggle playback by alternating between \fB\fCnp start\fR and \fB\fCnp stop\fR\&.
+.SS \fB\fCnp clear\fR
+.PP
+Empty the queue.
+.SS \fB\fCnp clean\fR
+.PP
+Remove non\-existant files from queue.
+.SS \fB\fCnp history\fR
+.PP
+Show the 999 most recently played sounds.
+.SS \fB\fCnp index [\-\-force|\-\-clean[ \-\-recursive]]\fR
+.PP
+Create a file with a cached list of all sounds in the current folder, including subfolders.
+.RS
+.IP \(bu 2
+\fB\fC\-\-force\fR
+.RS
+.IP \(bu 2
+Recreate the index file even if it already exists.
+.RE
+.IP \(bu 2
+\fB\fC\-\-clean\fR
+.RS
+.IP \(bu 2
+Remove index files.
+.RE
+.IP \(bu 2
+\fB\fC\-\-recursive\fR
+.RS
+.IP \(bu 2
+Perform the action in subfolders.
+.RE
+.RE
+.SS \fB\fCnp doctor\fR
+.PP
+Display configuration, runtime and status values.
+.SH Configuration
+.PP
+Settings are read from \fB\fC~/.np/config.sh\fR\&. The format is one \fB\fCsetting=value\fR per line.
+.SS \fB\fCconfigNumsounds\fR
+.RS
+.IP \(bu 2
+Default is 3.
+.IP \(bu 2
+Set the number of sounds \fB\fCnp add\fR adds unless overridden.
+.RE
+.SS \fB\fCconfigOrder\fR
+.RS
+.IP \(bu 2
+Default is "shuffle".
+.IP \(bu 2
+The order \fB\fCnp add\fR adds files in.
+.IP \(bu 2
+Can also be "in\-order".
+.RE
+.SS \fB\fCconfigDebug\fR
+.RS
+.IP \(bu 2
+Default is "false".
+.IP \(bu 2
+Enable debug output.
+.RE
+.SS \fB\fCconfigUseCache\fR
+.RS
+.IP \(bu 2
+Default is "true".
+.IP \(bu 2
+Automatically generate index files per folder sounds are loaded from. See \fB\fCnp index\fR\&.
+.RE

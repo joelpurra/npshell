@@ -1,8 +1,22 @@
 # Contribute to [npshell](https://github.com/joelpurra/npshell)
 
+
+
 This is experimental software, so feedback is most appreciated!
 
 - You can [open an issue for your problem or suggestion](https://github.com/joelpurra/npshell/issues).
+
+
+
+## Development
+
+Please install the `git` `pre-commit` hook to get automatic `man np` page generation from `USAGE.md`. This requires [md2man](https://github.com/sunaku/md2man) (`md2man-roff`) to be installed.
+
+```bash
+pushd .git/hooks
+ln -s ../../src/shared/githooks/pre-commit.sh pre-commit
+popd
+```
 
 
 
