@@ -1,6 +1,17 @@
 #!/usr/bin/env bash
 set -e
 
+externalExecutableExists() {
+	local executable="$1"
+
+	if builtin type "$executable" &>/dev/null;
+	then
+		return 0
+	else
+		return 1
+	fi
+}
+
 getFirstExecutable() {
 	debug "Finding first executable in \$PATH out of '$@'"
 
@@ -8,7 +19,7 @@ getFirstExecutable() {
 
 	for executable in "$@";
 	do
-		if [[ -n $(which "$executable") ]];
+		if externalExecutableExists "$executable";
 		then
 			path="$executable"
 			break
