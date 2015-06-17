@@ -7,6 +7,16 @@ then
    exit 1
 fi
 
+# Sometimes the $PWD gets pulled out from under the user (unmounted, deleted etcetera).
+# Bail before anything else happens because of actions (perhaps even deletions) based on $PWD.
+# Actually, specifically using `bash` as the hash-bang will print an error message already.
+# When using plain `sh` there seems to be none.
+if [[ ! -d "$(pwd 2>/dev/null)" ]];
+then
+	echo -E "np: the working directory is unavailable, cannot continue: '$PWD'" 1>&2
+	exit 1
+fi
+
 function crossplatformReadlink {
 	# http://stackoverflow.com/questions/1055671/how-can-i-get-the-behavior-of-gnus-readlink-f-on-a-mac
 	# http://stackoverflow.com/a/1116890
