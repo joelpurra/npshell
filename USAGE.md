@@ -44,6 +44,7 @@ np daemon --is-running || ( np daemon & )
 ### `np notify [--is-running|--stop]`
 
 Show notifications when the track changes, playback is started/stopped or the queue is empty.
+If the sound has id3v2 tags, artist/album/title are shown.
 
 - `--is-running`
   - Check if the daemon process has already started. Exits with `0` if it has, `1` otherwise.

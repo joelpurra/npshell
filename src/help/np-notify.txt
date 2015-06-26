@@ -1,6 +1,7 @@
 Usage: np notify [options...]
 
 Show notifications when the track changes, playback is started/stopped or the queue is empty.
+If the sound has id3v2 tags, artist/album/title are shown.
 
 Options:
   --is-running      Check if the daemon process has already started.

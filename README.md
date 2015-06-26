@@ -12,7 +12,7 @@ Keep a daemon running in the background. Add sounds to a queue. Let the daemon p
 - Adds sounds from deep folder structures by default.
 - Control music playback daemon from any terminal window.
 - Displays song paths relative to `$PWD`.
-- Optional system notifications.
+- Optional system notifications displaying the path or id3v2 tags.
 - Creates cached/index files to handle large sound libraries, useful on slow disks and network drives.
 
 

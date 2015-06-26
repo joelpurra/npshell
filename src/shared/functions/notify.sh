@@ -32,6 +32,8 @@ killNotificationsIfRunning() {
 }
 
 notify() {
+	local title="$1"
+	shift
 	local subtitle="$1"
 	shift
 	local message="$1"
@@ -39,11 +41,11 @@ notify() {
 
 	case "$notifyExec" in
 		'terminal-notifier')
-			terminal-notifier -title "np" -group "np" -open "https://github.com/joelpurra/npshell" -subtitle "$subtitle" -message "$message" >/dev/null
+			terminal-notifier -group "np" -title "$title" -open "https://github.com/joelpurra/npshell" -subtitle "$subtitle" -message "$message" >/dev/null
 			;;
 		'growlnotify')
 			# Untested.
-			growlnotify --noteName "np: $subtitle" --identifier "np" --url "https://github.com/joelpurra/npshell" --message "$message" >/dev/null
+			growlnotify --noteName "${title} - ${subtitle}" --identifier "np" --url "https://github.com/joelpurra/npshell" --message "$message" >/dev/null
 			;;
 		*)
 			die "no notifier executable found."
