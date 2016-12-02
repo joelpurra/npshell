@@ -227,5 +227,3 @@ Settings are read from `~/.np/config.sh`. The format is one `setting=value` per 
 
 - Default is "true".
 - Automatically generate index files per folder sounds are loaded from. See `np index`.
-
-

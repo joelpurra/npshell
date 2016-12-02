@@ -8,7 +8,7 @@ Keep a daemon running in the background. Add sounds to a queue. Let the daemon p
 </p>
 
 
-- Stricly command line based for extra nerd credits.
+- Strictly command line based for extra nerd credits.
 - Adds sounds from deep folder structures by default.
 - Control music playback daemon from any terminal window.
 - Displays song paths relative to `$PWD`.
@@ -33,7 +33,7 @@ brew install npshell
 
 ## Get started
 
-See [USAGE.md for the full list of command and configuration](https://github.com/joelpurra/npshell/blob/master/USAGE.md) with examples.
+See [USAGE.md for the full list of command and configuration](USAGE.md) with examples.
 
 Everyday usage, assuming `np daemon` has been started elsewhere:
 
@@ -48,7 +48,8 @@ np add all in-order "Jazz/My Favorite Album/"
 ```
 
 
-Convenient aliases:
+<details>
+  <summary>Convenient aliases</summary>
 
 Save a keystroke or two, at least until tab completion is... completed. Add to your `~/.bash_profile` or similar autoexecuted file of your choice.
 
@@ -58,7 +59,8 @@ alias npn='np next'
 alias npl='np list'
 ```
 
+</details>
 
 ---
 
-Copyright (c) 2014, 2015 [Joel Purra](http://joelpurra.com/). Released under [GNU General Public License version 3.0 (GPL-3.0)](https://www.gnu.org/licenses/gpl.html).
+Copyright (c) 2014, 2015, 2016 [Joel Purra](http://joelpurra.com/). Released under [GNU General Public License version 3.0 (GPL-3.0)](https://www.gnu.org/licenses/gpl.html).
