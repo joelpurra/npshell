@@ -18,8 +18,8 @@ then
 fi
 
 function crossplatformReadlink {
-	# http://stackoverflow.com/questions/1055671/how-can-i-get-the-behavior-of-gnus-readlink-f-on-a-mac
-	# http://stackoverflow.com/a/1116890
+	# https://stackoverflow.com/questions/1055671/how-can-i-get-the-behavior-of-gnus-readlink-f-on-a-mac
+	# https://stackoverflow.com/a/1116890
 	TARGET_FILE="$1"
 
 	cd `dirname $TARGET_FILE`
@@ -33,7 +33,7 @@ function crossplatformReadlink {
 	    TARGET_FILE=`basename $TARGET_FILE`
 	done
 
-	# Compute the canonicalized name by finding the physical path 
+	# Compute the canonicalized name by finding the physical path
 	# for the directory we're in and appending the target file.
 	PHYS_DIR=`pwd -P`
 	RESULT=$PHYS_DIR/$TARGET_FILE
