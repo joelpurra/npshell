@@ -20,7 +20,7 @@ getCwd() {
 }
 
 allsounds() {
-	find . -name '*.mp3' -print0
+	find . \( -not -path '/.*' \) -name '*.mp3' -print0
 }
 
 generateSoundCache() {
