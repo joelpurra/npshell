@@ -5,8 +5,15 @@ set -e
 playSoundInPlayer() {
 	local sound=$(getNextSound)
 	progressQueue
+	local soundPath="$sound"
 
-	if [[ -s "$sound" ]];
+	# NOTE: resolve symlinks for the external player, in case it doesn't do it itself.
+	if [[ "$configFollowSymlinks" == "true" && -L "$sound" ]];
+	then
+		soundPath="$(crossplatformReadlink "$sound")"
+	fi
+
+	if [[ -s "$soundPath" ]];
 	then
 		echo "$sound" > "$configPlayingFile"
 
@@ -16,7 +23,7 @@ playSoundInPlayer() {
 			echo -ne '\r'
 		fi
 
-		( trap 'echo -n > "$configPlayingFile"' SIGINT EXIT; { playSound "$sound" || true; } )
+		( trap 'echo -n > "$configPlayingFile"' SIGINT EXIT; { playSound "$soundPath" || true; } )
 	else
 		errorMessage "sound not found: '${sound}'."
 	fi

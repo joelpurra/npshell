@@ -227,3 +227,9 @@ Settings are read from `~/.np/config.sh`. The format is one `setting=value` per 
 
 - Default is "true".
 - Automatically generate index files per folder sounds are loaded from. See `np index`.
+
+
+### `configFollowSymlinks`
+
+- Default is "false".
+- Follow sound file symlinks before passing the path to the external player.

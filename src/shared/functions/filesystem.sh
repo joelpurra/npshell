@@ -1,6 +1,30 @@
 #!/usr/bin/env bash
 set -e
 
+function crossplatformReadlink {
+	# NOTE: this function has been duplicated elsewhere in this project.
+	# https://stackoverflow.com/questions/1055671/how-can-i-get-the-behavior-of-gnus-readlink-f-on-a-mac
+	# https://stackoverflow.com/a/1116890
+	TARGET_FILE="$1"
+
+	cd "$(dirname "$TARGET_FILE")"
+	TARGET_FILE="$(basename "$TARGET_FILE")"
+
+	# Iterate down a (possible) chain of symlinks
+	while [ -L "$TARGET_FILE" ]
+	do
+	    TARGET_FILE="$(readlink "$TARGET_FILE")"
+	    cd "$(dirname "$TARGET_FILE")"
+	    TARGET_FILE="$(basename "$TARGET_FILE")"
+	done
+
+	# Compute the canonicalized name by finding the physical path
+	# for the directory we're in and appending the target file.
+	PHYS_DIR="$(pwd -P)"
+	RESULT="${PHYS_DIR}/${TARGET_FILE}"
+	echo "$RESULT"
+}
+
 resolveDirectory() {
 	(cd -- "$1"; echo -nE "$PWD")
 }
@@ -70,7 +94,7 @@ absoluteSoundPath() {
 }
 
 absoluteSoundPaths() {
-	local cwd=$(getCwd)
+	local cwd="$(getCwd)"
 
 	# Using read seems to be about 7 times slower than sed - why?
 	# NOTE: The sed version might be suceptible to improperly escaped characters.
@@ -85,7 +109,7 @@ getSoundsInFolder() {
 }
 
 getSoundFromFile() {
-	local cwd=$(getCwd)
+	local cwd="$(getCwd)"
 
 	absoluteSoundPath "$cwd" "$soundPath"
 }

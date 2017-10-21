@@ -69,6 +69,9 @@ configNumsounds="$configDefaultNumsounds"
 configDefaultOrder="shuffle"
 configOrder="$configDefaultOrder"
 
+configDefaultFollowSymlinks="false"
+configFollowSymlinks="$configDefaultFollowSymlinks"
+
 
 # Allow $configConfigFile to override above configuration.
 readConfig

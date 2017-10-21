@@ -57,4 +57,11 @@ Configuration:
       Values:  "true" or "false"
       Default: "true"
 
+    configFollowSymlinks
+      Follow sound file symlinks before passing
+      the path to the external player.
+
+      Values:  "true" or "false"
+      Default: "false"
+
 See 'np help <command>' for more information on a specific command.
