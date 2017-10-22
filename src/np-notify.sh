@@ -111,6 +111,9 @@ checkNotify() {
 
 whenCurrentSoundIsChanged() {
 	waitForFileChange "$configPlayingFile"
+
+	# NOTE: when changing track there might be several fast changes; sleep a bit to avoid some.
+	sleep 0.25
 }
 
 notifyLoop() {
