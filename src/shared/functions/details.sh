@@ -19,6 +19,22 @@ executeId3v2List() {
 	id3v2 --list "$soundPath"
 }
 
+getId3v1Frame() {
+	local frame="$1"
+
+	sed -E -n -e "/^.*${frame} *: */ {
+		s/^.*${frame} *: *(.+)   .*$/\1/
+		s/   *.*//
+		p
+	}" | trim
+}
+
+getId3v2Frame() {
+	local frame="$1"
+
+	sed -E -n -e "/^${frame} / s/^[^:]+: (.*)\$/\\1/ p" | trim
+}
+
 getSoundDetailArtist() {
 	local sound="$1"
 
@@ -27,7 +43,54 @@ getSoundDetailArtist() {
 
 	case "$soundDetailsExec" in
 		'id3v2')
-			detail=$(executeId3v2List "$sound" | sed -E -n -e '/^TPE1/ s/^[^:]+: (.*)$/\1/ p')
+			detail=$(executeId3v2List "$sound" | getId3v2Frame "TPE1")
+
+			if [[ -z "$detail" ]];
+			then
+				detail=$(executeId3v2List "$sound" | getId3v2Frame "TPE2")
+			fi
+
+			if [[ -z "$detail" ]];
+			then
+				detail=$(executeId3v2List "$sound" | getId3v2Frame "TPE3")
+			fi
+
+			if [[ -z "$detail" ]];
+			then
+				detail=$(executeId3v2List "$sound" | getId3v2Frame "TPE4")
+			fi
+
+			if [[ -z "$detail" ]];
+			then
+				detail=$(executeId3v2List "$sound" | getId3v2Frame "TOPE")
+			fi
+
+			# NOTE: variations of frames found while testing.
+			if [[ -z "$detail" ]];
+			then
+				detail=$(executeId3v2List "$sound" | getId3v2Frame "TP1")
+			fi
+
+			if [[ -z "$detail" ]];
+			then
+				detail=$(executeId3v2List "$sound" | getId3v2Frame "TP2")
+			fi
+
+			if [[ -z "$detail" ]];
+			then
+				detail=$(executeId3v2List "$sound" | getId3v2Frame "TP3")
+			fi
+
+			if [[ -z "$detail" ]];
+			then
+				detail=$(executeId3v2List "$sound" | getId3v2Frame "TP4")
+			fi
+
+			# NOTE: parsing id3v1.
+			if [[ -z "$detail" ]];
+			then
+				detail=$(executeId3v2List "$sound" | getId3v1Frame "Artist")
+			fi
 			;;
 		*)
 			# Do nothing.
@@ -46,7 +109,23 @@ getSoundDetailAlbum() {
 
 	case "$soundDetailsExec" in
 		'id3v2')
-			detail=$(executeId3v2List "$sound" | sed -E -n -e '/^TALB/ s/^[^:]+: (.*)$/\1/ p')
+			detail=$(executeId3v2List "$sound" | getId3v2Frame "TALB")
+
+			if [[ -z "$detail" ]];
+			then
+				detail=$(executeId3v2List "$sound" | getId3v2Frame "TOAL")
+			fi
+
+			if [[ -z "$detail" ]];
+			then
+				detail=$(executeId3v2List "$sound" | getId3v2Frame "TAL")
+			fi
+
+			# NOTE: parsing id3v1.
+			if [[ -z "$detail" ]];
+			then
+				detail=$(executeId3v2List "$sound" | getId3v1Frame "Album")
+			fi
 			;;
 		*)
 			# Do nothing.
@@ -65,7 +144,39 @@ getSoundDetailTitle() {
 
 	case "$soundDetailsExec" in
 		'id3v2')
-			detail=$(executeId3v2List "$sound" | sed -E -n -e '/^TIT2/ s/^[^:]+: (.*)$/\1/ p')
+			detail=$(executeId3v2List "$sound" | getId3v2Frame "TIT1")
+
+			if [[ -z "$detail" ]];
+			then
+				detail=$(executeId3v2List "$sound" | getId3v2Frame "TIT2")
+			fi
+
+			if [[ -z "$detail" ]];
+			then
+				detail=$(executeId3v2List "$sound" | getId3v2Frame "TIT3")
+			fi
+
+			# NOTE: variations of frames found while testing.
+			if [[ -z "$detail" ]];
+			then
+				detail=$(executeId3v2List "$sound" | getId3v2Frame "TT1")
+			fi
+
+			if [[ -z "$detail" ]];
+			then
+				detail=$(executeId3v2List "$sound" | getId3v2Frame "TT2")
+			fi
+
+			if [[ -z "$detail" ]];
+			then
+				detail=$(executeId3v2List "$sound" | getId3v2Frame "TT3")
+			fi
+
+			# NOTE: parsing id3v1.
+			if [[ -z "$detail" ]];
+			then
+				detail=$(executeId3v2List "$sound" | getId3v1Frame "Title")
+			fi
 			;;
 		*)
 			# Do nothing.

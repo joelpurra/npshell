@@ -28,3 +28,10 @@ reverseLineOrder() {
 keepDigitsOnly() {
 	sedExtRegexp -e 's/[^[:digit:]]//g' -e '/^$/d'
 }
+
+trim () {
+	# https://stackoverflow.com/questions/4422491/how-do-i-trim-lines-read-from-standard-input-on-bash
+	local line;
+	read -r line;
+	echo "$line";
+}
