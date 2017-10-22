@@ -57,12 +57,15 @@ notify() {
 				#
 				# NOTE: Setting timeout due to bug in terminal-notifier.
 				# https://github.com/julienXX/terminal-notifier/issues/223
+				#
+				# NOTE: escaping the first character of title/subtitle/message, despite the bug being fixed.
+				# https://github.com/julienXX/terminal-notifier/issues/11
 				terminal-notifier \
 					-group "np" \
-					-title "$title" \
+					-title "\\${title}" \
 					-open "https://github.com/joelpurra/npshell" \
-					-subtitle "$subtitle" \
-					-message "$message" \
+					-subtitle "\\${subtitle}" \
+					-message "\\${message}" \
 					-timeout "$configNotificationTimeout" \
 					-json >/dev/null
 			)  &
