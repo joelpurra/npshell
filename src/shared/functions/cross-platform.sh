@@ -60,7 +60,9 @@ waitForFileChange() {
 	# https://github.com/emcrisostomo/fswatch
 	# Should cover all systems
 	[[ -z "$fswatchExec" ]] && die "could not find 'fswatch'"
-	
+
+	debug "Waiting for change in '$@': '$watched'"
+
 	local watched=$("$fswatchExec" --one-event "$@")
 
 	debug "Detected change in '$@': '$watched'"

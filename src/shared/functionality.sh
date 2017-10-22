@@ -72,6 +72,9 @@ configOrder="$configDefaultOrder"
 configDefaultFollowSymlinks="false"
 configFollowSymlinks="$configDefaultFollowSymlinks"
 
+configDefaultNotificationTimeout="3"
+configNotificationTimeout="$configDefaultNotificationTimeout"
+
 
 # Allow $configConfigFile to override above configuration.
 readConfig

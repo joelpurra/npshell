@@ -233,3 +233,10 @@ Settings are read from `~/.np/config.sh`. The format is one `setting=value` per 
 
 - Default is "false".
 - Follow sound file symlinks before passing the path to the external player.
+
+
+### `configNotificationTimeout`
+
+- Default is "3".
+- Set to a positive integer, or "0" to manually close the notification.
+- Time before the sound notifications close automatically.

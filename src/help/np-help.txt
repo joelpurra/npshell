@@ -64,4 +64,10 @@ Configuration:
       Values:  "true" or "false"
       Default: "false"
 
+    configNotificationTimeout
+      Time before the sound notifications close automatically.
+
+      Values:  a positive integer, or "0" to disable the timeout.
+      Default: "3"
+
 See 'np help <command>' for more information on a specific command.

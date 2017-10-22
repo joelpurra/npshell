@@ -41,11 +41,41 @@ notify() {
 
 	case "$notifyExec" in
 		'terminal-notifier')
-			terminal-notifier -group "np" -title "$title" -open "https://github.com/joelpurra/npshell" -subtitle "$subtitle" -message "$message" >/dev/null
+			# Currently not awaiting exit/output as it depends on the configurable timeout.
+			(
+				# NOTE: forcefully close any previous notification, in case it wasn't already gone.
+				terminal-notifier \
+					-remove "np" \
+					-json >/dev/null
+
+				# TODO: use the JSON output if the user clicks close/show/custom action?
+				# The closeLabel and alert actions are only shown if the user allows it to.
+				# - Open System Preferences > Notification.
+				# - Select "terminal-notifier" (or perhaps "np") in the sidebar.
+				# - Select the "Alerts" alert style.
+				# https://github.com/julienXX/terminal-notifier/raw/master/assets/System_prefs.png
+				#
+				# NOTE: Setting timeout due to bug in terminal-notifier.
+				# https://github.com/julienXX/terminal-notifier/issues/223
+				terminal-notifier \
+					-group "np" \
+					-title "$title" \
+					-open "https://github.com/joelpurra/npshell" \
+					-subtitle "$subtitle" \
+					-message "$message" \
+					-timeout "$configNotificationTimeout" \
+					-json >/dev/null
+			)  &
 			;;
 		'growlnotify')
+			# http://growl.info/downloads
 			# Untested.
-			growlnotify --noteName "${title} - ${subtitle}" --identifier "np" --url "https://github.com/joelpurra/npshell" --message "$message" >/dev/null
+			# Does not seem to support a timeout argument.
+			growlnotify \
+				--noteName "${title} - ${subtitle}" \
+				--identifier "np" \
+				--url "https://github.com/joelpurra/npshell" \
+				--message "$message" >/dev/null
 			;;
 		*)
 			die "no notifier executable found."
