@@ -12,6 +12,7 @@ The npshell daemon is designed to start upon login.
 ```bash
 brew tap joelpurra/joelpurra
 brew install npshell
+brew services start npshell
 ```
 
 ### On other systems

@@ -27,6 +27,7 @@ On Mac with [Homebrew](http://brew.sh/):
 ```bash
 brew tap joelpurra/joelpurra
 brew install npshell
+brew services start npshell
 ```
 
 
