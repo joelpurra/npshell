@@ -25,7 +25,7 @@ getLineCount() {
 	wc -l | keepDigitsOnly
 }
 
-declare -i lineCount=$(getSounds "$@" | playOrder | limit | tee -a "$configQueueFile" | nullAsNewline getLineCount)
+declare -i lineCount=$(getSounds "$@" | playOrder | limit | tee -a "$configQueueFile" | nullAsNewline getLineCount | trim)
 cat "$configQueueFile" | nullAsNewline numberLines | nullAsNewline tail -n "$lineCount" | highlightAllWithLineNumbers
 
 displayMessage "Added ${lineCount} sounds."
