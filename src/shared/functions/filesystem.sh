@@ -126,7 +126,12 @@ getSoundsFromFolderOrFile() {
 	then
 		getSoundFromFile "$soundPath"
 	else
-		errorMessage "could not add the path '${soundPath}' to playlist."
+		if [[ -L "$soundPath" ]];
+		then
+			errorMessage "could not add the symlink path '${soundPath}' to playlist."
+		else
+			errorMessage "could not add the path '${soundPath}' to playlist."
+		fi
 	fi
 }
 
