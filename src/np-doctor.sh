@@ -52,6 +52,8 @@ displayMessage -n "Sounds in queue: "
 if [[ -e "$configQueueFile" ]];
 then
 	cat "$configQueueFile" | nullAsNewline wc -l | keepDigitsOnly
+	# NOTE: newline.
+	echo ""
 else
 	displayMessage "(queue file missing, expected: '${configQueueFile}')"
 fi
@@ -60,6 +62,8 @@ displayMessage -n "Sounds in history: "
 if [[ -e "$configHistoryFile" ]];
 then
 	cat "$configHistoryFile" | nullAsNewline wc -l | keepDigitsOnly
+	# NOTE: newline.
+	echo ""
 else
 	displayMessage "(history file missing, expected: '${configHistoryFile}')"
 fi
