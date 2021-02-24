@@ -24,7 +24,7 @@ popd
 
 - Test cross-platform support, add common music players.
 - Installer in different package managers:
-  - ~~[brew](http://brew.sh/)~~
+  - ~~[brew](https://brew.sh/)~~
 - Command tab completion.
 - Search the `$PWD` folder tree backwards for `.npconfig` local configuration files?
 - Queue:

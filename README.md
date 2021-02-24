@@ -22,7 +22,7 @@ Keep a daemon running in the background. Add sounds to a queue. Let the daemon p
 
 See [INSTALL.md for Linux, other systems, and manual steps](INSTALL.md) as well as how to enable notifications.
 
-On Mac with [Homebrew](http://brew.sh/):
+On Mac with [Homebrew](https://brew.sh/):
 
 ```bash
 brew tap joelpurra/joelpurra

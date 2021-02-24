@@ -7,7 +7,7 @@ See [npshell `np` -- command line music queue manager](https://github.com/joelpu
 The npshell daemon is designed to start upon login.
 
 
-### On Mac with [Homebrew](http://brew.sh/)
+### On Mac with [Homebrew](https://brew.sh/)
 
 ```bash
 brew tap joelpurra/joelpurra
@@ -31,7 +31,7 @@ The notification system is started separately.
 
 - Add `np notify --is-running || ( np notify & )` to your `~/.bash_profile` or similar.
 - Requirements
-  - [`terminal-notifier`](https://github.com/alloy/terminal-notifier) or [`growlnotify`](http://growl.info/downloads).
+  - [`terminal-notifier`](https://github.com/alloy/terminal-notifier) or [`growlnotify`](https://growl.github.io/growl/).
 
 
 

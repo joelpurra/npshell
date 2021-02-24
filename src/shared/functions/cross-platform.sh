@@ -68,8 +68,8 @@ waitForFileChange() {
 	debug "Detected change in '$@': '$watched'"
 }
 
-# http://stackoverflow.com/questions/17878684/best-way-to-get-file-modified-time-in-seconds
-# http://stackoverflow.com/a/17907126/
+# https://stackoverflow.com/questions/17878684/best-way-to-get-file-modified-time-in-seconds
+# https://stackoverflow.com/a/17907126/
 if stat -c %Y . >/dev/null 2>&1; then
     get_modified_time() { stat -c %Y "$1" 2>/dev/null; }
 elif stat -f %m . >/dev/null 2>&1; then

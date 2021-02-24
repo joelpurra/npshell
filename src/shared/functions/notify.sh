@@ -57,7 +57,7 @@ notify() {
 			) &
 			;;
 		'growlnotify')
-			# http://growl.info/downloads
+			# https://growl.github.io/growl/
 			# Untested.
 			# Does not seem to support a timeout argument.
 			growlnotify \
